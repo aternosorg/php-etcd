@@ -1,0 +1,21 @@
+{
+  "name": "aternos/etcd",
+  "description": "PHP gRPC client for etcd v3",
+  "type": "library",
+  "require": {
+    "google/protobuf": "v3.6.1.3",
+    "grpc/grpc": "^1.15"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Matthias Neid",
+      "email": "matthias@aternos.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
+}
