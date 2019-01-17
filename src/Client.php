@@ -11,8 +11,10 @@ use Etcdserverpb\DeleteRangeResponse;
 use Etcdserverpb\KVClient;
 use Etcdserverpb\PutRequest;
 use Etcdserverpb\PutResponse;
+use Etcdserverpb\RangeRequest;
 use Etcdserverpb\RangeResponse;
 use Etcdserverpb\RequestOp;
+use Etcdserverpb\ResponseOp;
 use Etcdserverpb\TxnRequest;
 use Etcdserverpb\TxnResponse;
 use Grpc\ChannelCredentials;
@@ -27,20 +29,20 @@ class Client
     /**
      * @var string
      */
-    private $hostname;
+    protected $hostname;
     /**
      * @var bool
      */
-    private $username;
+    protected $username;
     /**
      * @var bool
      */
-    private $password;
+    protected $password;
 
     /**
      * @var \Etcdserverpb\KVClient
      */
-    private $kvClient;
+    protected $kvClient;
 
     /**
      * Client constructor.
@@ -73,7 +75,7 @@ class Client
     {
         $client = $this->getKvClient();
 
-        $request = new \Etcdserverpb\PutRequest();
+        $request = new PutRequest();
 
         $request->setKey($key);
         $request->setValue($value);
@@ -105,7 +107,7 @@ class Client
     {
         $client = $this->getKvClient();
 
-        $request = new \Etcdserverpb\RangeRequest();
+        $request = new RangeRequest();
         $request->setKey($key);
 
         /** @var RangeResponse $response */
@@ -153,15 +155,58 @@ class Client
     }
 
     /**
-     * Swap a value (put it only if it matches $previousValue)
+     * Put $value if $key value matches $previousValue otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param $value
-     * @param $previousValue
+     * @param mixed $value The new value to set
+     * @param mixed $previousValue The previous value to compare against
+     * @param bool $returnNewValueOnFail
      * @return bool
      * @throws ResponseStatusCodeException
      */
-    public function swap(string $key, $value, $previousValue)
+    public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
+    {
+        $request = new PutRequest();
+        $request->setKey($key);
+        $request->setValue($value);
+
+        $operation = new RequestOp();
+        $operation->setRequestPut($request);
+
+        return $this->requestIf($key, $previousValue, $operation, $returnNewValueOnFail);
+    }
+
+    /**
+     * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
+     *
+     * @param string $key
+     * @param $previousValue
+     * @param bool $returnNewValueOnFail
+     * @return bool
+     * @throws ResponseStatusCodeException
+     */
+    public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
+    {
+        $request = new DeleteRangeRequest();
+        $request->setKey($key);
+
+        $operation = new RequestOp();
+        $operation->setRequestDeleteRange($request);
+
+        return $this->requestIf($key, $previousValue, $operation, $returnNewValueOnFail);
+    }
+
+    /**
+     * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
+     *
+     * @param string $key
+     * @param $previousValue
+     * @param RequestOp $requestOperation
+     * @param bool $returnNewValueOnFail
+     * @return bool
+     * @throws ResponseStatusCodeException
+     */
+    protected function requestIf(string $key, $previousValue, RequestOp $requestOperation, bool $returnNewValueOnFail = false)
     {
         $client = $this->getKvClient();
 
@@ -171,16 +216,18 @@ class Client
         $compare->setResult(CompareResult::EQUAL);
         $compare->setTarget(CompareTarget::VALUE);
 
-        $putRequest = new PutRequest();
-        $putRequest->setKey($key);
-        $putRequest->setValue($value);
-
-        $operation = new RequestOp();
-        $operation->setRequestPut($putRequest);
-
         $request = new TxnRequest();
         $request->setCompare([$compare]);
-        $request->setSuccess([$operation]);
+        $request->setSuccess([$requestOperation]);
+
+        if ($returnNewValueOnFail) {
+            $getRequest = new RangeRequest();
+            $getRequest->setKey($key);
+
+            $getOperation = new RequestOp();
+            $getOperation->setRequestRange($getRequest);
+            $request->setFailure([$getOperation]);
+        }
 
         /** @var TxnResponse $response */
         list($response, $status) = $client->Txn($request)->wait();
@@ -189,7 +236,22 @@ class Client
             throw new ResponseStatusCodeException(false, $status->code);
         }
 
-        return $response->getSucceeded();
+        if ($returnNewValueOnFail && !$response->getSucceeded()) {
+            /** @var ResponseOp $responseOp */
+            $responseOp = $response->getResponses()[0];
+
+            $getResponse = $responseOp->getResponseRange();
+
+            $field = $getResponse->getKvs();
+
+            if (count($field) === 0) {
+                return false;
+            }
+
+            return $field[0]->getValue();
+        } else {
+            return $response->getSucceeded();
+        }
     }
 
     /**
@@ -197,7 +259,7 @@ class Client
      *
      * @return KVClient
      */
-    private function getKvClient(): KVClient
+    protected function getKvClient(): KVClient
     {
         if (!$this->kvClient) {
             $this->kvClient = new KVClient($this->hostname, [
