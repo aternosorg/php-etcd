@@ -2,8 +2,8 @@
 
 namespace Aternos\Etcd;
 
-use Aternos\Etcd\Exception\ResponseStatusCodeException;
-use Aternos\Etcd\Exception\ResponseStatusCodeExceptionFactory;
+use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
+use Aternos\Etcd\Exception\Status\ResponseStatusCodeExceptionFactory;
 use Etcdserverpb\AuthClient;
 use Etcdserverpb\AuthenticateRequest;
 use Etcdserverpb\AuthenticateResponse;
@@ -83,7 +83,7 @@ class Client
      * @param bool $ignoreValue Updates the key using its current value
      *
      * @return string|null Returns previous value if $prevKv is set to true
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
@@ -112,7 +112,7 @@ class Client
      *
      * @param string $key
      * @return bool|string
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     public function get(string $key)
     {
@@ -139,7 +139,7 @@ class Client
      *
      * @param string $key
      * @return bool
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     public function delete(string $key)
     {
@@ -167,7 +167,7 @@ class Client
      * @param mixed $previousValue The previous value to compare against
      * @param bool $returnNewValueOnFail
      * @return bool|string
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
     {
@@ -188,7 +188,7 @@ class Client
      * @param $previousValue
      * @param bool $returnNewValueOnFail
      * @return bool|string
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
     {
@@ -209,7 +209,7 @@ class Client
      * @param RequestOp $requestOperation
      * @param bool $returnNewValueOnFail
      * @return bool|string
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     protected function requestIf(string $key, $previousValue, RequestOp $requestOperation, bool $returnNewValueOnFail = false)
     {
@@ -292,7 +292,7 @@ class Client
      * Get an authentication token
      *
      * @return string
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     protected function getAuthenticationToken(): string
     {
@@ -318,7 +318,7 @@ class Client
      *
      * @param array $metadata
      * @return array
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     protected function getMetaData($metadata = []): array
     {
@@ -331,7 +331,7 @@ class Client
 
     /**
      * @param $status
-     * @throws ResponseStatusCodeException
+     * @throws InvalidResponseStatusCodeException
      */
     protected function validateStatus($status)
     {

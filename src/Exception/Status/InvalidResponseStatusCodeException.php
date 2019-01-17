@@ -1,19 +1,18 @@
 <?php
 
-namespace Aternos\Etcd\Exception;
+namespace Aternos\Etcd\Exception\Status;
 
 use Throwable;
 
 /**
- * Class InvalidArgumentException
+ * Class InvalidResponseStatusCodeException
  *
  * @author Matthias Neid
- * @package Aternos\Etcd\Exception
  */
-class InvalidArgumentException extends ResponseStatusCodeException
+class InvalidResponseStatusCodeException extends \Exception
 {
     /**
-     * PermissionDeniedException constructor.
+     * InvalidResponseStatusCodeException constructor.
      *
      * @param string $message
      * @param int $code
@@ -21,6 +20,10 @@ class InvalidArgumentException extends ResponseStatusCodeException
      */
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {
+        if (!$message) {
+            $message = "Invalid response status code from gRPC request: " . $code;
+        }
+
         parent::__construct($message, $code, $previous);
     }
 }
