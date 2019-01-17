@@ -9,7 +9,6 @@ Client class, so feel free to add more functions when you implement them with th
 create a pull request.
 
 ### Installation
-#### Prerequisite
 The gRPC PHP extension has to be installed to use this library.
 See [this](https://github.com/grpc/grpc/tree/master/src/php) for a full explanation.
 
@@ -20,9 +19,9 @@ sudo pecl install grpc
 
 And add `extension=grpc.so` to the `php.ini` file.
 
-
 The `protobuf` extension is not necessary, because it's a dependency of this library, which you
 can install using
+
 ```bash
 composer require aternos/etcd
 ```
@@ -34,6 +33,8 @@ composer require aternos/etcd
 <?php
 
 $client = new Aternos\Etcd\Client();
+$client = new Aternos\Etcd\Client("localhost:2379");
+$client = new Aternos\Etcd\Client("localhost:2379", "username", "password");
 
 // currently implemented functions
 $client->put("key", "value");
