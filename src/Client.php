@@ -62,7 +62,7 @@ class Client
      * Put a value into the key store
      *
      * @param string $key
-     * @param $value
+     * @param mixed $value
      * @param bool $prevKv Get the previous key value in the response
      * @param int $lease
      * @param bool $ignoreLease Ignore the current lease
@@ -100,7 +100,7 @@ class Client
      * Get a key value
      *
      * @param string $key
-     * @return bool|mixed
+     * @return bool|string
      * @throws ResponseStatusCodeException
      */
     public function get(string $key)
@@ -161,7 +161,7 @@ class Client
      * @param mixed $value The new value to set
      * @param mixed $previousValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @return bool
+     * @return bool|string
      * @throws ResponseStatusCodeException
      */
     public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
@@ -182,7 +182,7 @@ class Client
      * @param string $key
      * @param $previousValue
      * @param bool $returnNewValueOnFail
-     * @return bool
+     * @return bool|string
      * @throws ResponseStatusCodeException
      */
     public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
@@ -203,7 +203,7 @@ class Client
      * @param $previousValue
      * @param RequestOp $requestOperation
      * @param bool $returnNewValueOnFail
-     * @return bool
+     * @return bool|string
      * @throws ResponseStatusCodeException
      */
     protected function requestIf(string $key, $previousValue, RequestOp $requestOperation, bool $returnNewValueOnFail = false)
