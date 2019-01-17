@@ -6,6 +6,8 @@ use Aternos\Etcd\Exception\ResponseStatusCodeException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\Compare\CompareResult;
 use Etcdserverpb\Compare\CompareTarget;
+use Etcdserverpb\DeleteRangeRequest;
+use Etcdserverpb\DeleteRangeResponse;
 use Etcdserverpb\KVClient;
 use Etcdserverpb\PutRequest;
 use Etcdserverpb\PutResponse;
@@ -120,6 +122,34 @@ class Client
         }
 
         return $field[0]->getValue();
+    }
+
+    /**
+     * Delete a key
+     *
+     * @param string $key
+     * @return bool
+     * @throws ResponseStatusCodeException
+     */
+    public function delete(string $key)
+    {
+        $client = $this->getKvClient();
+
+        $request = new DeleteRangeRequest();
+        $request->setKey($key);
+
+        /** @var DeleteRangeResponse $response */
+        list($response, $status) = $client->DeleteRange($request)->wait();
+
+        if ($status->code !== 0) {
+            throw new ResponseStatusCodeException(false, $status->code);
+        }
+
+        if ($response->getDeleted() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
