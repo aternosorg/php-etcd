@@ -4,6 +4,9 @@ namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\ResponseStatusCodeException;
 use Aternos\Etcd\Exception\ResponseStatusCodeExceptionFactory;
+use Etcdserverpb\AuthClient;
+use Etcdserverpb\AuthenticateRequest;
+use Etcdserverpb\AuthenticateResponse;
 use Etcdserverpb\Compare;
 use Etcdserverpb\Compare\CompareResult;
 use Etcdserverpb\Compare\CompareTarget;
@@ -41,9 +44,19 @@ class Client
     protected $password;
 
     /**
-     * @var \Etcdserverpb\KVClient
+     * @var string
+     */
+    protected $token;
+
+    /**
+     * @var KVClient
      */
     protected $kvClient;
+
+    /**
+     * @var AuthClient
+     */
+    protected $authClient;
 
     /**
      * Client constructor.
@@ -86,11 +99,8 @@ class Client
         $request->setLease($lease);
 
         /** @var PutResponse $response */
-        list($response, $status) = $client->Put($request)->wait();
-
-        if ($status->code !== 0) {
-            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
-        }
+        list($response, $status) = $client->Put($request, $this->getMetaData())->wait();
+        $this->validateStatus($status);
 
         if ($prevKv) {
             return $response->getPrevKv()->getValue();
@@ -112,11 +122,8 @@ class Client
         $request->setKey($key);
 
         /** @var RangeResponse $response */
-        list($response, $status) = $client->Range($request)->wait();
-
-        if ($status->code !== 0) {
-            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
-        }
+        list($response, $status) = $client->Range($request, $this->getMetaData())->wait();
+        $this->validateStatus($status);
 
         $field = $response->getKvs();
 
@@ -142,11 +149,8 @@ class Client
         $request->setKey($key);
 
         /** @var DeleteRangeResponse $response */
-        list($response, $status) = $client->DeleteRange($request)->wait();
-
-        if ($status->code !== 0) {
-            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
-        }
+        list($response, $status) = $client->DeleteRange($request, $this->getMetaData())->wait();
+        $this->validateStatus($status);
 
         if ($response->getDeleted() > 0) {
             return true;
@@ -231,11 +235,8 @@ class Client
         }
 
         /** @var TxnResponse $response */
-        list($response, $status) = $client->Txn($request)->wait();
-
-        if ($status->code !== 0) {
-            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
-        }
+        list($response, $status) = $client->Txn($request, $this->getMetaData())->wait();
+        $this->validateStatus($status);
 
         if ($returnNewValueOnFail && !$response->getSucceeded()) {
             /** @var ResponseOp $responseOp */
@@ -269,5 +270,73 @@ class Client
         }
 
         return $this->kvClient;
+    }
+
+    /**
+     * Get an instance of AuthClient
+     *
+     * @return AuthClient
+     */
+    protected function getAuthClient(): AuthClient
+    {
+        if (!$this->authClient) {
+            $this->authClient = new AuthClient($this->hostname, [
+                'credentials' => ChannelCredentials::createInsecure()
+            ]);
+        }
+
+        return $this->authClient;
+    }
+
+    /**
+     * Get an authentication token
+     *
+     * @return string
+     * @throws ResponseStatusCodeException
+     */
+    protected function getAuthenticationToken(): string
+    {
+        if (!$this->token) {
+            $client = $this->getAuthClient();
+
+            $request = new AuthenticateRequest();
+            $request->setName($this->username);
+            $request->setPassword($this->password);
+
+            /** @var AuthenticateResponse $response */
+            list($response, $status) = $client->Authenticate($request)->wait();
+            $this->validateStatus($status);
+
+            $this->token = $response->getToken();
+        }
+
+        return $this->token;
+    }
+
+    /**
+     * Add authentication token metadata if necessary
+     *
+     * @param array $metadata
+     * @return array
+     * @throws ResponseStatusCodeException
+     */
+    protected function getMetaData($metadata = []): array
+    {
+        if ($this->username && $this->password) {
+            $metadata = array_merge(["token" => [$this->getAuthenticationToken()]], $metadata);
+        }
+
+        return $metadata;
+    }
+
+    /**
+     * @param $status
+     * @throws ResponseStatusCodeException
+     */
+    protected function validateStatus($status)
+    {
+        if ($status->code !== 0) {
+            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
+        }
     }
 }
