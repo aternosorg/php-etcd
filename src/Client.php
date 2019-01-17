@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\ResponseStatusCodeException;
+use Aternos\Etcd\Exception\ResponseStatusCodeExceptionFactory;
 use Etcdserverpb\Compare;
 use Etcdserverpb\Compare\CompareResult;
 use Etcdserverpb\Compare\CompareTarget;
@@ -88,7 +89,7 @@ class Client
         list($response, $status) = $client->Put($request)->wait();
 
         if ($status->code !== 0) {
-            throw new ResponseStatusCodeException(false, $status->code);
+            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
 
         if ($prevKv) {
@@ -114,7 +115,7 @@ class Client
         list($response, $status) = $client->Range($request)->wait();
 
         if ($status->code !== 0) {
-            throw new ResponseStatusCodeException(false, $status->code);
+            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
 
         $field = $response->getKvs();
@@ -144,7 +145,7 @@ class Client
         list($response, $status) = $client->DeleteRange($request)->wait();
 
         if ($status->code !== 0) {
-            throw new ResponseStatusCodeException(false, $status->code);
+            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
 
         if ($response->getDeleted() > 0) {
@@ -233,7 +234,7 @@ class Client
         list($response, $status) = $client->Txn($request)->wait();
 
         if ($status->code !== 0) {
-            throw new ResponseStatusCodeException(false, $status->code);
+            throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
 
         if ($returnNewValueOnFail && !$response->getSucceeded()) {
