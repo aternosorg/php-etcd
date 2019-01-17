@@ -3,7 +3,17 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\ResponseStatusCodeException;
+use Etcdserverpb\Compare;
+use Etcdserverpb\Compare\CompareResult;
+use Etcdserverpb\Compare\CompareTarget;
+use Etcdserverpb\KVClient;
+use Etcdserverpb\PutRequest;
 use Etcdserverpb\PutResponse;
+use Etcdserverpb\RangeResponse;
+use Etcdserverpb\RequestOp;
+use Etcdserverpb\TxnRequest;
+use Etcdserverpb\TxnResponse;
+use Grpc\ChannelCredentials;
 
 /**
  * Class Client
@@ -96,7 +106,7 @@ class Client
         $request = new \Etcdserverpb\RangeRequest();
         $request->setKey($key);
 
-        /** @var \Etcdserverpb\RangeResponse $response */
+        /** @var RangeResponse $response */
         list($response, $status) = $client->Range($request)->wait();
 
         if ($status->code !== 0) {
@@ -105,7 +115,7 @@ class Client
 
         $field = $response->getKvs();
 
-        if(count($field) === 0) {
+        if (count($field) === 0) {
             return false;
         }
 
@@ -113,15 +123,55 @@ class Client
     }
 
     /**
+     * Swap a value (put it only if it matches $previousValue)
+     *
+     * @param string $key
+     * @param $value
+     * @param $previousValue
+     * @return bool
+     * @throws ResponseStatusCodeException
+     */
+    public function swap(string $key, $value, $previousValue)
+    {
+        $client = $this->getKvClient();
+
+        $compare = new Compare();
+        $compare->setKey($key);
+        $compare->setValue($previousValue);
+        $compare->setResult(CompareResult::EQUAL);
+        $compare->setTarget(CompareTarget::VALUE);
+
+        $putRequest = new PutRequest();
+        $putRequest->setKey($key);
+        $putRequest->setValue($value);
+
+        $operation = new RequestOp();
+        $operation->setRequestPut($putRequest);
+
+        $request = new TxnRequest();
+        $request->setCompare([$compare]);
+        $request->setSuccess([$operation]);
+
+        /** @var TxnResponse $response */
+        list($response, $status) = $client->Txn($request)->wait();
+
+        if ($status->code !== 0) {
+            throw new ResponseStatusCodeException(false, $status->code);
+        }
+
+        return $response->getSucceeded();
+    }
+
+    /**
      * Get an instance of KVClient
      *
-     * @return \Etcdserverpb\KVClient
+     * @return KVClient
      */
-    private function getKvClient(): \Etcdserverpb\KVClient
+    private function getKvClient(): KVClient
     {
         if (!$this->kvClient) {
-            $this->kvClient = new \Etcdserverpb\KVClient($this->hostname, [
-                'credentials' => \Grpc\ChannelCredentials::createInsecure()
+            $this->kvClient = new KVClient($this->hostname, [
+                'credentials' => ChannelCredentials::createInsecure()
             ]);
         }
 
