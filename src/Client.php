@@ -217,9 +217,16 @@ class Client
 
         $compare = new Compare();
         $compare->setKey($key);
-        $compare->setValue($previousValue);
-        $compare->setResult(CompareResult::EQUAL);
-        $compare->setTarget(CompareTarget::VALUE);
+
+        if ($previousValue === false) {
+            $compare->setValue("0");
+            $compare->setResult(CompareResult::EQUAL);
+            $compare->setTarget(CompareTarget::VERSION);
+        } else {
+            $compare->setValue($previousValue);
+            $compare->setResult(CompareResult::EQUAL);
+            $compare->setTarget(CompareTarget::VALUE);
+        }
 
         $request = new TxnRequest();
         $request->setCompare([$compare]);
