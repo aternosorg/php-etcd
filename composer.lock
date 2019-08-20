@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5df920a65063300ae61a50027d9352a2",
-    "content-hash": "d4e81a55b7265857e522cf849e68dfa2",
+    "content-hash": "586422d6b254a6c3792893fcca276003",
     "packages": [
         {
             "name": "google/protobuf",
             "version": "v3.6.1.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/protocolbuffers/protobuf.git",
-                "reference": "66dc42d891a4fc8e9190c524fd67961688a37bbe"
+                "url": "https://github.com/protocolbuffers/protobuf-php.git",
+                "reference": "c39346815303f63ad295d6499e11d914c40040e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf/zipball/66dc42d891a4fc8e9190c524fd67961688a37bbe",
-                "reference": "66dc42d891a4fc8e9190c524fd67961688a37bbe",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/c39346815303f63ad295d6499e11d914c40040e6",
+                "reference": "c39346815303f63ad295d6499e11d914c40040e6",
                 "shasum": ""
             },
             "require": {
@@ -33,8 +32,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Google\\Protobuf\\": "php/src/Google/Protobuf",
-                    "GPBMetadata\\Google\\Protobuf\\": "php/src/GPBMetadata/Google/Protobuf"
+                    "Google\\Protobuf\\": "src/Google/Protobuf",
+                    "GPBMetadata\\Google\\Protobuf\\": "src/GPBMetadata/Google/Protobuf"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -46,7 +45,7 @@
             "keywords": [
                 "proto"
             ],
-            "time": "2018-12-08 01:32:11"
+            "time": "2019-02-25T22:48:21+00:00"
         },
         {
             "name": "grpc/grpc",
@@ -87,7 +86,7 @@
             "keywords": [
                 "rpc"
             ],
-            "time": "2018-09-12 21:49:56"
+            "time": "2018-09-12T21:49:56+00:00"
         }
     ],
     "packages-dev": [],
@@ -96,6 +95,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-grpc": "*"
+    },
     "platform-dev": []
 }
