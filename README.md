@@ -43,3 +43,18 @@ $client->delete("key");
 $client->putIf("key", "newValue", "expectedPreviousValue");
 $client->deleteIf("key", "expectedPreviousValue");
 ```
+
+#### Sharded client
+```php
+<?php
+
+$clients = [
+    new Aternos\Etcd\Client("hostA:2379"),
+    new Aternos\Etcd\Client("hostB:2379"),
+    new Aternos\Etcd\Client("hostC:2379")
+];
+$shardedClient = new Aternos\Etcd\ShardedClient($clients);
+
+$shardedClient->put("key", "value");
+$shardedClient->get("key");
+```

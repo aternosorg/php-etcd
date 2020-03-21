@@ -28,7 +28,7 @@ use Grpc\ChannelCredentials;
  *
  * @author Matthias Neid
  */
-class Client
+class Client implements ClientInterface
 {
     /**
      * @var string
@@ -70,6 +70,11 @@ class Client
         $this->hostname = $hostname;
         $this->username = $username;
         $this->password = $password;
+    }
+
+    public function getHostname(): string
+    {
+        return $this->hostname;
     }
 
     /**
