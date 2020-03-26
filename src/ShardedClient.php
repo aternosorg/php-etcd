@@ -69,9 +69,15 @@ class ShardedClient implements ClientInterface
         return $this->keyCache[$key];
     }
 
-
-    public function getHostname(): string
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function getHostname(?string $key = null): string
     {
+        if ($key) {
+            return $this->getClientFromKey($key)->getHostname($key);
+        }
         return implode("-", array_keys($this->clients));
     }
 

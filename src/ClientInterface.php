@@ -11,7 +11,11 @@ use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
  */
 interface ClientInterface
 {
-    public function getHostname(): string;
+    /**
+     * @param string|null $key
+     * @return string
+     */
+    public function getHostname(?string $key = null): string;
 
     /**
      * Put a value into the key store

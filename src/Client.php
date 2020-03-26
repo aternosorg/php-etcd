@@ -72,7 +72,11 @@ class Client implements ClientInterface
         $this->password = $password;
     }
 
-    public function getHostname(): string
+    /**
+     * @param string|null $key
+     * @return string
+     */
+    public function getHostname(?string $key = null): string
     {
         return $this->hostname;
     }
