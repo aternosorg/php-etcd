@@ -174,14 +174,14 @@ class Client implements ClientInterface
      * @param string $key
      * @param string $value The new value to set
      * @param string $compareValue The previous value to compare against
+     * @param bool $returnNewValueOnFail
      * @param string $compareOp can be '=', '!=', '>', '<'
      * @param int $compareTarget check constants in the CompareTarget class for available values
-     * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function putIf(string $key, string $value, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
     {
         $request = new PutRequest();
         $request->setKey($key);
@@ -200,14 +200,14 @@ class Client implements ClientInterface
      *
      * @param string $key
      * @param string $compareValue The previous value to compare against
+     * @param bool $returnNewValueOnFail
      * @param string $compareOp can be '=', '!=', '>', '<'
      * @param int $compareTarget check constants in the CompareTarget class for available values
-     * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
     {
         $request = new DeleteRangeRequest();
         $request->setKey($key);

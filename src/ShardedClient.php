@@ -113,17 +113,17 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function putIf(string $key, string $value, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
     {
-        return $this->getClientFromKey($key)->putIf($key, $value, $compareValue, $compareOp, $compareTarget, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->putIf($key, $value, $compareValue, $returnNewValueOnFail, $compareOp, $compareTarget);
     }
 
     /**
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function deleteIf(string $key, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
     {
-        return $this->getClientFromKey($key)->deleteIf($key, $compareValue, $compareOp, $compareTarget, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->deleteIf($key, $compareValue, $returnNewValueOnFail, $compareOp, $compareTarget);
     }
 }
