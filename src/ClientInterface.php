@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
+use Etcdserverpb\Compare\CompareTarget;
 
 /**
  * Interface ClientInterface
@@ -53,22 +54,27 @@ interface ClientInterface
      * Put $value if $key value matches $previousValue otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param mixed $value The new value to set
-     * @param mixed $previousValue The previous value to compare against
+     * @param string $value The new value to set
+     * @param string $compareValue The previous value to compare against
+     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false);
+    public function putIf(string $key, string $value, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false);
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param $previousValue
+     * @param string $compareValue The previous value to compare against
+     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
+     * @throws \Exception
      */
-    public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false);
+    public function deleteIf(string $key, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false);
 }

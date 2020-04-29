@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
+use Etcdserverpb\Compare\CompareTarget;
 use Flexihash\Flexihash;
 
 /**
@@ -112,17 +113,17 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
     {
-        return $this->getClientFromKey($key)->putIf($key, $value, $previousValue, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->putIf($key, $value, $compareValue, $compareOp, $compareTarget, $returnNewValueOnFail);
     }
 
     /**
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string $compareValue = '0', string $compareOp = '=', int $compareTarget = CompareTarget::VALUE, bool $returnNewValueOnFail = false)
     {
-        return $this->getClientFromKey($key)->deleteIf($key, $previousValue, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->deleteIf($key, $compareValue, $compareOp, $compareTarget, $returnNewValueOnFail);
     }
 }
