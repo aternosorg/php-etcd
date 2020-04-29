@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
+use Etcdserverpb\Compare\CompareResult;
 use Etcdserverpb\Compare\CompareTarget;
 
 /**
@@ -57,12 +58,12 @@ interface ClientInterface
      * @param string $value The new value to set
      * @param string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareOp see CompareResult class for available constants
      * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE);
+    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
@@ -70,11 +71,11 @@ interface ClientInterface
      * @param string $key
      * @param string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareOp see CompareResult class for available constants
      * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE);
+    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
 }

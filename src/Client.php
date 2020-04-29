@@ -175,13 +175,13 @@ class Client implements ClientInterface
      * @param string $value The new value to set
      * @param string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareOp see CompareResult class for available constants
      * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
+    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE)
     {
         $request = new PutRequest();
         $request->setKey($key);
@@ -201,13 +201,13 @@ class Client implements ClientInterface
      * @param string $key
      * @param string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param string $compareOp can be '=', '!=', '>', '<'
+     * @param int $compareOp see CompareResult class for available constants
      * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, string $compareOp = '=', int $compareTarget = CompareTarget::VALUE)
+    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE)
     {
         $request = new DeleteRangeRequest();
         $request->setKey($key);
@@ -306,35 +306,17 @@ class Client implements ClientInterface
      *
      * @param string $key
      * @param string $value
-     * @param string $result resultOp, can be '=', '!=', '>', '<'
+     * @param int $result see CompareResult class for available constants
      * @param int $target check constants in the CompareTarget class for available values
      * @return Compare
-     * @throws \Exception
      */
-    protected function getCompare(string $key, string $value, string $result, int $target): Compare
+    protected function getCompare(string $key, string $value, int $result, int $target): Compare
     {
-        switch ($result) {
-            case '=':
-                $cmpResult = CompareResult::EQUAL;
-                break;
-            case '!=':
-                $cmpResult = CompareResult::NOT_EQUAL;
-                break;
-            case '>':
-                $cmpResult = CompareResult::GREATER;
-                break;
-            case '<':
-                $cmpResult = CompareResult::LESS;
-                break;
-            default:
-                throw new \Exception('Unknown result op');
-        }
-
         $compare = new Compare();
         $compare->setKey($key);
         $compare->setValue($value);
         $compare->setTarget($target);
-        $compare->setResult($cmpResult);
+        $compare->setResult($result);
 
         return $compare;
     }
