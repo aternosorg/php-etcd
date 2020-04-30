@@ -63,7 +63,7 @@ interface ClientInterface
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, string $value, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
+    public function putIf(string $key, string $value, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
@@ -77,5 +77,5 @@ interface ClientInterface
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue = '0', bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
+    public function deleteIf(string $key, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
 }
