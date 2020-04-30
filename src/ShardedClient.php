@@ -5,6 +5,7 @@ namespace Aternos\Etcd;
 use Aternos\Etcd\Exception\InvalidClientException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
+use Etcdserverpb\TxnResponse;
 use Flexihash\Flexihash;
 
 /**
@@ -132,9 +133,9 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function requestIf(string $key, array $requestOperations, array $compare, bool $returnNewValueOnFail = false)
+    public function requestIf(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
-        return $this->getClientFromKey($key)->requestIf($key, $requestOperations, $compare, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->requestIf($key, $requestOperations, $failureOperations, $compare);
     }
 
     /**

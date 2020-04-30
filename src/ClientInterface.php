@@ -5,6 +5,7 @@ namespace Aternos\Etcd;
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
+use Etcdserverpb\TxnResponse;
 
 /**
  * Interface ClientInterface
@@ -79,13 +80,14 @@ interface ClientInterface
      * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param array $requestOperations array of RequestOp objects
+     * @param array $requestOperations operations to perform on success, array of RequestOp objects
+     * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
      * @param array $compare array of Compare objects
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    public function requestIf(string $key, array $requestOperations, array $compare, bool $returnNewValueOnFail = false);
+    public function requestIf(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
 
     /**
      * Get an instance of Compare

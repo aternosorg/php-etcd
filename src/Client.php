@@ -190,8 +190,10 @@ class Client implements ClientInterface
     {
         $operation = $this->getPutOperation($key, $value);
         $compare = $this->getCompareForIf($key, $compareValue);
+        $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        return $this->requestIf($key, [$operation], [$compare], $returnNewValueOnFail);
+        $response = $this->requestIf($key, [$operation], $failOperation, [$compare]);
+        return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
     /**
@@ -208,57 +210,38 @@ class Client implements ClientInterface
     {
         $operation = $this->getDeleteOperation($key);
         $compare = $this->getCompareForIf($key, $compareValue);
+        $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        return $this->requestIf($key, [$operation], [$compare], $returnNewValueOnFail);
+        $response = $this->requestIf($key, [$operation], $failOperation, [$compare]);
+        return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
     /**
      * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param array $requestOperations array of RequestOp objects
+     * @param array $requestOperations operations to perform on success, array of RequestOp objects
+     * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
      * @param array $compare array of Compare objects
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    public function requestIf(string $key, array $requestOperations, array $compare, bool $returnNewValueOnFail = false)
+    public function requestIf(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
         $client = $this->getKvClient();
 
         $request = new TxnRequest();
         $request->setCompare($compare);
         $request->setSuccess($requestOperations);
-
-        if ($returnNewValueOnFail) {
-            $getRequest = new RangeRequest();
-            $getRequest->setKey($key);
-
-            $getOperation = new RequestOp();
-            $getOperation->setRequestRange($getRequest);
-            $request->setFailure([$getOperation]);
-        }
+        if($failureOperations !== null)
+            $request->setFailure($failureOperations);
 
         /** @var TxnResponse $response */
         list($response, $status) = $client->Txn($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
-        if ($returnNewValueOnFail && !$response->getSucceeded()) {
-            /** @var ResponseOp $responseOp */
-            $responseOp = $response->getResponses()[0];
-
-            $getResponse = $responseOp->getResponseRange();
-
-            $field = $getResponse->getKvs();
-
-            if (count($field) === 0) {
-                return false;
-            }
-
-            return $field[0]->getValue();
-        } else {
-            return $response->getSucceeded();
-        }
+        return $response;
     }
 
     /**
@@ -443,5 +426,44 @@ class Client implements ClientInterface
             $compare = $this->getCompare($key, $compareValue, CompareResult::EQUAL, CompareTarget::VALUE);
         }
         return $compare;
+    }
+
+    /**
+     * @param bool $returnNewValueOnFail
+     * @param TxnResponse $response
+     * @return bool
+     */
+    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response): bool
+    {
+        if ($returnNewValueOnFail && !$response->getSucceeded()) {
+            /** @var ResponseOp $responseOp */
+            $responseOp = $response->getResponses()[0];
+
+            $getResponse = $responseOp->getResponseRange();
+
+            $field = $getResponse->getKvs();
+
+            if (count($field) === 0) {
+                return false;
+            }
+
+            return $field[0]->getValue();
+        } else {
+            return $response->getSucceeded();
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param bool $returnNewValueOnFail
+     * @return array|null
+     */
+    protected function getFailOperation(string $key, bool $returnNewValueOnFail)
+    {
+        $failOperation = null;
+        if ($returnNewValueOnFail)
+            $failOperation = [$this->getGetOperation($key)];
+
+        return $failOperation;
     }
 }
