@@ -136,4 +136,13 @@ class ShardedClient implements ClientInterface
     {
         return $this->getClientFromKey($key)->requestIf($key, $requestOperation, $compare, $returnNewValueOnFail);
     }
+
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare
+    {
+        return $this->getClientFromKey($key)->getCompare($key, $value, $result, $target);
+    }
 }

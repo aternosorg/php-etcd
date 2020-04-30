@@ -86,4 +86,15 @@ interface ClientInterface
      * @throws InvalidResponseStatusCodeException
      */
     public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false);
+
+    /**
+     * Get an instance of Compare
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $result see CompareResult class for available constants
+     * @param int $target check constants in the CompareTarget class for available values
+     * @return Compare
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare;
 }

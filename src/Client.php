@@ -273,6 +273,26 @@ class Client implements ClientInterface
     }
 
     /**
+     * Get an instance of Compare
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $result see CompareResult class for available constants
+     * @param int $target check constants in the CompareTarget class for available values
+     * @return Compare
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare
+    {
+        $compare = new Compare();
+        $compare->setKey($key);
+        $compare->setValue($value);
+        $compare->setTarget($target);
+        $compare->setResult($result);
+
+        return $compare;
+    }
+
+    /**
      * Get an instance of KVClient
      *
      * @return KVClient
@@ -304,25 +324,6 @@ class Client implements ClientInterface
         return $this->authClient;
     }
 
-    /**
-     * Get an instance of Compare
-     *
-     * @param string $key
-     * @param string $value
-     * @param int $result see CompareResult class for available constants
-     * @param int $target check constants in the CompareTarget class for available values
-     * @return Compare
-     */
-    protected function getCompare(string $key, string $value, int $result, int $target): Compare
-    {
-        $compare = new Compare();
-        $compare->setKey($key);
-        $compare->setValue($value);
-        $compare->setTarget($target);
-        $compare->setResult($result);
-
-        return $compare;
-    }
 
     /**
      * Get an authentication token
