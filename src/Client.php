@@ -44,6 +44,11 @@ class Client implements ClientInterface
     protected $password;
 
     /**
+     * @var int
+     */
+    protected $timeout;
+
+    /**
      * @var string
      */
     protected $token;
@@ -64,12 +69,14 @@ class Client implements ClientInterface
      * @param string $hostname
      * @param bool $username
      * @param bool $password
+     * @param int $timeout in microseconds, default 1 second
      */
-    public function __construct($hostname = "localhost:2379", $username = false, $password = false)
+    public function __construct($hostname = "localhost:2379", $username = false, $password = false, $timeout = 1000000)
     {
         $this->hostname = $hostname;
         $this->username = $username;
         $this->password = $password;
+        $this->timeout = $timeout;
     }
 
     /**
@@ -108,7 +115,7 @@ class Client implements ClientInterface
         $request->setLease($lease);
 
         /** @var PutResponse $response */
-        list($response, $status) = $client->Put($request, $this->getMetaData())->wait();
+        list($response, $status) = $client->Put($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         if ($prevKv) {
@@ -131,7 +138,7 @@ class Client implements ClientInterface
         $request->setKey($key);
 
         /** @var RangeResponse $response */
-        list($response, $status) = $client->Range($request, $this->getMetaData())->wait();
+        list($response, $status) = $client->Range($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         $field = $response->getKvs();
@@ -158,7 +165,7 @@ class Client implements ClientInterface
         $request->setKey($key);
 
         /** @var DeleteRangeResponse $response */
-        list($response, $status) = $client->DeleteRange($request, $this->getMetaData())->wait();
+        list($response, $status) = $client->DeleteRange($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         if ($response->getDeleted() > 0) {
@@ -248,7 +255,7 @@ class Client implements ClientInterface
         }
 
         /** @var TxnResponse $response */
-        list($response, $status) = $client->Txn($request, $this->getMetaData())->wait();
+        list($response, $status) = $client->Txn($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         if ($returnNewValueOnFail && !$response->getSucceeded()) {
@@ -337,7 +344,7 @@ class Client implements ClientInterface
             $request->setPassword($this->password);
 
             /** @var AuthenticateResponse $response */
-            list($response, $status) = $client->Authenticate($request)->wait();
+            list($response, $status) = $client->Authenticate($request, [], $this->getOptions())->wait();
             $this->validateStatus($status);
 
             $this->token = $response->getToken();
@@ -360,6 +367,17 @@ class Client implements ClientInterface
         }
 
         return $metadata;
+    }
+
+    /**
+     * Add timeout
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function getOptions($options = []): array
+    {
+        return array_merge(["timeout" => $this->timeout], $options);
     }
 
     /**
