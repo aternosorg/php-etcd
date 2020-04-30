@@ -97,4 +97,29 @@ interface ClientInterface
      * @return Compare
      */
     public function getCompare(string $key, string $value, int $result, int $target): Compare;
+
+    /**
+     * Creates RequestOp of Get operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getGetOperation(string $key): RequestOp;
+
+    /**
+     * Creates RequestOp of Put operation for requestIf method
+     *
+     * @param string $key
+     * @param string $value
+     * @return RequestOp
+     */
+    public function getPutOperation(string $key, string $value): RequestOp;
+
+    /**
+     * Creates RequestOp of Delete operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getDeleteOperation(string $key): RequestOp;
 }

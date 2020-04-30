@@ -145,4 +145,31 @@ class ShardedClient implements ClientInterface
     {
         return $this->getClientFromKey($key)->getCompare($key, $value, $result, $target);
     }
+
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function getGetOperation(string $key): RequestOp
+    {
+        return $this->getClientFromKey($key)->getGetOperation($key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function getPutOperation(string $key, string $value): RequestOp
+    {
+        return $this->getClientFromKey($key)->getPutOperation($key, $value);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function getDeleteOperation(string $key): RequestOp
+    {
+        return $this->getClientFromKey($key)->getDeleteOperation($key);
+    }
 }

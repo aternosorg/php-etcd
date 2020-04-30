@@ -188,13 +188,7 @@ class Client implements ClientInterface
      */
     public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
     {
-        $request = new PutRequest();
-        $request->setKey($key);
-        $request->setValue($value);
-
-        $operation = new RequestOp();
-        $operation->setRequestPut($request);
-
+        $operation = $this->getPutOperation($key, $value);
         $compare = $this->getCompareForIf($key, $compareValue);
 
         return $this->requestIf($key, $operation, $compare, $returnNewValueOnFail);
@@ -212,12 +206,7 @@ class Client implements ClientInterface
      */
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
-        $request = new DeleteRangeRequest();
-        $request->setKey($key);
-
-        $operation = new RequestOp();
-        $operation->setRequestDeleteRange($request);
-
+        $operation = $this->getDeleteOperation($key);
         $compare = $this->getCompareForIf($key, $compareValue);
 
         return $this->requestIf($key, $operation, $compare, $returnNewValueOnFail);
@@ -270,6 +259,59 @@ class Client implements ClientInterface
         } else {
             return $response->getSucceeded();
         }
+    }
+
+    /**
+     * Creates RequestOp of Get operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getGetOperation(string $key): RequestOp
+    {
+        $request = new RangeRequest();
+        $request->setKey($key);
+
+        $operation = new RequestOp();
+        $operation->setRequestRange($request);
+
+        return $operation;
+    }
+
+    /**
+     * Creates RequestOp of Put operation for requestIf method
+     *
+     * @param string $key
+     * @param string $value
+     * @return RequestOp
+     */
+    public function getPutOperation(string $key, string $value): RequestOp
+    {
+        $request = new PutRequest();
+        $request->setKey($key);
+        $request->setValue($value);
+
+        $operation = new RequestOp();
+        $operation->setRequestPut($request);
+
+        return $operation;
+    }
+
+    /**
+     * Creates RequestOp of Delete operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getDeleteOperation(string $key): RequestOp
+    {
+        $request = new DeleteRangeRequest();
+        $request->setKey($key);
+
+        $operation = new RequestOp();
+        $operation->setRequestDeleteRange($request);
+
+        return $operation;
     }
 
     /**
