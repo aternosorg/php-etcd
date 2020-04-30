@@ -180,15 +180,13 @@ class Client implements ClientInterface
      *
      * @param string $key
      * @param string $value The new value to set
-     * @param string $compareValue The previous value to compare against
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param int $compareOp see CompareResult class for available constants
-     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function putIf(string $key, string $value, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE)
+    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
     {
         $request = new PutRequest();
         $request->setKey($key);
@@ -197,7 +195,7 @@ class Client implements ClientInterface
         $operation = new RequestOp();
         $operation->setRequestPut($request);
 
-        $compare = $this->getCompare($key, $compareValue, $compareOp, $compareTarget);
+        $compare = $this->getCompareForIf($key, $compareValue);
 
         return $this->requestIf($key, $operation, $compare, $returnNewValueOnFail);
     }
@@ -206,15 +204,13 @@ class Client implements ClientInterface
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param string $compareValue The previous value to compare against
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param int $compareOp see CompareResult class for available constants
-     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE)
+    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
         $request = new DeleteRangeRequest();
         $request->setKey($key);
@@ -222,7 +218,7 @@ class Client implements ClientInterface
         $operation = new RequestOp();
         $operation->setRequestDeleteRange($request);
 
-        $compare = $this->getCompare($key, $compareValue, $compareOp, $compareTarget);
+        $compare = $this->getCompareForIf($key, $compareValue);
 
         return $this->requestIf($key, $operation, $compare, $returnNewValueOnFail);
     }
@@ -389,5 +385,20 @@ class Client implements ClientInterface
         if ($status->code !== 0) {
             throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
+    }
+
+    /**
+     * @param string $key
+     * @param string $compareValue
+     * @return Compare
+     */
+    protected function getCompareForIf(string $key, string $compareValue): Compare
+    {
+        if ($compareValue === false) {
+            $compare = $this->getCompare($key, '0', CompareResult::EQUAL, CompareTarget::VERSION);
+        } else {
+            $compare = $this->getCompare($key, $compareValue, CompareResult::EQUAL, CompareTarget::VALUE);
+        }
+        return $compare;
     }
 }

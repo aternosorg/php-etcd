@@ -56,26 +56,22 @@ interface ClientInterface
      *
      * @param string $key
      * @param string $value The new value to set
-     * @param string $compareValue The previous value to compare against
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param int $compareOp see CompareResult class for available constants
-     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, string $value, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
+    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false);
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param string $compareValue The previous value to compare against
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
-     * @param int $compareOp see CompareResult class for available constants
-     * @param int $compareTarget check constants in the CompareTarget class for available values
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      * @throws \Exception
      */
-    public function deleteIf(string $key, string $compareValue, bool $returnNewValueOnFail = false, int $compareOp = CompareResult::EQUAL, int $compareTarget = CompareTarget::VALUE);
+    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false);
 }

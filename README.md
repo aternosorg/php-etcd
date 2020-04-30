@@ -40,8 +40,8 @@ $client = new Aternos\Etcd\Client("localhost:2379", "username", "password");
 $client->put("key", "value");
 $client->get("key");
 $client->delete("key");
-$client->putIf("key", "newValue", "valueToCompareWith", false, \Etcdserverpb\Compare\CompareResult::EQUAL, Etcdserverpb\Compare\CompareTarget::VALUE);
-$client->deleteIf("key", "3", false, \Etcdserverpb\Compare\CompareResult::GREATER, Etcdserverpb\Compare\CompareTarget::VERSION);
+$client->putIf("key", "newValue", "valueToCompareWith");
+$client->deleteIf("key", "3");
 ```
 
 #### Sharded client
