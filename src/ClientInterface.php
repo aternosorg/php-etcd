@@ -3,8 +3,8 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
-use Etcdserverpb\Compare\CompareResult;
-use Etcdserverpb\Compare\CompareTarget;
+use Etcdserverpb\Compare;
+use Etcdserverpb\RequestOp;
 
 /**
  * Interface ClientInterface
@@ -74,4 +74,16 @@ interface ClientInterface
      * @throws \Exception
      */
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false);
+
+    /**
+     * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
+     *
+     * @param string $key
+     * @param RequestOp $requestOperation
+     * @param Compare $compare
+     * @param bool $returnNewValueOnFail
+     * @return bool|string
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false);
 }

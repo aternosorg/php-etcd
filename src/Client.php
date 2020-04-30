@@ -233,7 +233,7 @@ class Client implements ClientInterface
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    protected function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false)
+    public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false)
     {
         $client = $this->getKvClient();
 

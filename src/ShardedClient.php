@@ -3,8 +3,8 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
-use Etcdserverpb\Compare\CompareResult;
-use Etcdserverpb\Compare\CompareTarget;
+use Etcdserverpb\Compare;
+use Etcdserverpb\RequestOp;
 use Flexihash\Flexihash;
 
 /**
@@ -126,5 +126,14 @@ class ShardedClient implements ClientInterface
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
         return $this->getClientFromKey($key)->deleteIf($key, $compareValue, $returnNewValueOnFail);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws \Flexihash\Exception
+     */
+    public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false)
+    {
+        return $this->getClientFromKey($key)->requestIf($key, $requestOperation, $compare, $returnNewValueOnFail);
     }
 }
