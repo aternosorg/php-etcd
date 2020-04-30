@@ -132,9 +132,9 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false)
+    public function requestIf(string $key, array $requestOperations, array $compare, bool $returnNewValueOnFail = false)
     {
-        return $this->getClientFromKey($key)->requestIf($key, $requestOperation, $compare, $returnNewValueOnFail);
+        return $this->getClientFromKey($key)->requestIf($key, $requestOperations, $compare, $returnNewValueOnFail);
     }
 
     /**

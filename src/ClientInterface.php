@@ -79,13 +79,13 @@ interface ClientInterface
      * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param RequestOp $requestOperation
-     * @param Compare $compare
+     * @param array $requestOperations array of RequestOp objects
+     * @param array $compare array of Compare objects
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function requestIf(string $key, RequestOp $requestOperation, Compare $compare, bool $returnNewValueOnFail = false);
+    public function requestIf(string $key, array $requestOperations, array $compare, bool $returnNewValueOnFail = false);
 
     /**
      * Get an instance of Compare
