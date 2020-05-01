@@ -41,7 +41,18 @@ $client->put("key", "value");
 $client->get("key");
 $client->delete("key");
 $client->putIf("key", "newValue", "valueToCompareWith");
-$client->deleteIf("key", "3");
+$client->deleteIf("key", "valueToCompareWith");
+
+// complex transaction example
+$leaseId = $client->getLeaseID(10);
+$putOp = $client->getPutOperation('key', 'someValueToPutOnSuccess', $leaseId);
+$getOp = $client->getGetOperation('key');
+// following compare checks for key existence
+$compare = $client->getCompare('key', '0', \Etcdserverpb\Compare\CompareResult::EQUAL, \Etcdserverpb\Compare\CompareTarget::MOD);
+// execute Put operation and return the key we stored, just return the key value if it already exists
+$txnResponse = $client->txnRequest([$putOp, $getOp], [$getOp], [$compare]);
+$result = $client->getResponses($txnResponse, 'response_range', true);
+// $result[0] contains "someValueToPutOnSuccess"
 ```
 
 #### Sharded client

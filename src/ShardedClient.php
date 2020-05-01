@@ -209,4 +209,28 @@ class ShardedClient implements ClientInterface
     {
         return $this->getRandomClient()->refreshLease($leaseID);
     }
+
+    /**
+     * Transform TxnResponse into more friendly array
+     *
+     * @param TxnResponse $txnResponse return value of txnRequest method
+     * @param string|null $type returns only chosen type if defined,
+     *                          can be one of those: response_range, response_put, response_delete_range, response_txn
+     * @param bool $simpleArray return just simple array containing values,
+     *                          example: ['value1', 'value2']
+     * @return array example: [
+     *                          [
+     *                           'type' => 'response_range',
+     *                           'values' => [
+     *                                        'key' => 'key',
+     *                                        'value' => '2',
+     *                                        'version' => 3
+     *                                        ]
+     *                           ]
+     *                         ]
+     */
+    public function getResponses(TxnResponse $txnResponse, ?string $type = null, bool $simpleArray = false): array
+    {
+        return $this->getRandomClient()->getResponses($txnResponse, $type, $simpleArray);
+    }
 }

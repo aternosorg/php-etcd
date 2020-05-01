@@ -29,6 +29,7 @@ use Etcdserverpb\TxnRequest;
 use Etcdserverpb\TxnResponse;
 use Exception;
 use Grpc\ChannelCredentials;
+use Mvccpb\KeyValue;
 
 /**
  * Class Client
@@ -315,6 +316,51 @@ class Client implements ClientInterface
         $this->validateStatus($status);
 
         return $response;
+    }
+
+    /**
+     * Transform TxnResponse into more friendly array
+     *
+     * @param TxnResponse $txnResponse return value of txnRequest method
+     * @param string|null $type returns only chosen type if defined,
+     *                          can be one of those: response_range, response_put, response_delete_range, response_txn
+     * @param bool $simpleArray return just simple array containing values,
+     *                          example: ['value1', 'value2']
+     * @return array example: [
+     *                          [
+     *                           'type' => 'response_range',
+     *                           'values' => [
+     *                                        'key' => 'key',
+     *                                        'value' => '2',
+     *                                        'version' => 3
+     *                                        ]
+     *                           ]
+     *                         ]
+     */
+    public function getResponses(TxnResponse $txnResponse, ?string $type = null, bool $simpleArray = false): array
+    {
+        $v = $r = [];
+        /** @var ResponseOp $response */
+        foreach ($txnResponse->getResponses() as $response) {
+            if ($type !== null && $type !== $response->getResponse())
+                continue;
+            $values = [];
+            if ($response->getResponseRange() !== null) {
+                /** @var KeyValue $field */
+                foreach ($response->getResponseRange()->getKvs() as $field) {
+                    $v[] = $field->getValue();
+                    $values[] = [
+                        'key' => $field->getKey(),
+                        'value' => $field->getValue(),
+                        'version' => $field->getVersion()
+                    ];
+                }
+
+            }
+            $r[] = ['type' => $response->getResponse(), 'values' => $values];
+        }
+
+        return ($simpleArray) ? $v : $r;
     }
 
     /**
