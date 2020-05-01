@@ -266,13 +266,16 @@ class Client implements ClientInterface
      *
      * @param string $key
      * @param string $value
+     * @param int $leaseId
      * @return RequestOp
      */
-    public function getPutOperation(string $key, string $value): RequestOp
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp
     {
         $request = new PutRequest();
         $request->setKey($key);
         $request->setValue($value);
+        if($leaseId !== 0)
+            $request->setLease($leaseId);
 
         $operation = new RequestOp();
         $operation->setRequestPut($request);

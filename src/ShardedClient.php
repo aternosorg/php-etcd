@@ -160,9 +160,9 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws \Flexihash\Exception
      */
-    public function getPutOperation(string $key, string $value): RequestOp
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp
     {
-        return $this->getClientFromKey($key)->getPutOperation($key, $value);
+        return $this->getClientFromKey($key)->getPutOperation($key, $value, $leaseId);
     }
 
     /**

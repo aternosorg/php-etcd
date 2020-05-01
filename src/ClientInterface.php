@@ -113,9 +113,10 @@ interface ClientInterface
      *
      * @param string $key
      * @param string $value
+     * @param int $leaseId
      * @return RequestOp
      */
-    public function getPutOperation(string $key, string $value): RequestOp;
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp;
 
     /**
      * Creates RequestOp of Delete operation for requestIf method
