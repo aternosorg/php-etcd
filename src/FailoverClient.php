@@ -50,6 +50,16 @@ class FailoverClient
     protected $clients = [];
 
     /**
+     * @var array
+     */
+    protected $failedClients = [];
+
+    /**
+     * @var bool
+     */
+    protected $balancing = true;
+
+    /**
      * FailoverClient constructor.
      *
      * @param ClientInterface[] $clients
@@ -61,8 +71,8 @@ class FailoverClient
             if (!$client instanceof ClientInterface) {
                 throw new InvalidClientException("Invalid client in the client list");
             }
-            $this->addClient($client);
         }
+        $this->clients = $clients;
     }
 
     /**
@@ -95,18 +105,19 @@ class FailoverClient
     }
 
     /**
-     * @param ClientInterface $client
+     * Enables or disables balancing between etcd nodes, default is true
+     *
+     * @param bool $balancing
      */
-    protected function addClient(ClientInterface $client)
+    public function setBalancing(bool $balancing)
     {
-        $this->clients[] = ['client' => $client];
+        $this->balancing = $balancing;
     }
 
     protected function failCurrentClient()
     {
-        $this->clients[0]['fail'] = time();
         $t = array_shift($this->clients);
-        $this->clients[] = $t;
+        $this->failedClients[] = ['client' => $t, 'time' => time()];
     }
 
     /**
@@ -115,8 +126,14 @@ class FailoverClient
      */
     protected function getClient(): ClientInterface
     {
-        if (!isset($this->clients[0]['fail']) || ((time() - $this->clients[0]['fail']) > $this->holdoffTime))
-            return $this->clients[0]['client'];
+        if (isset($this->clients[0]))
+            return $this->clients[0];
+
+        if ((time() - $this->failedClients[0]['time']) > $this->holdoffTime) {
+            $t = array_shift($this->failedClients);
+            $this->clients[] = $t['client'];
+            return $this->clients[0];
+        }
 
         throw new \Exception('Could not get any working etcd server');
     }
