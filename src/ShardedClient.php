@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
+use Flexihash\Exception;
 use Flexihash\Flexihash;
 
 /**
@@ -49,7 +50,7 @@ class ShardedClient implements ClientInterface
      *
      * @param string $key
      * @return ClientInterface
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     protected function getClientFromKey(string $key): ClientInterface
     {
@@ -70,8 +71,19 @@ class ShardedClient implements ClientInterface
     }
 
     /**
+     * Get random client
+     *
+     * @return ClientInterface
+     */
+    protected function getRandomClient(): ClientInterface
+    {
+        $rndIndex = array_rand($this->clients);
+        return $this->clients[$rndIndex];
+    }
+
+    /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function getHostname(?string $key = null): string
     {
@@ -83,7 +95,7 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
@@ -92,7 +104,7 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function get(string $key)
     {
@@ -101,7 +113,7 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function delete(string $key)
     {
@@ -110,7 +122,7 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
     {
@@ -119,10 +131,34 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws \Flexihash\Exception
+     * @throws Exception
      */
     public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
     {
         return $this->getClientFromKey($key)->deleteIf($key, $previousValue, $returnNewValueOnFail);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLeaseID(int $ttl)
+    {
+        return $this->getRandomClient()->getLeaseID($ttl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function revokeLeaseID(int $leaseID)
+    {
+        return $this->getRandomClient()->revokeLeaseID($leaseID);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function refreshLease(int $leaseID)
+    {
+        return $this->getRandomClient()->refreshLease($leaseID);
     }
 }
