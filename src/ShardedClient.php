@@ -145,9 +145,9 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
+    public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
-        return $this->getClientFromKey($key)->txnRequest($key, $requestOperations, $failureOperations, $compare);
+        return $this->getRandomClient()->txnRequest($requestOperations, $failureOperations, $compare);
     }
 
     /**
