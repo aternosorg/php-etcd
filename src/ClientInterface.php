@@ -83,11 +83,10 @@ interface ClientInterface
      * @param array $requestOperations operations to perform on success, array of RequestOp objects
      * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
      * @param array $compare array of Compare objects
-     * @param bool $returnNewValueOnFail
      * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    public function requestIf(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
+    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
 
     /**
      * Get an instance of Compare

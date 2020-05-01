@@ -192,7 +192,7 @@ class Client implements ClientInterface
         $compare = $this->getCompareForIf($key, $compareValue);
         $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        $response = $this->requestIf($key, [$operation], $failOperation, [$compare]);
+        $response = $this->txnRequest($key, [$operation], $failOperation, [$compare]);
         return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
@@ -212,7 +212,7 @@ class Client implements ClientInterface
         $compare = $this->getCompareForIf($key, $compareValue);
         $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        $response = $this->requestIf($key, [$operation], $failOperation, [$compare]);
+        $response = $this->txnRequest($key, [$operation], $failOperation, [$compare]);
         return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
@@ -223,11 +223,10 @@ class Client implements ClientInterface
      * @param array $requestOperations operations to perform on success, array of RequestOp objects
      * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
      * @param array $compare array of Compare objects
-     * @param bool $returnNewValueOnFail
      * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    public function requestIf(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
+    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
         $client = $this->getKvClient();
 
