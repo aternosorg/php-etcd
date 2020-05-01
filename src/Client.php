@@ -294,9 +294,9 @@ class Client implements ClientInterface
     /**
      * Execute $requestOperations if Compare succeeds, execute $failureOperations otherwise if defined
      *
-     * @param array $requestOperations operations to perform on success, array of RequestOp objects
-     * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
-     * @param array $compare array of Compare objects
+     * @param RequestOp[] $requestOperations operations to perform on success, array of RequestOp objects
+     * @param RequestOp[]|null $failureOperations operations to perform on failure, array of RequestOp objects
+     * @param Compare[] $compare array of Compare objects
      * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
