@@ -6,6 +6,7 @@ use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
 use Etcdserverpb\TxnResponse;
+use Exception;
 
 /**
  * Interface ClientInterface
@@ -26,13 +27,13 @@ interface ClientInterface
      * @param string $key
      * @param mixed $value
      * @param bool $prevKv Get the previous key value in the response
-     * @param int $lease
+     * @param int $leaseID
      * @param bool $ignoreLease Ignore the current lease
      * @param bool $ignoreValue Updates the key using its current value
      * @return string|null Returns previous value if $prevKv is set to true
      * @throws InvalidResponseStatusCodeException
      */
-    public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false);
+    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false);
 
     /**
      * Get a key value
@@ -124,4 +125,31 @@ interface ClientInterface
      * @return RequestOp
      */
     public function getDeleteOperation(string $key): RequestOp;
+
+    /**
+     * Get leaseID which can be used with etcd's put
+     *
+     * @param int $ttl time-to-live in seconds
+     * @return int
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function getLeaseID(int $ttl);
+
+    /**
+     * Revoke existing leaseID
+     *
+     * @param int $leaseID
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function revokeLeaseID(int $leaseID);
+
+    /**
+     * Refresh chosen leaseID
+     *
+     * @param int $leaseID
+     * @return int lease TTL
+     * @throws InvalidResponseStatusCodeException
+     * @throws Exception
+     */
+    public function refreshLease(int $leaseID);
 }

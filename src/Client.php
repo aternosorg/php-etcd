@@ -13,6 +13,12 @@ use Etcdserverpb\Compare\CompareTarget;
 use Etcdserverpb\DeleteRangeRequest;
 use Etcdserverpb\DeleteRangeResponse;
 use Etcdserverpb\KVClient;
+use Etcdserverpb\LeaseClient;
+use Etcdserverpb\LeaseGrantRequest;
+use Etcdserverpb\LeaseGrantResponse;
+use Etcdserverpb\LeaseKeepAliveRequest;
+use Etcdserverpb\LeaseKeepAliveResponse;
+use Etcdserverpb\LeaseRevokeRequest;
 use Etcdserverpb\PutRequest;
 use Etcdserverpb\PutResponse;
 use Etcdserverpb\RangeRequest;
@@ -21,6 +27,7 @@ use Etcdserverpb\RequestOp;
 use Etcdserverpb\ResponseOp;
 use Etcdserverpb\TxnRequest;
 use Etcdserverpb\TxnResponse;
+use Exception;
 use Grpc\ChannelCredentials;
 
 /**
@@ -64,6 +71,11 @@ class Client implements ClientInterface
     protected $authClient;
 
     /**
+     * @var LeaseClient
+     */
+    protected $leaseClient;
+
+    /**
      * Client constructor.
      *
      * @param string $hostname
@@ -94,14 +106,14 @@ class Client implements ClientInterface
      * @param string $key
      * @param mixed $value
      * @param bool $prevKv Get the previous key value in the response
-     * @param int $lease
+     * @param int $leaseID
      * @param bool $ignoreLease Ignore the current lease
      * @param bool $ignoreValue Updates the key using its current value
      *
      * @return string|null Returns previous value if $prevKv is set to true
      * @throws InvalidResponseStatusCodeException
      */
-    public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
         $client = $this->getKvClient();
 
@@ -112,7 +124,7 @@ class Client implements ClientInterface
         $request->setPrevKv($prevKv);
         $request->setIgnoreLease($ignoreLease);
         $request->setIgnoreValue($ignoreValue);
-        $request->setLease($lease);
+        $request->setLease($leaseID);
 
         /** @var PutResponse $response */
         list($response, $status) = $client->Put($request, $this->getMetaData(), $this->getOptions())->wait();
@@ -217,6 +229,68 @@ class Client implements ClientInterface
     }
 
     /**
+     * Get leaseID which can be used with etcd's put
+     *
+     * @param int $ttl time-to-live in seconds
+     * @return int
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function getLeaseID(int $ttl)
+    {
+        $lease = $this->getLeaseClient();
+        $leaseRequest = new LeaseGrantRequest();
+        $leaseRequest->setTTL($ttl);
+
+        /** @var LeaseGrantResponse $response */
+        list($response, $status) = $lease->LeaseGrant($leaseRequest, $this->getMetaData())->wait();
+        $this->validateStatus($status);
+
+        return (int)$response->getID();
+    }
+
+    /**
+     * Revoke existing leaseID
+     *
+     * @param int $leaseID
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function revokeLeaseID(int $leaseID)
+    {
+        $lease = $this->getLeaseClient();
+        $leaseRequest = new LeaseRevokeRequest();
+        $leaseRequest->setID($leaseID);
+
+        list(, $status) = $lease->LeaseRevoke($leaseRequest, $this->getMetaData())->wait();
+        $this->validateStatus($status);
+    }
+
+    /**
+     * Refresh chosen leaseID
+     *
+     * @param int $leaseID
+     * @return int lease TTL
+     * @throws InvalidResponseStatusCodeException
+     * @throws Exception
+     */
+    public function refreshLease(int $leaseID)
+    {
+        $lease = $this->getLeaseClient();
+        $leaseBidi = $lease->LeaseKeepAlive($this->getMetaData());
+        $leaseKeepAlive = new LeaseKeepAliveRequest();
+        $leaseKeepAlive->setID($leaseID);
+        /** @noinspection PhpParamsInspection */
+        $leaseBidi->write($leaseKeepAlive);
+        $leaseBidi->writesDone();
+        /** @var LeaseKeepAliveResponse $response */
+        $response = $leaseBidi->read();
+        $leaseBidi->cancel();
+        if(empty($response->getID()) || (int)$response->getID() !== $leaseID)
+            throw new Exception('Could not refresh lease ID: ' . $leaseID);
+
+        return (int)$response->getTTL();
+    }
+
+    /**
      * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
      *
      * @param string $key
@@ -317,6 +391,22 @@ class Client implements ClientInterface
         $compare->setResult($result);
 
         return $compare;
+    }
+
+    /**
+     * Get an instance of LeaseClient
+     *
+     * @return LeaseClient
+     */
+    protected function getLeaseClient(): LeaseClient
+    {
+        if (!$this->leaseClient) {
+            $this->leaseClient = new LeaseClient($this->hostname, [
+                'credentials' => ChannelCredentials::createInsecure()
+            ]);
+        }
+
+        return $this->leaseClient;
     }
 
     /**
