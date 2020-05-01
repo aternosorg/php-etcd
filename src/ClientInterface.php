@@ -78,16 +78,15 @@ interface ClientInterface
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false);
 
     /**
-     * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
+     * Execute $requestOperations if Compare succeeds, execute $failureOperations otherwise if defined
      *
-     * @param string $key
      * @param array $requestOperations operations to perform on success, array of RequestOp objects
      * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
      * @param array $compare array of Compare objects
      * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
+    public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
 
     /**
      * Get an instance of Compare
