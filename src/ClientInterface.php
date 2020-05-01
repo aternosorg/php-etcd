@@ -3,6 +3,9 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
+use Etcdserverpb\Compare;
+use Etcdserverpb\RequestOp;
+use Etcdserverpb\TxnResponse;
 use Exception;
 
 /**
@@ -54,24 +57,74 @@ interface ClientInterface
      * Put $value if $key value matches $previousValue otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param mixed $value The new value to set
-     * @param mixed $previousValue The previous value to compare against
+     * @param string $value The new value to set
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false);
+    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false);
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param $previousValue
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
+     * @throws \Exception
      */
-    public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false);
+    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false);
+
+    /**
+     * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
+     *
+     * @param string $key
+     * @param array $requestOperations operations to perform on success, array of RequestOp objects
+     * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
+     * @param array $compare array of Compare objects
+     * @return TxnResponse
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse;
+
+    /**
+     * Get an instance of Compare
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $result see CompareResult class for available constants
+     * @param int $target check constants in the CompareTarget class for available values
+     * @return Compare
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare;
+
+    /**
+     * Creates RequestOp of Get operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getGetOperation(string $key): RequestOp;
+
+    /**
+     * Creates RequestOp of Put operation for requestIf method
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $leaseId
+     * @return RequestOp
+     */
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp;
+
+    /**
+     * Creates RequestOp of Delete operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getDeleteOperation(string $key): RequestOp;
 
     /**
      * Get leaseID which can be used with etcd's put

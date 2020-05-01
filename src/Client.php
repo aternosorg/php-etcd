@@ -191,42 +191,41 @@ class Client implements ClientInterface
      * Put $value if $key value matches $previousValue otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param mixed $value The new value to set
-     * @param mixed $previousValue The previous value to compare against
+     * @param string $value The new value to set
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
+     * @throws \Exception
      */
-    public function putIf(string $key, $value, $previousValue, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
     {
-        $request = new PutRequest();
-        $request->setKey($key);
-        $request->setValue($value);
+        $operation = $this->getPutOperation($key, $value);
+        $compare = $this->getCompareForIf($key, $compareValue);
+        $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        $operation = new RequestOp();
-        $operation->setRequestPut($request);
-
-        return $this->requestIf($key, $previousValue, $operation, $returnNewValueOnFail);
+        $response = $this->txnRequest($key, [$operation], $failOperation, [$compare]);
+        return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param $previousValue
+     * @param bool|string $compareValue The previous value to compare against
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
+     * @throws \Exception
      */
-    public function deleteIf(string $key, $previousValue, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
-        $request = new DeleteRangeRequest();
-        $request->setKey($key);
+        $operation = $this->getDeleteOperation($key);
+        $compare = $this->getCompareForIf($key, $compareValue);
+        $failOperation = $this->getFailOperation($key, $returnNewValueOnFail);
 
-        $operation = new RequestOp();
-        $operation->setRequestDeleteRange($request);
-
-        return $this->requestIf($key, $previousValue, $operation, $returnNewValueOnFail);
+        $response = $this->txnRequest($key, [$operation], $failOperation, [$compare]);
+        return $this->getIfResponse($returnNewValueOnFail, $response);
     }
 
     /**
@@ -295,62 +294,103 @@ class Client implements ClientInterface
      * Execute $requestOperation if $key value matches $previous otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param $previousValue
-     * @param RequestOp $requestOperation
-     * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @param array $requestOperations operations to perform on success, array of RequestOp objects
+     * @param array|null $failureOperations operations to perform on failure, array of RequestOp objects
+     * @param array $compare array of Compare objects
+     * @return TxnResponse
      * @throws InvalidResponseStatusCodeException
      */
-    protected function requestIf(string $key, $previousValue, RequestOp $requestOperation, bool $returnNewValueOnFail = false)
+    public function txnRequest(string $key, array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
         $client = $this->getKvClient();
 
-        $compare = new Compare();
-        $compare->setKey($key);
-
-        if ($previousValue === false) {
-            $compare->setValue("0");
-            $compare->setResult(CompareResult::EQUAL);
-            $compare->setTarget(CompareTarget::VERSION);
-        } else {
-            $compare->setValue($previousValue);
-            $compare->setResult(CompareResult::EQUAL);
-            $compare->setTarget(CompareTarget::VALUE);
-        }
-
         $request = new TxnRequest();
-        $request->setCompare([$compare]);
-        $request->setSuccess([$requestOperation]);
-
-        if ($returnNewValueOnFail) {
-            $getRequest = new RangeRequest();
-            $getRequest->setKey($key);
-
-            $getOperation = new RequestOp();
-            $getOperation->setRequestRange($getRequest);
-            $request->setFailure([$getOperation]);
-        }
+        $request->setCompare($compare);
+        $request->setSuccess($requestOperations);
+        if($failureOperations !== null)
+            $request->setFailure($failureOperations);
 
         /** @var TxnResponse $response */
         list($response, $status) = $client->Txn($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
-        if ($returnNewValueOnFail && !$response->getSucceeded()) {
-            /** @var ResponseOp $responseOp */
-            $responseOp = $response->getResponses()[0];
+        return $response;
+    }
 
-            $getResponse = $responseOp->getResponseRange();
+    /**
+     * Creates RequestOp of Get operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getGetOperation(string $key): RequestOp
+    {
+        $request = new RangeRequest();
+        $request->setKey($key);
 
-            $field = $getResponse->getKvs();
+        $operation = new RequestOp();
+        $operation->setRequestRange($request);
 
-            if (count($field) === 0) {
-                return false;
-            }
+        return $operation;
+    }
 
-            return $field[0]->getValue();
-        } else {
-            return $response->getSucceeded();
-        }
+    /**
+     * Creates RequestOp of Put operation for requestIf method
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $leaseId
+     * @return RequestOp
+     */
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp
+    {
+        $request = new PutRequest();
+        $request->setKey($key);
+        $request->setValue($value);
+        if($leaseId !== 0)
+            $request->setLease($leaseId);
+
+        $operation = new RequestOp();
+        $operation->setRequestPut($request);
+
+        return $operation;
+    }
+
+    /**
+     * Creates RequestOp of Delete operation for requestIf method
+     *
+     * @param string $key
+     * @return RequestOp
+     */
+    public function getDeleteOperation(string $key): RequestOp
+    {
+        $request = new DeleteRangeRequest();
+        $request->setKey($key);
+
+        $operation = new RequestOp();
+        $operation->setRequestDeleteRange($request);
+
+        return $operation;
+    }
+
+    /**
+     * Get an instance of Compare
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $result see CompareResult class for available constants
+     * @param int $target check constants in the CompareTarget class for available values
+     * @return Compare
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare
+    {
+        $compare = new Compare();
+        $compare->setKey($key);
+        $compare->setValue($value);
+        $compare->setTarget($target);
+        $compare->setResult($result);
+
+        return $compare;
     }
 
     /**
@@ -400,6 +440,7 @@ class Client implements ClientInterface
 
         return $this->authClient;
     }
+
 
     /**
      * Get an authentication token
@@ -462,5 +503,59 @@ class Client implements ClientInterface
         if ($status->code !== 0) {
             throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
         }
+    }
+
+    /**
+     * @param string $key
+     * @param string $compareValue
+     * @return Compare
+     */
+    protected function getCompareForIf(string $key, string $compareValue): Compare
+    {
+        if ($compareValue === false) {
+            $compare = $this->getCompare($key, '0', CompareResult::EQUAL, CompareTarget::VERSION);
+        } else {
+            $compare = $this->getCompare($key, $compareValue, CompareResult::EQUAL, CompareTarget::VALUE);
+        }
+        return $compare;
+    }
+
+    /**
+     * @param bool $returnNewValueOnFail
+     * @param TxnResponse $response
+     * @return bool
+     */
+    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response): bool
+    {
+        if ($returnNewValueOnFail && !$response->getSucceeded()) {
+            /** @var ResponseOp $responseOp */
+            $responseOp = $response->getResponses()[0];
+
+            $getResponse = $responseOp->getResponseRange();
+
+            $field = $getResponse->getKvs();
+
+            if (count($field) === 0) {
+                return false;
+            }
+
+            return $field[0]->getValue();
+        } else {
+            return $response->getSucceeded();
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param bool $returnNewValueOnFail
+     * @return array|null
+     */
+    protected function getFailOperation(string $key, bool $returnNewValueOnFail)
+    {
+        $failOperation = null;
+        if ($returnNewValueOnFail)
+            $failOperation = [$this->getGetOperation($key)];
+
+        return $failOperation;
     }
 }
