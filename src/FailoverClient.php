@@ -122,12 +122,21 @@ class FailoverClient
 
     /**
      * @return ClientInterface
+     */
+    protected function getRandomClient(): ClientInterface
+    {
+        $rndIndex = array_rand($this->clients);
+        return $this->clients[$rndIndex];
+    }
+
+    /**
+     * @return ClientInterface
      * @throws \Exception
      */
     protected function getClient(): ClientInterface
     {
-        if (isset($this->clients[0]))
-            return $this->clients[0];
+        if (count($this->clients) > 0)
+            return ($this->balancing) ? $this->getRandomClient() : $this->clients[0];
 
         if ((time() - $this->failedClients[0]['time']) > $this->holdoffTime) {
             $t = array_shift($this->failedClients);
