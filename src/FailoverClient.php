@@ -3,6 +3,7 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
+use Aternos\Etcd\Exception\NoClientAvailableException;
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
@@ -79,7 +80,8 @@ class FailoverClient
      * @param string $name Client method
      * @param mixed $arguments method's arguments
      * @return mixed
-     * @throws \Exception when there is no available etcd client
+     * @throws NoClientAvailableException when there is no available etcd client
+     * @throws \Exception
      */
     public function __call(string $name, $arguments)
     {
@@ -131,7 +133,7 @@ class FailoverClient
 
     /**
      * @return ClientInterface
-     * @throws \Exception
+     * @throws NoClientAvailableException
      */
     protected function getClient(): ClientInterface
     {
@@ -144,6 +146,6 @@ class FailoverClient
             return $this->clients[0];
         }
 
-        throw new \Exception('Could not get any working etcd server');
+        throw new NoClientAvailableException('Could not get any working etcd server');
     }
 }
