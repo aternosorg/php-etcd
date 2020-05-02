@@ -18,25 +18,9 @@ use Etcdserverpb\TxnResponse;
  * On top of it each Client gets fail timestamp in case it fails. We are not using such client
  * until hold-off period passes. If no usable Client is left, \Exception is thrown.
  *
- * @method string getHostname()
- * @method put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
- * @method get(string $key)
- * @method delete(string $key)
- * @method putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
- * @method deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
- * @method TxnResponse txnRequest(array $requestOperations, ?array $failureOperations, array $compare)
- * @method Compare getCompare(string $key, string $value, int $result, int $target)
- * @method RequestOp getGetOperation(string $key)
- * @method RequestOp getPutOperation(string $key, string $value, int $leaseId = 0)
- * @method RequestOp getDeleteOperation(string $key)
- * @method int getLeaseID(int $ttl)
- * @method revokeLeaseID(int $leaseID)
- * @method int refreshLease(int $leaseID)
- * @method array getResponses(TxnResponse $txnResponse, ?string $type = null, bool $simpleArray = false)
- *
  * @package Aternos\Etcd
  */
-class FailoverClient
+class FailoverClient implements ClientInterface
 {
     /**
      * How long to keep Client marked as failed and evicted from active client's list
@@ -78,23 +62,138 @@ class FailoverClient
     }
 
     /**
-     * @param string $name Client method
-     * @param mixed $arguments method's arguments
-     * @return mixed
-     * @throws NoClientAvailableException when there is no available etcd client
-     * @throws \Exception
+     * @inheritDoc
+     * @throws NoClientAvailableException
      */
-    public function __call(string $name, $arguments)
+    public function getHostname(?string $key = null): string
     {
-        while ($client = $this->getClient()) {
-            try {
-                return $client->$name(...$arguments);
-            } /** @noinspection PhpRedundantCatchClauseInspection */
-            catch (UnavailableException | DeadlineExceededException $e) {
-                $this->failCurrentClient();
-            }
-        }
-        throw new \Exception('Failed to call: ' . $name);
+        return $this->callClientMethod(__FUNCTION__, $key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    {
+        return $this->callClientMethod(__FUNCTION__, $key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function get(string $key)
+    {
+        return $this->callClientMethod(__FUNCTION__, $key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function delete(string $key)
+    {
+        return $this->callClientMethod(__FUNCTION__, $key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
+    {
+        return $this->callClientMethod(__FUNCTION__, $key, $value, $compareValue, $returnNewValueOnFail);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
+    {
+        return $this->callClientMethod(__FUNCTION__, $key, $compareValue, $returnNewValueOnFail);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
+    {
+        return $this->callClientMethod(__FUNCTION__, $requestOperations, $failureOperations, $compare);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getCompare(string $key, string $value, int $result, int $target): Compare
+    {
+        return $this->callClientMethod(__FUNCTION__, $key, $value, $result, $target);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getGetOperation(string $key): RequestOp
+    {
+        return $this->callClientMethod(__FUNCTION__, $key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp
+    {
+        return $this->callClientMethod(__FUNCTION__, $key, $value, $leaseId);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getDeleteOperation(string $key): RequestOp
+    {
+        return $this->callClientMethod(__FUNCTION__, $key);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getLeaseID(int $ttl)
+    {
+        return $this->callClientMethod(__FUNCTION__, $ttl);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function revokeLeaseID(int $leaseID)
+    {
+        $this->callClientMethod(__FUNCTION__, $leaseID);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function refreshLease(int $leaseID)
+    {
+        return $this->callClientMethod(__FUNCTION__, $leaseID);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getResponses(TxnResponse $txnResponse, ?string $type = null, bool $simpleArray = false): array
+    {
+        return $this->callClientMethod(__FUNCTION__, $txnResponse, $type, $simpleArray);
     }
 
     /**
@@ -148,5 +247,25 @@ class FailoverClient
         }
 
         throw new NoClientAvailableException('Could not get any working etcd server');
+    }
+
+    /**
+     * @param string $name Client method
+     * @param mixed $arguments method's arguments
+     * @return mixed
+     * @throws NoClientAvailableException when there is no available etcd client
+     * @throws \Exception
+     */
+    protected function callClientMethod(string $name, ...$arguments)
+    {
+        while ($client = $this->getClient()) {
+            try {
+                return $client->$name(...$arguments);
+            } /** @noinspection PhpRedundantCatchClauseInspection */
+            catch (UnavailableException | DeadlineExceededException $e) {
+                $this->failCurrentClient();
+            }
+        }
+        throw new \Exception('Failed to call: ' . $name);
     }
 }
