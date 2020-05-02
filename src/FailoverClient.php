@@ -4,7 +4,8 @@ namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
 use Aternos\Etcd\Exception\NoClientAvailableException;
-use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
+use Aternos\Etcd\Exception\Status\DeadlineExceededException;
+use Aternos\Etcd\Exception\Status\UnavailableException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
 use Etcdserverpb\TxnResponse;
@@ -89,7 +90,7 @@ class FailoverClient
             try {
                 return $client->$name(...$arguments);
             } /** @noinspection PhpRedundantCatchClauseInspection */
-            catch (InvalidResponseStatusCodeException $e) {
+            catch (UnavailableException | DeadlineExceededException $e) {
                 $this->failCurrentClient();
             }
         }
