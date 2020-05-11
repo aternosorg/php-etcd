@@ -285,7 +285,7 @@ class Client implements ClientInterface
         /** @var LeaseKeepAliveResponse $response */
         $response = $leaseBidi->read();
         $leaseBidi->cancel();
-        if(empty($response->getID()) || (int)$response->getID() !== $leaseID)
+        if($response === null || empty($response->getID()) || (int)$response->getID() !== $leaseID)
             throw new Exception('Could not refresh lease ID: ' . $leaseID);
 
         return (int)$response->getTTL();
