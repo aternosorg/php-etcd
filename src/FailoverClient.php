@@ -297,6 +297,22 @@ class FailoverClient implements ClientInterface
     }
 
     /**
+     * Returns true if method is known as local meaning it does not call remote etcd server
+     *
+     * @param string $methodName
+     * @return bool
+     */
+    protected static function isLocalCall(string $methodName): bool
+    {
+        $local = [
+            'getCompare' => true, 'getDeleteOperation' => true, 'getPutOperation' => true,
+            'getGetOperation' => true, 'getResponses' => true, 'getHostname' => true
+        ];
+
+        return isset($local[$methodName]);
+    }
+
+    /**
      * @param string $name Client method
      * @param mixed $arguments method's arguments
      * @return mixed
@@ -308,7 +324,7 @@ class FailoverClient implements ClientInterface
         while ($client = $this->getClient()) {
             try {
                 $result = $client->$name(...$arguments);
-                if (isset($this->retry[$client->getHostname()]))
+                if (isset($this->retry[$client->getHostname()]) && !static::isLocalCall($name))
                     unset($this->retry[$client->getHostname()]);
 
                 return $result;
