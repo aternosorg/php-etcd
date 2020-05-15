@@ -297,7 +297,7 @@ class FailoverClient implements ClientInterface
 
                 return $result;
             } /** @noinspection PhpRedundantCatchClauseInspection */
-            catch (UnavailableException | DeadlineExceededException $e) {
+            catch (UnavailableException | DeadlineExceededException | NoResponseException $e) {
                 $this->failCurrentClient();
             }
         }
