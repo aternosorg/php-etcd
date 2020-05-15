@@ -69,3 +69,24 @@ $shardedClient = new Aternos\Etcd\ShardedClient($clients);
 $shardedClient->put("key", "value");
 $shardedClient->get("key");
 ```
+
+### Failover client
+
+- automatically and transparently fails-over in case etcd host fails 
+```php
+<?php
+
+$clients = [
+    new Aternos\Etcd\Client("hostA:2379"),
+    new Aternos\Etcd\Client("hostB:2379"),
+    new Aternos\Etcd\Client("hostC:2379")
+];
+$failoverClient = new Aternos\Etcd\FailoverClient($clients);
+
+// set 60 seconds as a hold-off period between another connection attempt to the failing host 
+// default is 120 seconds
+// failing host is being remembered within FailoverClient object instance 
+$failoverClient->setHoldoffTime(60);
+$failoverClient->put("key", "value");
+$failoverClient->get("key");
+```
