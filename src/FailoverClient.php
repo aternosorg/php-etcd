@@ -80,7 +80,7 @@ class FailoverClient implements ClientInterface
      */
     public function getHostname(?string $key = null): string
     {
-        return $this->callClientMethod(__FUNCTION__, $key);
+        return $this->callClientMethod(__FUNCTION__, true, $key);
     }
 
     /**
@@ -89,7 +89,7 @@ class FailoverClient implements ClientInterface
      */
     public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
-        return $this->callClientMethod(__FUNCTION__, $key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
+        return $this->callClientMethod(__FUNCTION__, false, $key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
     }
 
     /**
@@ -98,7 +98,7 @@ class FailoverClient implements ClientInterface
      */
     public function get(string $key)
     {
-        return $this->callClientMethod(__FUNCTION__, $key);
+        return $this->callClientMethod(__FUNCTION__, false, $key);
     }
 
     /**
@@ -107,7 +107,7 @@ class FailoverClient implements ClientInterface
      */
     public function delete(string $key)
     {
-        return $this->callClientMethod(__FUNCTION__, $key);
+        return $this->callClientMethod(__FUNCTION__, false, $key);
     }
 
     /**
@@ -116,7 +116,7 @@ class FailoverClient implements ClientInterface
      */
     public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
     {
-        return $this->callClientMethod(__FUNCTION__, $key, $value, $compareValue, $returnNewValueOnFail);
+        return $this->callClientMethod(__FUNCTION__, false, $key, $value, $compareValue, $returnNewValueOnFail);
     }
 
     /**
@@ -125,7 +125,7 @@ class FailoverClient implements ClientInterface
      */
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
-        return $this->callClientMethod(__FUNCTION__, $key, $compareValue, $returnNewValueOnFail);
+        return $this->callClientMethod(__FUNCTION__, false, $key, $compareValue, $returnNewValueOnFail);
     }
 
     /**
@@ -134,7 +134,7 @@ class FailoverClient implements ClientInterface
      */
     public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
-        return $this->callClientMethod(__FUNCTION__, $requestOperations, $failureOperations, $compare);
+        return $this->callClientMethod(__FUNCTION__, false, $requestOperations, $failureOperations, $compare);
     }
 
     /**
@@ -143,7 +143,7 @@ class FailoverClient implements ClientInterface
      */
     public function getCompare(string $key, string $value, int $result, int $target): Compare
     {
-        return $this->callClientMethod(__FUNCTION__, $key, $value, $result, $target);
+        return $this->callClientMethod(__FUNCTION__, true, $key, $value, $result, $target);
     }
 
     /**
@@ -152,7 +152,7 @@ class FailoverClient implements ClientInterface
      */
     public function getGetOperation(string $key): RequestOp
     {
-        return $this->callClientMethod(__FUNCTION__, $key);
+        return $this->callClientMethod(__FUNCTION__, true, $key);
     }
 
     /**
@@ -161,7 +161,7 @@ class FailoverClient implements ClientInterface
      */
     public function getPutOperation(string $key, string $value, int $leaseId = 0): RequestOp
     {
-        return $this->callClientMethod(__FUNCTION__, $key, $value, $leaseId);
+        return $this->callClientMethod(__FUNCTION__, true, $key, $value, $leaseId);
     }
 
     /**
@@ -170,7 +170,7 @@ class FailoverClient implements ClientInterface
      */
     public function getDeleteOperation(string $key): RequestOp
     {
-        return $this->callClientMethod(__FUNCTION__, $key);
+        return $this->callClientMethod(__FUNCTION__, true, $key);
     }
 
     /**
@@ -179,7 +179,7 @@ class FailoverClient implements ClientInterface
      */
     public function getLeaseID(int $ttl)
     {
-        return $this->callClientMethod(__FUNCTION__, $ttl);
+        return $this->callClientMethod(__FUNCTION__, false, $ttl);
     }
 
     /**
@@ -188,7 +188,7 @@ class FailoverClient implements ClientInterface
      */
     public function revokeLeaseID(int $leaseID)
     {
-        $this->callClientMethod(__FUNCTION__, $leaseID);
+        $this->callClientMethod(__FUNCTION__, false, $leaseID);
     }
 
     /**
@@ -197,7 +197,7 @@ class FailoverClient implements ClientInterface
      */
     public function refreshLease(int $leaseID)
     {
-        return $this->callClientMethod(__FUNCTION__, $leaseID);
+        return $this->callClientMethod(__FUNCTION__, false, $leaseID);
     }
 
     /**
@@ -206,7 +206,7 @@ class FailoverClient implements ClientInterface
      */
     public function getResponses(TxnResponse $txnResponse, ?string $type = null, bool $simpleArray = false): array
     {
-        return $this->callClientMethod(__FUNCTION__, $txnResponse, $type, $simpleArray);
+        return $this->callClientMethod(__FUNCTION__, true, $txnResponse, $type, $simpleArray);
     }
 
     /**
@@ -296,35 +296,21 @@ class FailoverClient implements ClientInterface
         throw new NoClientAvailableException('Could not get any working etcd server');
     }
 
-    /**
-     * Returns true if method is known as local meaning it does not call remote etcd server
-     *
-     * @param string $methodName
-     * @return bool
-     */
-    protected static function isLocalCall(string $methodName): bool
-    {
-        $local = [
-            'getCompare' => true, 'getDeleteOperation' => true, 'getPutOperation' => true,
-            'getGetOperation' => true, 'getResponses' => true, 'getHostname' => true
-        ];
-
-        return isset($local[$methodName]);
-    }
 
     /**
      * @param string $name Client method
      * @param mixed $arguments method's arguments
+     * @param bool $isLocalCall defines whether called method calls remote etcd endpoint
      * @return mixed
      * @throws NoClientAvailableException when there is no available etcd client
      * @throws \Exception
      */
-    protected function callClientMethod(string $name, ...$arguments)
+    protected function callClientMethod(string $name, bool $isLocalCall, ...$arguments)
     {
         while ($client = $this->getClient()) {
             try {
                 $result = $client->$name(...$arguments);
-                if (isset($this->retry[$client->getHostname()]) && !static::isLocalCall($name))
+                if (isset($this->retry[$client->getHostname()]) && !$isLocalCall)
                     unset($this->retry[$client->getHostname()]);
 
                 return $result;
