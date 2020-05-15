@@ -2,6 +2,7 @@
 
 namespace Aternos\Etcd;
 
+use Aternos\Etcd\Exception\InvalidLeaseException;
 use Aternos\Etcd\Exception\NoResponseException;
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
 use Aternos\Etcd\Exception\Status\ResponseStatusCodeExceptionFactory;
@@ -28,7 +29,6 @@ use Etcdserverpb\RequestOp;
 use Etcdserverpb\ResponseOp;
 use Etcdserverpb\TxnRequest;
 use Etcdserverpb\TxnResponse;
-use Exception;
 use Grpc\ChannelCredentials;
 use Mvccpb\KeyValue;
 
@@ -198,7 +198,6 @@ class Client implements ClientInterface
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
-     * @throws \Exception
      */
     public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
     {
@@ -218,7 +217,6 @@ class Client implements ClientInterface
      * @param bool $returnNewValueOnFail
      * @return bool|string
      * @throws InvalidResponseStatusCodeException
-     * @throws \Exception
      */
     public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
     {
@@ -271,8 +269,7 @@ class Client implements ClientInterface
      *
      * @param int $leaseID
      * @return int lease TTL
-     * @throws InvalidResponseStatusCodeException
-     * @throws NoResponseException
+     * @throws InvalidResponseStatusCodeException|NoResponseException|InvalidLeaseException
      */
     public function refreshLease(int $leaseID)
     {
@@ -288,6 +285,9 @@ class Client implements ClientInterface
         $leaseBidi->cancel();
         if($response === null || empty($response->getID()) || (int)$response->getID() !== $leaseID)
             throw new NoResponseException('Could not refresh lease ID: ' . $leaseID);
+
+        if((int)$response->getTTL() === 0)
+            throw new InvalidLeaseException('Invalid lease ID or expired lease');
 
         return (int)$response->getTTL();
     }
