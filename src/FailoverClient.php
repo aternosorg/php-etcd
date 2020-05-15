@@ -14,10 +14,13 @@ use Etcdserverpb\TxnResponse;
 /**
  * Class FailoverClient
  *
- * Using FIFO structure. Client is being used, until it fails. When it fails,
+ * Using random-based load-balancing by default.
+ * Client is being used, until it fails when LB turned off. When Client fails,
  * it's moved to the end of the array and first Client on top of the array is being used.
- * On top of it each Client gets fail timestamp in case it fails. We are not using such client
- * until hold-off period passes. If no usable Client is left, \Exception is thrown.
+ * When Client's remote call fails, Client's fail counter increases.
+ * On top of it each Client gets fail timestamp in case it reaches max retry value (default 3).
+ * We are not using such client until hold-off period passes (default 120s).
+ * If no usable Client is left, NoClientAvailableException is thrown.
  *
  * @package Aternos\Etcd
  */
