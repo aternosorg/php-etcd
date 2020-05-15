@@ -280,18 +280,17 @@ class FailoverClient implements ClientInterface
      */
     protected function getClient(): ClientInterface
     {
-        if ($client = $this->getFirstClient())
-            return ($this->balancing) ? $this->getRandomClient() : $client;
-
         foreach ($this->failedClients as $failedClient) {
             if ((time() - $failedClient['time']) > $this->holdoffTime) {
                 $c = array_shift($this->failedClients);
                 /** @var ClientInterface $client */
                 $client = $c['client'];
                 $this->clients[$client->getHostname()] = $client;
-                return $client;
             }
         }
+
+        if ($client = $this->getFirstClient())
+            return ($this->balancing) ? $this->getRandomClient() : $client;
 
         throw new NoClientAvailableException('Could not get any working etcd server');
     }
