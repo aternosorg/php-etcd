@@ -31,6 +31,18 @@ class FailoverClient implements ClientInterface
     protected $holdoffTime = 120;
 
     /**
+     * How many times to retry client request
+     *
+     * @var int
+     */
+    protected $maxRetry = 3;
+
+    /**
+     * @var array
+     */
+    protected $retry = [];
+
+    /**
      * @var ClientInterface[]
      */
     protected $clients = [];
@@ -207,6 +219,16 @@ class FailoverClient implements ClientInterface
     }
 
     /**
+     * Change maxRetry value for failing clients
+     *
+     * @param int $maxRetry
+     */
+    public function setMaxRetry(int $maxRetry)
+    {
+        $this->maxRetry = $maxRetry;
+    }
+
+    /**
      * Enables or disables balancing between etcd nodes, default is true
      *
      * @param bool $balancing
@@ -219,7 +241,16 @@ class FailoverClient implements ClientInterface
     protected function failCurrentClient()
     {
         $t = array_shift($this->clients);
-        $this->failedClients[] = ['client' => $t, 'time' => time()];
+        if(isset($this->retry[$t->getHostname()])) {
+            $this->retry[$t->getHostname()]++;
+        }else{
+            $this->retry[$t->getHostname()] = 1;
+        }
+        if($this->retry[$t->getHostname()] >= $this->maxRetry) {
+            $this->failedClients[] = ['client' => $t, 'time' => time()];
+        }else{
+            array_unshift($this->clients, $t);
+        }
     }
 
     /**
@@ -227,7 +258,7 @@ class FailoverClient implements ClientInterface
      */
     protected function getRandomClient(): ClientInterface
     {
-        $rndIndex = array_rand($this->clients);
+        $rndIndex = (int)array_rand($this->clients);
         return $this->clients[$rndIndex];
     }
 
@@ -260,7 +291,11 @@ class FailoverClient implements ClientInterface
     {
         while ($client = $this->getClient()) {
             try {
-                return $client->$name(...$arguments);
+                $result = $client->$name(...$arguments);
+                if(isset($this->retry[$client->getHostname()]))
+                    unset($this->retry[$client->getHostname()]);
+
+                return $result;
             } /** @noinspection PhpRedundantCatchClauseInspection */
             catch (UnavailableException | DeadlineExceededException $e) {
                 $this->failCurrentClient();
