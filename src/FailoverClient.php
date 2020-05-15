@@ -4,6 +4,7 @@ namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
 use Aternos\Etcd\Exception\NoClientAvailableException;
+use Aternos\Etcd\Exception\NoResponseException;
 use Aternos\Etcd\Exception\Status\DeadlineExceededException;
 use Aternos\Etcd\Exception\Status\UnavailableException;
 use Etcdserverpb\Compare;
@@ -69,8 +70,8 @@ class FailoverClient implements ClientInterface
             if (!$client instanceof ClientInterface) {
                 throw new InvalidClientException("Invalid client in the client list");
             }
+            $this->clients[$client->getHostname()] = $client;
         }
-        $this->clients = $clients;
     }
 
     /**
@@ -238,18 +239,16 @@ class FailoverClient implements ClientInterface
         $this->balancing = $balancing;
     }
 
-    protected function failCurrentClient()
+    protected function failClient(ClientInterface $client)
     {
-        $t = array_shift($this->clients);
-        if(isset($this->retry[$t->getHostname()])) {
-            $this->retry[$t->getHostname()]++;
-        }else{
-            $this->retry[$t->getHostname()] = 1;
+        if (isset($this->retry[$client->getHostname()])) {
+            $this->retry[$client->getHostname()]++;
+        } else {
+            $this->retry[$client->getHostname()] = 1;
         }
-        if($this->retry[$t->getHostname()] >= $this->maxRetry) {
-            $this->failedClients[] = ['client' => $t, 'time' => time()];
-        }else{
-            array_unshift($this->clients, $t);
+        if ($this->retry[$client->getHostname()] >= $this->maxRetry) {
+            $this->failedClients[] = ['client' => $client, 'time' => time()];
+            unset($this->clients[$client->getHostname()]);
         }
     }
 
@@ -258,8 +257,21 @@ class FailoverClient implements ClientInterface
      */
     protected function getRandomClient(): ClientInterface
     {
-        $rndIndex = (int)array_rand($this->clients);
+        $rndIndex = (string)array_rand($this->clients);
         return $this->clients[$rndIndex];
+    }
+
+    /**
+     * Returns first ClientInterface or null if no available
+     *
+     * @return ClientInterface|null
+     */
+    protected function getFirstClient(): ?ClientInterface
+    {
+        if (($client = current($this->clients)) !== false)
+            return $client;
+
+        return null;
     }
 
     /**
@@ -268,13 +280,17 @@ class FailoverClient implements ClientInterface
      */
     protected function getClient(): ClientInterface
     {
-        if (count($this->clients) > 0)
-            return ($this->balancing) ? $this->getRandomClient() : $this->clients[0];
+        if ($client = $this->getFirstClient())
+            return ($this->balancing) ? $this->getRandomClient() : $client;
 
-        if ((time() - $this->failedClients[0]['time']) > $this->holdoffTime) {
-            $t = array_shift($this->failedClients);
-            $this->clients[] = $t['client'];
-            return $this->clients[0];
+        foreach ($this->failedClients as $failedClient) {
+            if ((time() - $failedClient['time']) > $this->holdoffTime) {
+                $c = array_shift($this->failedClients);
+                /** @var ClientInterface $client */
+                $client = $c['client'];
+                $this->clients[$client->getHostname()] = $client;
+                return $client;
+            }
         }
 
         throw new NoClientAvailableException('Could not get any working etcd server');
@@ -292,13 +308,13 @@ class FailoverClient implements ClientInterface
         while ($client = $this->getClient()) {
             try {
                 $result = $client->$name(...$arguments);
-                if(isset($this->retry[$client->getHostname()]))
+                if (isset($this->retry[$client->getHostname()]))
                     unset($this->retry[$client->getHostname()]);
 
                 return $result;
             } /** @noinspection PhpRedundantCatchClauseInspection */
             catch (UnavailableException | DeadlineExceededException | NoResponseException $e) {
-                $this->failCurrentClient();
+                $this->failClient($client);
             }
         }
         throw new \Exception('Failed to call: ' . $name);
