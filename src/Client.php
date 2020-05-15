@@ -2,6 +2,7 @@
 
 namespace Aternos\Etcd;
 
+use Aternos\Etcd\Exception\NoResponseException;
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
 use Aternos\Etcd\Exception\Status\ResponseStatusCodeExceptionFactory;
 use Etcdserverpb\AuthClient;
@@ -271,7 +272,7 @@ class Client implements ClientInterface
      * @param int $leaseID
      * @return int lease TTL
      * @throws InvalidResponseStatusCodeException
-     * @throws Exception
+     * @throws NoResponseException
      */
     public function refreshLease(int $leaseID)
     {
@@ -286,7 +287,7 @@ class Client implements ClientInterface
         $response = $leaseBidi->read();
         $leaseBidi->cancel();
         if($response === null || empty($response->getID()) || (int)$response->getID() !== $leaseID)
-            throw new Exception('Could not refresh lease ID: ' . $leaseID);
+            throw new NoResponseException('Could not refresh lease ID: ' . $leaseID);
 
         return (int)$response->getTTL();
     }
