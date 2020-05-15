@@ -303,7 +303,6 @@ class FailoverClient implements ClientInterface
      * @param bool $isLocalCall defines whether called method calls remote etcd endpoint
      * @return mixed
      * @throws NoClientAvailableException when there is no available etcd client
-     * @throws \Exception
      */
     protected function callClientMethod(string $name, bool $isLocalCall, ...$arguments)
     {
@@ -319,6 +318,5 @@ class FailoverClient implements ClientInterface
                 $this->failClient($client);
             }
         }
-        throw new \Exception('Failed to call: ' . $name);
     }
 }
