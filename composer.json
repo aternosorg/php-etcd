@@ -3,7 +3,7 @@
   "description": "PHP gRPC client for etcd v3",
   "type": "library",
   "require": {
-    "google/protobuf": "v3.6.1.3",
+    "google/protobuf": "^v3.12.4",
     "grpc/grpc": "^1.15",
     "ext-grpc": "*",
     "flexihash/flexihash": "^2.0"
