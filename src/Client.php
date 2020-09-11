@@ -553,10 +553,10 @@ class Client implements ClientInterface
 
     /**
      * @param string $key
-     * @param string $compareValue
+     * @param string|bool $compareValue
      * @return Compare
      */
-    protected function getCompareForIf(string $key, string $compareValue): Compare
+    protected function getCompareForIf(string $key, $compareValue): Compare
     {
         if ($compareValue === false) {
             $compare = $this->getCompare($key, '0', CompareResult::EQUAL, CompareTarget::VERSION);
