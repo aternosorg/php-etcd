@@ -569,9 +569,9 @@ class Client implements ClientInterface
     /**
      * @param bool $returnNewValueOnFail
      * @param TxnResponse $response
-     * @return bool
+     * @return bool|string
      */
-    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response): bool
+    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response)
     {
         if ($returnNewValueOnFail && !$response->getSucceeded()) {
             /** @var ResponseOp $responseOp */
