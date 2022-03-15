@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b80bb3366f05477c04454960511eca69",
+    "content-hash": "b79b12f5cd06b245eec991d497d0f389",
     "packages": [
         {
             "name": "flexihash/flexihash",
@@ -57,6 +57,10 @@
             ],
             "description": "Flexihash is a small PHP library which implements consistent hashing",
             "homepage": "https://github.com/pda/flexihash",
+            "support": {
+                "issues": "https://github.com/pda/flexihash/issues",
+                "source": "https://github.com/pda/flexihash/tree/v2.0.2"
+            },
             "time": "2016-04-22T21:03:23+00:00"
         },
         {
@@ -98,6 +102,10 @@
             "keywords": [
                 "proto"
             ],
+            "support": {
+                "issues": "https://github.com/protocolbuffers/protobuf-php/issues",
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.12.4"
+            },
             "time": "2020-07-28T18:31:07+00:00"
         },
         {
@@ -139,6 +147,9 @@
             "keywords": [
                 "rpc"
             ],
+            "support": {
+                "source": "https://github.com/grpc/grpc-php/tree/v1.30.0"
+            },
             "time": "2020-06-23T01:49:02+00:00"
         }
     ],
@@ -149,8 +160,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "php": ">=7.1",
         "ext-grpc": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.2.0"
 }
