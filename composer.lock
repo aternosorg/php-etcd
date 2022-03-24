@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b80bb3366f05477c04454960511eca69",
+    "content-hash": "329d5521eb3d68ebdf2e270293948793",
     "packages": [
         {
             "name": "flexihash/flexihash",
@@ -61,16 +61,16 @@
         },
         {
             "name": "google/protobuf",
-            "version": "v3.12.4",
+            "version": "v3.20.0RC2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "e8316b6aaf62a4dc506b8f88a88e506280c8538d"
+                "reference": "66aacad932d188d0e3d112743085045846b206d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/e8316b6aaf62a4dc506b8f88a88e506280c8538d",
-                "reference": "e8316b6aaf62a4dc506b8f88a88e506280c8538d",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/66aacad932d188d0e3d112743085045846b206d2",
+                "reference": "66aacad932d188d0e3d112743085045846b206d2",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,11 @@
             "keywords": [
                 "proto"
             ],
-            "time": "2020-07-28T18:31:07+00:00"
+            "support": {
+                "issues": "https://github.com/protocolbuffers/protobuf-php/issues",
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.20.0RC2"
+            },
+            "time": "2022-03-16T20:37:43+00:00"
         },
         {
             "name": "grpc/grpc",
@@ -145,12 +149,14 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "google/protobuf": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "ext-grpc": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.2.0"
 }
