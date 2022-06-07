@@ -4,8 +4,8 @@
   "type": "library",
   "require": {
     "php": ">=7.1",
-    "google/protobuf": "^v3.12.4",
-    "grpc/grpc": "^1.15",
+    "google/protobuf": "^v3.21.1",
+    "grpc/grpc": "^1.42.0",
     "ext-grpc": "*",
     "flexihash/flexihash": "^2.0"
   },
