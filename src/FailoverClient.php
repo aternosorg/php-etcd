@@ -10,6 +10,7 @@ use Aternos\Etcd\Exception\Status\UnavailableException;
 use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
 use Etcdserverpb\TxnResponse;
+use Generator;
 
 /**
  * Class FailoverClient
@@ -102,6 +103,17 @@ class FailoverClient implements ClientInterface
     public function get(string $key)
     {
         return $this->callClientMethod(__FUNCTION__, false, $key);
+    }
+
+    /**
+     * @param string $prefix
+     * @param int $limit
+     * @inheritDoc
+     * @throws NoClientAvailableException
+     */
+    public function getWithPrefix(string $prefix, int $limit = 100): Generator
+    {
+        return $this->callClientMethod(__FUNCTION__, false, $prefix, $limit);
     }
 
     /**

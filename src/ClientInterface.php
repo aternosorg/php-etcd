@@ -7,6 +7,8 @@ use Etcdserverpb\Compare;
 use Etcdserverpb\RequestOp;
 use Etcdserverpb\TxnResponse;
 use Exception;
+use Generator;
+use Mvccpb\KeyValue;
 
 /**
  * Interface ClientInterface
@@ -43,6 +45,16 @@ interface ClientInterface
      * @throws InvalidResponseStatusCodeException
      */
     public function get(string $key);
+
+    /**
+     * Get range of values by key prefix
+     *
+     * @param string $prefix
+     * @param int $limit The limit number of keys to be returned in one request (size of page)
+     * @return Generator<KeyValue>
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function getWithPrefix(string $prefix, int $limit = 100): Generator;
 
     /**
      * Delete a key

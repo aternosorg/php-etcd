@@ -29,6 +29,7 @@ use Etcdserverpb\RequestOp;
 use Etcdserverpb\ResponseOp;
 use Etcdserverpb\TxnRequest;
 use Etcdserverpb\TxnResponse;
+use Generator;
 use Grpc\ChannelCredentials;
 use Mvccpb\KeyValue;
 
@@ -129,7 +130,7 @@ class Client implements ClientInterface
         $request->setLease($leaseID);
 
         /** @var PutResponse $response */
-        list($response, $status) = $client->Put($request, $this->getMetaData(), $this->getOptions())->wait();
+        [$response, $status] = $client->Put($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         if ($prevKv) {
@@ -152,7 +153,7 @@ class Client implements ClientInterface
         $request->setKey($key);
 
         /** @var RangeResponse $response */
-        list($response, $status) = $client->Range($request, $this->getMetaData(), $this->getOptions())->wait();
+        [$response, $status] = $client->Range($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         $field = $response->getKvs();
@@ -162,6 +163,45 @@ class Client implements ClientInterface
         }
 
         return $field[0]->getValue();
+    }
+
+    /**
+     * Get range of values by key prefix
+     *
+     * @param string $prefix
+     * @param int $limit
+     * @return Generator<KeyValue>
+     * @throws InvalidResponseStatusCodeException
+     */
+    public function getWithPrefix(string $prefix, int $limit = 100): Generator
+    {
+        $client = $this->getKvClient();
+        $rangeEnd = $prefix."\xff";
+
+        do{
+            $request = (new RangeRequest())
+                ->setKey($prefix)
+                ->setRangeEnd($rangeEnd)
+                ->setLimit($limit);
+
+            /** @var RangeResponse $response */
+            [$response, $status] = $client->Range($request, $this->getMetaData(), $this->getOptions())->wait();
+            $this->validateStatus($status);
+
+            $field = $response->getKvs();
+            if (count($field) === 0) {
+                return;
+            }
+
+            foreach ($field as $kv) {
+                yield $kv;
+            }
+
+            if(!isset($kv)) {
+                return;
+            }
+            $prefix = $kv->getKey()."\x00";
+        }while (true);
     }
 
     /**
@@ -179,7 +219,7 @@ class Client implements ClientInterface
         $request->setKey($key);
 
         /** @var DeleteRangeResponse $response */
-        list($response, $status) = $client->DeleteRange($request, $this->getMetaData(), $this->getOptions())->wait();
+        [$response, $status] = $client->DeleteRange($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         if ($response->getDeleted() > 0) {
@@ -242,7 +282,7 @@ class Client implements ClientInterface
         $leaseRequest->setTTL($ttl);
 
         /** @var LeaseGrantResponse $response */
-        list($response, $status) = $lease->LeaseGrant($leaseRequest, $this->getMetaData())->wait();
+        [$response, $status] = $lease->LeaseGrant($leaseRequest, $this->getMetaData())->wait();
         $this->validateStatus($status);
 
         return (int)$response->getID();
@@ -260,7 +300,7 @@ class Client implements ClientInterface
         $leaseRequest = new LeaseRevokeRequest();
         $leaseRequest->setID($leaseID);
 
-        list(, $status) = $lease->LeaseRevoke($leaseRequest, $this->getMetaData())->wait();
+        [, $status] = $lease->LeaseRevoke($leaseRequest, $this->getMetaData())->wait();
         $this->validateStatus($status);
     }
 
@@ -312,7 +352,7 @@ class Client implements ClientInterface
             $request->setFailure($failureOperations);
 
         /** @var TxnResponse $response */
-        list($response, $status) = $client->Txn($request, $this->getMetaData(), $this->getOptions())->wait();
+        [$response, $status] = $client->Txn($request, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         return $response;
@@ -504,7 +544,7 @@ class Client implements ClientInterface
             $request->setPassword($this->password);
 
             /** @var AuthenticateResponse $response */
-            list($response, $status) = $client->Authenticate($request, [], $this->getOptions())->wait();
+            [$response, $status] = $client->Authenticate($request, [], $this->getOptions())->wait();
             $this->validateStatus($status);
 
             $this->token = $response->getToken();
