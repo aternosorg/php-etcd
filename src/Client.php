@@ -39,15 +39,6 @@ use Aternos\Etcd\Proto\Mvccpb\KeyValue;
  */
 class Client implements ClientInterface
 {
-    protected string $hostname;
-    protected ?string $username;
-    protected ?string $password;
-
-    /**
-     * @var int in microseconds
-     */
-    protected int $timeout;
-
     protected ?string $token = null;
     protected ?KVClient $kvClient = null;
     protected ?AuthClient $authClient = null;
@@ -61,12 +52,13 @@ class Client implements ClientInterface
      * @param string|null $password
      * @param int $timeout in microseconds, default 1 second
      */
-    public function __construct(string $hostname = "localhost:2379", ?string $username = null, ?string $password = null, int $timeout = 1000000)
+    public function __construct(
+        protected string  $hostname = "localhost:2379",
+        protected ?string $username = null,
+        protected ?string $password = null,
+        protected int     $timeout = 1000000
+    )
     {
-        $this->hostname = $hostname;
-        $this->username = $username;
-        $this->password = $password;
-        $this->timeout = $timeout;
     }
 
     /**
@@ -500,7 +492,7 @@ class Client implements ClientInterface
      */
     protected function getMetaData(array $metadata = []): array
     {
-        if ($this->username && $this->password) {
+        if (($this->username ?? "") !== "" && ($this->password ?? "") !== "") {
             $metadata = array_merge(["token" => [$this->getAuthenticationToken()]], $metadata);
         }
 
