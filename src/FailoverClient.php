@@ -32,34 +32,31 @@ class FailoverClient implements ClientInterface
      *
      * @var int
      */
-    protected $holdoffTime = 120;
+    protected int $holdoffTime = 120;
 
     /**
      * How many times to retry client request
      *
      * @var int
      */
-    protected $maxRetry = 3;
+    protected int $maxRetry = 3;
 
     /**
-     * @var array
+     * @var int[] retry count by hostname
      */
-    protected $retry = [];
+    protected array $retry = [];
 
     /**
      * @var ClientInterface[]
      */
-    protected $clients = [];
+    protected array $clients = [];
 
     /**
-     * @var array
+     * @var array{client: ClientInterface, time: int}[]
      */
-    protected $failedClients = [];
+    protected array $failedClients = [];
 
-    /**
-     * @var bool
-     */
-    protected $balancing = true;
+    protected bool $balancing = true;
 
     /**
      * FailoverClient constructor.
@@ -90,7 +87,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string
     {
         return $this->callClientMethod(__FUNCTION__, false, $key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
     }
@@ -99,7 +96,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function get(string $key)
+    public function get(string $key): ?string
     {
         return $this->callClientMethod(__FUNCTION__, false, $key);
     }
@@ -108,7 +105,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function delete(string $key)
+    public function delete(string $key): bool
     {
         return $this->callClientMethod(__FUNCTION__, false, $key);
     }
@@ -117,7 +114,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         return $this->callClientMethod(__FUNCTION__, false, $key, $value, $compareValue, $returnNewValueOnFail);
     }
@@ -126,7 +123,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         return $this->callClientMethod(__FUNCTION__, false, $key, $compareValue, $returnNewValueOnFail);
     }
@@ -180,7 +177,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function getLeaseID(int $ttl)
+    public function getLeaseID(int $ttl): int
     {
         return $this->callClientMethod(__FUNCTION__, false, $ttl);
     }
@@ -189,7 +186,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function revokeLeaseID(int $leaseID)
+    public function revokeLeaseID(int $leaseID): void
     {
         $this->callClientMethod(__FUNCTION__, false, $leaseID);
     }
@@ -198,7 +195,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function refreshLease(int $leaseID)
+    public function refreshLease(int $leaseID): int
     {
         return $this->callClientMethod(__FUNCTION__, false, $leaseID);
     }
@@ -217,7 +214,7 @@ class FailoverClient implements ClientInterface
      *
      * @param int $holdoffTime
      */
-    public function setHoldoffTime(int $holdoffTime)
+    public function setHoldoffTime(int $holdoffTime): void
     {
         $this->holdoffTime = $holdoffTime;
     }
@@ -227,7 +224,7 @@ class FailoverClient implements ClientInterface
      *
      * @param int $maxRetry
      */
-    public function setMaxRetry(int $maxRetry)
+    public function setMaxRetry(int $maxRetry): void
     {
         $this->maxRetry = $maxRetry;
     }
@@ -237,12 +234,15 @@ class FailoverClient implements ClientInterface
      *
      * @param bool $balancing
      */
-    public function setBalancing(bool $balancing)
+    public function setBalancing(bool $balancing): void
     {
         $this->balancing = $balancing;
     }
 
-    protected function failClient(ClientInterface $client)
+    /**
+     * @param ClientInterface $client
+     */
+    protected function failClient(ClientInterface $client): void
     {
         if (isset($this->retry[$client->getHostname()])) {
             $this->retry[$client->getHostname()]++;
@@ -306,7 +306,7 @@ class FailoverClient implements ClientInterface
      * @return mixed
      * @throws NoClientAvailableException when there is no available etcd client
      */
-    protected function callClientMethod(string $name, bool $isLocalCall, ...$arguments)
+    protected function callClientMethod(string $name, bool $isLocalCall, mixed ...$arguments): mixed
     {
         while ($client = $this->getClient()) {
             try {

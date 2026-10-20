@@ -39,53 +39,29 @@ use Mvccpb\KeyValue;
  */
 class Client implements ClientInterface
 {
-    /**
-     * @var string
-     */
-    protected $hostname;
-    /**
-     * @var bool
-     */
-    protected $username;
-    /**
-     * @var bool
-     */
-    protected $password;
+    protected string $hostname;
+    protected ?string $username;
+    protected ?string $password;
 
     /**
-     * @var int
+     * @var int in microseconds
      */
-    protected $timeout;
+    protected int $timeout;
 
-    /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var KVClient
-     */
-    protected $kvClient;
-
-    /**
-     * @var AuthClient
-     */
-    protected $authClient;
-
-    /**
-     * @var LeaseClient
-     */
-    protected $leaseClient;
+    protected ?string $token = null;
+    protected ?KVClient $kvClient = null;
+    protected ?AuthClient $authClient = null;
+    protected ?LeaseClient $leaseClient = null;
 
     /**
      * Client constructor.
      *
      * @param string $hostname
-     * @param bool $username
-     * @param bool $password
+     * @param string|null $username
+     * @param string|null $password
      * @param int $timeout in microseconds, default 1 second
      */
-    public function __construct($hostname = "localhost:2379", $username = false, $password = false, $timeout = 1000000)
+    public function __construct(string $hostname = "localhost:2379", ?string $username = null, ?string $password = null, int $timeout = 1000000)
     {
         $this->hostname = $hostname;
         $this->username = $username;
@@ -115,7 +91,7 @@ class Client implements ClientInterface
      * @return string|null Returns previous value if $prevKv is set to true
      * @throws InvalidResponseStatusCodeException
      */
-    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string
     {
         $client = $this->getKvClient();
 
@@ -133,18 +109,20 @@ class Client implements ClientInterface
         $this->validateStatus($status);
 
         if ($prevKv) {
-            return $response->getPrevKv()->getValue();
+            return $response->getPrevKv()?->getValue();
         }
+
+        return null;
     }
 
     /**
      * Get a key value
      *
      * @param string $key
-     * @return bool|string
+     * @return string|null null if the key does not exist
      * @throws InvalidResponseStatusCodeException
      */
-    public function get(string $key)
+    public function get(string $key): ?string
     {
         $client = $this->getKvClient();
 
@@ -158,7 +136,7 @@ class Client implements ClientInterface
         $field = $response->getKvs();
 
         if (count($field) === 0) {
-            return false;
+            return null;
         }
 
         return $field[0]->getValue();
@@ -171,7 +149,7 @@ class Client implements ClientInterface
      * @return bool
      * @throws InvalidResponseStatusCodeException
      */
-    public function delete(string $key)
+    public function delete(string $key): bool
     {
         $client = $this->getKvClient();
 
@@ -194,12 +172,12 @@ class Client implements ClientInterface
      *
      * @param string $key
      * @param string $value The new value to set
-     * @param bool|string $compareValue The previous value to compare against
+     * @param string|false $compareValue The previous value to compare against, false if the key must not exist
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return bool|string|null true on success; with $returnNewValueOnFail the current value on failure (null if the key does not exist), otherwise false
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         $operation = $this->getPutOperation($key, $value);
         $compare = $this->getCompareForIf($key, $compareValue);
@@ -213,12 +191,12 @@ class Client implements ClientInterface
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param bool|string $compareValue The previous value to compare against
+     * @param string|false $compareValue The previous value to compare against, false if the key must not exist
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return bool|string|null true on success; with $returnNewValueOnFail the current value on failure (null if the key does not exist), otherwise false
      * @throws InvalidResponseStatusCodeException
      */
-    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         $operation = $this->getDeleteOperation($key);
         $compare = $this->getCompareForIf($key, $compareValue);
@@ -235,7 +213,7 @@ class Client implements ClientInterface
      * @return int
      * @throws InvalidResponseStatusCodeException
      */
-    public function getLeaseID(int $ttl)
+    public function getLeaseID(int $ttl): int
     {
         $lease = $this->getLeaseClient();
         $leaseRequest = new LeaseGrantRequest();
@@ -254,7 +232,7 @@ class Client implements ClientInterface
      * @param int $leaseID
      * @throws InvalidResponseStatusCodeException
      */
-    public function revokeLeaseID(int $leaseID)
+    public function revokeLeaseID(int $leaseID): void
     {
         $lease = $this->getLeaseClient();
         $leaseRequest = new LeaseRevokeRequest();
@@ -271,7 +249,7 @@ class Client implements ClientInterface
      * @return int lease TTL
      * @throws InvalidResponseStatusCodeException|NoResponseException|InvalidLeaseException
      */
-    public function refreshLease(int $leaseID)
+    public function refreshLease(int $leaseID): int
     {
         $lease = $this->getLeaseClient();
         $leaseBidi = $lease->LeaseKeepAlive($this->getMetaData());
@@ -520,7 +498,7 @@ class Client implements ClientInterface
      * @return array
      * @throws InvalidResponseStatusCodeException
      */
-    protected function getMetaData($metadata = []): array
+    protected function getMetaData(array $metadata = []): array
     {
         if ($this->username && $this->password) {
             $metadata = array_merge(["token" => [$this->getAuthenticationToken()]], $metadata);
@@ -535,16 +513,16 @@ class Client implements ClientInterface
      * @param array $options
      * @return array
      */
-    protected function getOptions($options = []): array
+    protected function getOptions(array $options = []): array
     {
         return array_merge(["timeout" => $this->timeout], $options);
     }
 
     /**
-     * @param $status
+     * @param object $status
      * @throws InvalidResponseStatusCodeException
      */
-    protected function validateStatus($status)
+    protected function validateStatus(object $status): void
     {
         if ($status->code !== 0) {
             throw ResponseStatusCodeExceptionFactory::getExceptionByCode($status->code, $status->details);
@@ -553,10 +531,10 @@ class Client implements ClientInterface
 
     /**
      * @param string $key
-     * @param string|bool $compareValue
+     * @param string|false $compareValue
      * @return Compare
      */
-    protected function getCompareForIf(string $key, $compareValue): Compare
+    protected function getCompareForIf(string $key, string|false $compareValue): Compare
     {
         if ($compareValue === false) {
             $compare = $this->getCompare($key, '0', CompareResult::EQUAL, CompareTarget::VERSION);
@@ -569,9 +547,9 @@ class Client implements ClientInterface
     /**
      * @param bool $returnNewValueOnFail
      * @param TxnResponse $response
-     * @return bool|string
+     * @return bool|string|null
      */
-    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response)
+    protected function getIfResponse(bool $returnNewValueOnFail, TxnResponse $response): bool|string|null
     {
         if ($returnNewValueOnFail && !$response->getSucceeded()) {
             /** @var ResponseOp $responseOp */
@@ -582,7 +560,7 @@ class Client implements ClientInterface
             $field = $getResponse->getKvs();
 
             if (count($field) === 0) {
-                return false;
+                return null;
             }
 
             return $field[0]->getValue();
@@ -594,9 +572,9 @@ class Client implements ClientInterface
     /**
      * @param string $key
      * @param bool $returnNewValueOnFail
-     * @return array|null
+     * @return RequestOp[]|null
      */
-    protected function getFailOperation(string $key, bool $returnNewValueOnFail)
+    protected function getFailOperation(string $key, bool $returnNewValueOnFail): ?array
     {
         $failOperation = null;
         if ($returnNewValueOnFail)

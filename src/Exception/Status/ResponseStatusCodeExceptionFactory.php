@@ -15,11 +15,11 @@ class ResponseStatusCodeExceptionFactory
      *
      * This is based on https://github.com/grpc/grpc-go/blob/master/codes/codes.go
      *
-     * @param $code
-     * @param bool $message
+     * @param int $code
+     * @param string $message
      * @return InvalidResponseStatusCodeException
      */
-    public static function getExceptionByCode($code, $message = false)
+    public static function getExceptionByCode(int $code, string $message = ""): InvalidResponseStatusCodeException
     {
         switch ($code) {
             case 1:
