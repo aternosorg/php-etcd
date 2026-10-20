@@ -244,11 +244,7 @@ class FailoverClient implements ClientInterface
      */
     protected function failClient(ClientInterface $client): void
     {
-        if (isset($this->retry[$client->getHostname()])) {
-            $this->retry[$client->getHostname()]++;
-        } else {
-            $this->retry[$client->getHostname()] = 1;
-        }
+        $this->retry[$client->getHostname()] = ($this->retry[$client->getHostname()] ?? 0) + 1;
         if ($this->retry[$client->getHostname()] >= $this->maxRetry) {
             $this->failedClients[] = ['client' => $client, 'time' => time()];
             unset($this->clients[$client->getHostname()]);
@@ -271,10 +267,7 @@ class FailoverClient implements ClientInterface
      */
     protected function getFirstClient(): ?ClientInterface
     {
-        if (($client = current($this->clients)) !== false)
-            return $client;
-
-        return null;
+        return current($this->clients) ?: null;
     }
 
     /**
@@ -308,15 +301,15 @@ class FailoverClient implements ClientInterface
      */
     protected function callClientMethod(string $name, bool $isLocalCall, mixed ...$arguments): mixed
     {
-        while ($client = $this->getClient()) {
+        while (true) {
+            $client = $this->getClient();
             try {
                 $result = $client->$name(...$arguments);
-                if (isset($this->retry[$client->getHostname()]) && !$isLocalCall)
+                if (!$isLocalCall) {
                     unset($this->retry[$client->getHostname()]);
-
+                }
                 return $result;
-            } /** @noinspection PhpRedundantCatchClauseInspection */
-            catch (UnavailableException | DeadlineExceededException | NoResponseException $e) {
+            } catch (UnavailableException | DeadlineExceededException | NoResponseException) {
                 $this->failClient($client);
             }
         }

@@ -97,9 +97,9 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function put(string $key, string $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string
     {
-        return $this->getClientFromKey($key)->put($key, $value, $prevKv, $lease, $ignoreLease, $ignoreValue);
+        return $this->getClientFromKey($key)->put($key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
     }
 
     /**
@@ -140,7 +140,6 @@ class ShardedClient implements ClientInterface
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {

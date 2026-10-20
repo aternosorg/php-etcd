@@ -73,7 +73,7 @@ interface ClientInterface
      * @param bool $returnNewValueOnFail
      * @return bool|string|null true on success; with $returnNewValueOnFail the current value on failure (null if the key does not exist), otherwise false
      * @throws InvalidResponseStatusCodeException
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteIf(string $key, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null;
 

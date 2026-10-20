@@ -2,6 +2,7 @@
 
 namespace Aternos\Etcd\Exception\Status;
 
+use Exception;
 use Throwable;
 
 /**
@@ -9,7 +10,7 @@ use Throwable;
  *
  * @author Matthias Neid
  */
-class InvalidResponseStatusCodeException extends \Exception
+class InvalidResponseStatusCodeException extends Exception
 {
     /**
      * InvalidResponseStatusCodeException constructor.
