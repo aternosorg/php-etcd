@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d116b664a11c37e778574f68fe40d52d",
+    "content-hash": "8ea17833ed2a3fe58cbb649db42b81b9",
     "packages": [
         {
             "name": "flexihash/flexihash",
@@ -159,7 +159,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-grpc": "*"
     },
     "platform-dev": {},
