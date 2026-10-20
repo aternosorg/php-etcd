@@ -492,7 +492,7 @@ class Client implements ClientInterface
      */
     protected function getMetaData(array $metadata = []): array
     {
-        if (($this->username ?? "") !== "" && ($this->password ?? "") !== "") {
+        if ($this->username && $this->password) {
             $metadata = array_merge(["token" => [$this->getAuthenticationToken()]], $metadata);
         }
 
