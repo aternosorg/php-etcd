@@ -3,11 +3,11 @@
   "description": "PHP gRPC client for etcd v3",
   "type": "library",
   "require": {
-    "php": ">=7.1",
-    "google/protobuf": "^v3.21.1",
-    "grpc/grpc": "^1.42.0",
+    "php": "^8.5",
+    "google/protobuf": "^5.36",
+    "grpc/grpc": "^1.82",
     "ext-grpc": "*",
-    "flexihash/flexihash": "^2.0"
+    "flexihash/flexihash": "^3.0"
   },
   "license": "MIT",
   "authors": [
@@ -18,8 +18,21 @@
   ],
   "autoload": {
     "psr-4": {
-      "": "grpc/",
+      "Aternos\\Etcd\\Proto\\": "grpc/",
       "Aternos\\Etcd\\": "src/"
     }
+  },
+  "scripts": {
+    "generate-grpc": [
+      "rm -rf .grpc-tmp",
+      "mkdir .grpc-tmp",
+      "protoc --proto_path=proto --php_out=.grpc-tmp --grpc_out=.grpc-tmp --plugin=protoc-gen-grpc=\"$(command -v grpc_php_plugin)\" proto/*.proto",
+      "rm -rf grpc",
+      "mv .grpc-tmp/Aternos/Etcd/Proto grpc",
+      "rm -rf .grpc-tmp"
+    ]
+  },
+  "scripts-descriptions": {
+    "generate-grpc": "Regenerate the PHP classes in grpc/ from the .proto files in proto/ (requires protoc and grpc_php_plugin)"
   }
 }

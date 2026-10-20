@@ -1,6 +1,10 @@
 // source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/mvcc/mvccpb/kv.proto
+// modified: removed gogoproto import and options, added php namespace options
 syntax = "proto3";
 package mvccpb;
+
+option php_namespace = "Aternos\\Etcd\\Proto\\Mvccpb";
+option php_metadata_namespace = "Aternos\\Etcd\\Proto\\GPBMetadata";
 
 message KeyValue {
   // key is the key in bytes. An empty key is not allowed.

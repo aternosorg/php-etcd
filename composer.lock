@@ -4,34 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b79b12f5cd06b245eec991d497d0f389",
+    "content-hash": "8ea17833ed2a3fe58cbb649db42b81b9",
     "packages": [
         {
             "name": "flexihash/flexihash",
-            "version": "v2.0.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pda/flexihash.git",
-                "reference": "497ba5782606d998f8ab0b4e5942e3a799bec018"
+                "reference": "a8f9a3bf8fa9d5577369e472ba06cf538995236d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pda/flexihash/zipball/497ba5782606d998f8ab0b4e5942e3a799bec018",
-                "reference": "497ba5782606d998f8ab0b4e5942e3a799bec018",
+                "url": "https://api.github.com/repos/pda/flexihash/zipball/a8f9a3bf8fa9d5577369e472ba06cf538995236d",
+                "reference": "a8f9a3bf8fa9d5577369e472ba06cf538995236d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "satooshi/php-coveralls": "~1.0",
-                "squizlabs/php_codesniffer": "^2.3",
-                "symfony/config": "^2.0.0",
-                "symfony/console": "^2.0.0",
-                "symfony/filesystem": "^2.0.0",
-                "symfony/stopwatch": "^2.0.0",
-                "symfony/yaml": "^2.0.0"
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "3.*",
+                "symfony/config": "^5.1.3",
+                "symfony/console": "^5.1.3",
+                "symfony/filesystem": "^5.1.3",
+                "symfony/stopwatch": "^5.1.3",
+                "symfony/yaml": "^5.1.3"
             },
             "type": "library",
             "autoload": {
@@ -59,29 +59,29 @@
             "homepage": "https://github.com/pda/flexihash",
             "support": {
                 "issues": "https://github.com/pda/flexihash/issues",
-                "source": "https://github.com/pda/flexihash/tree/v2.0.2"
+                "source": "https://github.com/pda/flexihash/tree/v3.0.0"
             },
-            "time": "2016-04-22T21:03:23+00:00"
+            "time": "2020-08-07T00:58:50+00:00"
         },
         {
             "name": "google/protobuf",
-            "version": "v3.21.1",
+            "version": "v5.36.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "68f71264d8816f001177d68ce99d25b28e212d4c"
+                "reference": "020bc8e831611869ac387ddd38fbbadd78d15195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/68f71264d8816f001177d68ce99d25b28e212d4c",
-                "reference": "68f71264d8816f001177d68ce99d25b28e212d4c",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/020bc8e831611869ac387ddd38fbbadd78d15195",
+                "reference": "020bc8e831611869ac387ddd38fbbadd78d15195",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0"
+                "php": ">=8.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=5.0.0"
+                "phpunit/phpunit": ">=11.5.50 <12.0.0"
             },
             "suggest": {
                 "ext-bcmath": "Need to support JSON deserialization"
@@ -103,27 +103,26 @@
                 "proto"
             ],
             "support": {
-                "issues": "https://github.com/protocolbuffers/protobuf-php/issues",
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.21.1"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.2"
             },
-            "time": "2022-05-27T22:57:31+00:00"
+            "time": "2026-09-17T15:56:42+00:00"
         },
         {
             "name": "grpc/grpc",
-            "version": "1.42.0",
+            "version": "1.82.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grpc/grpc-php.git",
-                "reference": "9fa44f104cb92e924d4da547323a97f3d8aca6d4"
+                "reference": "be984cb608f21e96453b3cfe54c748cc7b192250"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grpc/grpc-php/zipball/9fa44f104cb92e924d4da547323a97f3d8aca6d4",
-                "reference": "9fa44f104cb92e924d4da547323a97f3d8aca6d4",
+                "url": "https://api.github.com/repos/grpc/grpc-php/zipball/be984cb608f21e96453b3cfe54c748cc7b192250",
+                "reference": "be984cb608f21e96453b3cfe54c748cc7b192250",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
                 "google/auth": "^v1.3.0"
@@ -148,21 +147,21 @@
                 "rpc"
             ],
             "support": {
-                "source": "https://github.com/grpc/grpc-php/tree/v1.42.0"
+                "source": "https://github.com/grpc/grpc-php/tree/v1.82.0"
             },
-            "time": "2021-11-19T08:13:51+00:00"
+            "time": "2026-07-03T09:39:53+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1",
+        "php": "^8.5",
         "ext-grpc": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

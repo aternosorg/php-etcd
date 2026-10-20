@@ -1,7 +1,10 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
-namespace Etcdserverpb;
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests, added php namespace options
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 /**
  */
@@ -18,225 +21,241 @@ class AuthClient extends \Grpc\BaseStub {
 
     /**
      * AuthEnable enables authentication.
-     * @param \Etcdserverpb\AuthEnableRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthEnableRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthEnableResponse>
      */
-    public function AuthEnable(\Etcdserverpb\AuthEnableRequest $argument,
+    public function AuthEnable(\Aternos\Etcd\Proto\Etcdserverpb\AuthEnableRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/AuthEnable',
         $argument,
-        ['\Etcdserverpb\AuthEnableResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthEnableResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * AuthDisable disables authentication.
-     * @param \Etcdserverpb\AuthDisableRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthDisableRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthDisableResponse>
      */
-    public function AuthDisable(\Etcdserverpb\AuthDisableRequest $argument,
+    public function AuthDisable(\Aternos\Etcd\Proto\Etcdserverpb\AuthDisableRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/AuthDisable',
         $argument,
-        ['\Etcdserverpb\AuthDisableResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthDisableResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * Authenticate processes an authenticate request.
-     * @param \Etcdserverpb\AuthenticateRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthenticateRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthenticateResponse>
      */
-    public function Authenticate(\Etcdserverpb\AuthenticateRequest $argument,
+    public function Authenticate(\Aternos\Etcd\Proto\Etcdserverpb\AuthenticateRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/Authenticate',
         $argument,
-        ['\Etcdserverpb\AuthenticateResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthenticateResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserAdd adds a new user.
-     * @param \Etcdserverpb\AuthUserAddRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserAddResponse>
      */
-    public function UserAdd(\Etcdserverpb\AuthUserAddRequest $argument,
+    public function UserAdd(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserAddRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserAdd',
         $argument,
-        ['\Etcdserverpb\AuthUserAddResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserAddResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserGet gets detailed user information.
-     * @param \Etcdserverpb\AuthUserGetRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserGetRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGetResponse>
      */
-    public function UserGet(\Etcdserverpb\AuthUserGetRequest $argument,
+    public function UserGet(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGetRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserGet',
         $argument,
-        ['\Etcdserverpb\AuthUserGetResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGetResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserList gets a list of all users.
-     * @param \Etcdserverpb\AuthUserListRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserListResponse>
      */
-    public function UserList(\Etcdserverpb\AuthUserListRequest $argument,
+    public function UserList(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserListRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserList',
         $argument,
-        ['\Etcdserverpb\AuthUserListResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserListResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserDelete deletes a specified user.
-     * @param \Etcdserverpb\AuthUserDeleteRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserDeleteRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserDeleteResponse>
      */
-    public function UserDelete(\Etcdserverpb\AuthUserDeleteRequest $argument,
+    public function UserDelete(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserDeleteRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserDelete',
         $argument,
-        ['\Etcdserverpb\AuthUserDeleteResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserDeleteResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserChangePassword changes the password of a specified user.
-     * @param \Etcdserverpb\AuthUserChangePasswordRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserChangePasswordRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserChangePasswordResponse>
      */
-    public function UserChangePassword(\Etcdserverpb\AuthUserChangePasswordRequest $argument,
+    public function UserChangePassword(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserChangePasswordRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserChangePassword',
         $argument,
-        ['\Etcdserverpb\AuthUserChangePasswordResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserChangePasswordResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserGrant grants a role to a specified user.
-     * @param \Etcdserverpb\AuthUserGrantRoleRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserGrantRoleRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGrantRoleResponse>
      */
-    public function UserGrantRole(\Etcdserverpb\AuthUserGrantRoleRequest $argument,
+    public function UserGrantRole(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGrantRoleRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserGrantRole',
         $argument,
-        ['\Etcdserverpb\AuthUserGrantRoleResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserGrantRoleResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * UserRevokeRole revokes a role of specified user.
-     * @param \Etcdserverpb\AuthUserRevokeRoleRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthUserRevokeRoleRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthUserRevokeRoleResponse>
      */
-    public function UserRevokeRole(\Etcdserverpb\AuthUserRevokeRoleRequest $argument,
+    public function UserRevokeRole(\Aternos\Etcd\Proto\Etcdserverpb\AuthUserRevokeRoleRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/UserRevokeRole',
         $argument,
-        ['\Etcdserverpb\AuthUserRevokeRoleResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthUserRevokeRoleResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleAdd adds a new role.
-     * @param \Etcdserverpb\AuthRoleAddRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleAddResponse>
      */
-    public function RoleAdd(\Etcdserverpb\AuthRoleAddRequest $argument,
+    public function RoleAdd(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleAddRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleAdd',
         $argument,
-        ['\Etcdserverpb\AuthRoleAddResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleAddResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleGet gets detailed role information.
-     * @param \Etcdserverpb\AuthRoleGetRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGetRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGetResponse>
      */
-    public function RoleGet(\Etcdserverpb\AuthRoleGetRequest $argument,
+    public function RoleGet(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGetRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleGet',
         $argument,
-        ['\Etcdserverpb\AuthRoleGetResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGetResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleList gets lists of all roles.
-     * @param \Etcdserverpb\AuthRoleListRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleListResponse>
      */
-    public function RoleList(\Etcdserverpb\AuthRoleListRequest $argument,
+    public function RoleList(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleListRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleList',
         $argument,
-        ['\Etcdserverpb\AuthRoleListResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleListResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleDelete deletes a specified role.
-     * @param \Etcdserverpb\AuthRoleDeleteRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleDeleteRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleDeleteResponse>
      */
-    public function RoleDelete(\Etcdserverpb\AuthRoleDeleteRequest $argument,
+    public function RoleDelete(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleDeleteRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleDelete',
         $argument,
-        ['\Etcdserverpb\AuthRoleDeleteResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleDeleteResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleGrantPermission grants a permission of a specified key or range to a specified role.
-     * @param \Etcdserverpb\AuthRoleGrantPermissionRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGrantPermissionRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGrantPermissionResponse>
      */
-    public function RoleGrantPermission(\Etcdserverpb\AuthRoleGrantPermissionRequest $argument,
+    public function RoleGrantPermission(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGrantPermissionRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleGrantPermission',
         $argument,
-        ['\Etcdserverpb\AuthRoleGrantPermissionResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleGrantPermissionResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * RoleRevokePermission revokes a key or range permission of a specified role.
-     * @param \Etcdserverpb\AuthRoleRevokePermissionRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AuthRoleRevokePermissionRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleRevokePermissionResponse>
      */
-    public function RoleRevokePermission(\Etcdserverpb\AuthRoleRevokePermissionRequest $argument,
+    public function RoleRevokePermission(\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleRevokePermissionRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Auth/RoleRevokePermission',
         $argument,
-        ['\Etcdserverpb\AuthRoleRevokePermissionResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AuthRoleRevokePermissionResponse', 'decode'],
         $metadata, $options);
     }
 

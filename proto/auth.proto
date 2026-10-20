@@ -1,6 +1,10 @@
 // source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/auth/authpb/auth.proto
+// modified: removed gogoproto import and options, added php namespace options
 syntax = "proto3";
 package authpb;
+
+option php_namespace = "Aternos\\Etcd\\Proto\\Authpb";
+option php_metadata_namespace = "Aternos\\Etcd\\Proto\\GPBMetadata";
 
 // User is a single entry in the bucket authUsers
 message User {

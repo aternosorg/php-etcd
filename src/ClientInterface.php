@@ -3,9 +3,9 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
-use Etcdserverpb\Compare;
-use Etcdserverpb\RequestOp;
-use Etcdserverpb\TxnResponse;
+use Aternos\Etcd\Proto\Etcdserverpb\Compare;
+use Aternos\Etcd\Proto\Etcdserverpb\RequestOp;
+use Aternos\Etcd\Proto\Etcdserverpb\TxnResponse;
 use Exception;
 
 /**
@@ -25,7 +25,7 @@ interface ClientInterface
      * Put a value into the key store
      *
      * @param string $key
-     * @param mixed $value
+     * @param string $value
      * @param bool $prevKv Get the previous key value in the response
      * @param int $leaseID
      * @param bool $ignoreLease Ignore the current lease
@@ -33,16 +33,16 @@ interface ClientInterface
      * @return string|null Returns previous value if $prevKv is set to true
      * @throws InvalidResponseStatusCodeException
      */
-    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false);
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string;
 
     /**
      * Get a key value
      *
      * @param string $key
-     * @return bool|string
+     * @return string|null null if the key does not exist
      * @throws InvalidResponseStatusCodeException
      */
-    public function get(string $key);
+    public function get(string $key): ?string;
 
     /**
      * Delete a key
@@ -51,31 +51,31 @@ interface ClientInterface
      * @return bool
      * @throws InvalidResponseStatusCodeException
      */
-    public function delete(string $key);
+    public function delete(string $key): bool;
 
     /**
      * Put $value if $key value matches $previousValue otherwise $returnNewValueOnFail
      *
      * @param string $key
      * @param string $value The new value to set
-     * @param bool|string $compareValue The previous value to compare against
+     * @param string|false $compareValue The previous value to compare against, false if the key must not exist
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return bool|string|null true on success; with $returnNewValueOnFail the current value on failure (null if the key does not exist), otherwise false
      * @throws InvalidResponseStatusCodeException
      */
-    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false);
+    public function putIf(string $key, string $value, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null;
 
     /**
      * Delete if $key value matches $previous value otherwise $returnNewValueOnFail
      *
      * @param string $key
-     * @param bool|string $compareValue The previous value to compare against
+     * @param string|false $compareValue The previous value to compare against, false if the key must not exist
      * @param bool $returnNewValueOnFail
-     * @return bool|string
+     * @return bool|string|null true on success; with $returnNewValueOnFail the current value on failure (null if the key does not exist), otherwise false
      * @throws InvalidResponseStatusCodeException
-     * @throws \Exception
+     * @throws Exception
      */
-    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false);
+    public function deleteIf(string $key, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null;
 
     /**
      * Execute $requestOperations if Compare succeeds, execute $failureOperations otherwise if defined
@@ -132,7 +132,7 @@ interface ClientInterface
      * @return int
      * @throws InvalidResponseStatusCodeException
      */
-    public function getLeaseID(int $ttl);
+    public function getLeaseID(int $ttl): int;
 
     /**
      * Revoke existing leaseID
@@ -140,7 +140,7 @@ interface ClientInterface
      * @param int $leaseID
      * @throws InvalidResponseStatusCodeException
      */
-    public function revokeLeaseID(int $leaseID);
+    public function revokeLeaseID(int $leaseID): void;
 
     /**
      * Refresh chosen leaseID
@@ -150,7 +150,7 @@ interface ClientInterface
      * @throws InvalidResponseStatusCodeException
      * @throws Exception
      */
-    public function refreshLease(int $leaseID);
+    public function refreshLease(int $leaseID): int;
 
     /**
      * Transform TxnResponse into more friendly array

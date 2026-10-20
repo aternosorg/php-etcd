@@ -3,9 +3,9 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\InvalidClientException;
-use Etcdserverpb\Compare;
-use Etcdserverpb\RequestOp;
-use Etcdserverpb\TxnResponse;
+use Aternos\Etcd\Proto\Etcdserverpb\Compare;
+use Aternos\Etcd\Proto\Etcdserverpb\RequestOp;
+use Aternos\Etcd\Proto\Etcdserverpb\TxnResponse;
 use Flexihash\Exception;
 use Flexihash\Flexihash;
 
@@ -19,17 +19,14 @@ class ShardedClient implements ClientInterface
     /**
      * @var ClientInterface[]
      */
-    protected $clients = [];
+    protected array $clients = [];
 
     /**
      * @var ClientInterface[]
      */
-    protected $keyCache = [];
+    protected array $keyCache = [];
 
-    /**
-     * @var Flexihash
-     */
-    protected $hash = null;
+    protected ?Flexihash $hash = null;
 
     /**
      * ShardedClient constructor.
@@ -100,16 +97,16 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false): ?string
     {
-        return $this->getClientFromKey($key)->put($key, $value, $prevKv, $lease, $ignoreLease, $ignoreValue);
+        return $this->getClientFromKey($key)->put($key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
     }
 
     /**
      * @inheritDoc
      * @throws Exception
      */
-    public function get(string $key)
+    public function get(string $key): ?string
     {
         return $this->getClientFromKey($key)->get($key);
     }
@@ -118,7 +115,7 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function delete(string $key)
+    public function delete(string $key): bool
     {
         return $this->getClientFromKey($key)->delete($key);
     }
@@ -127,7 +124,7 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function putIf(string $key, string $value, $compareValue, bool $returnNewValueOnFail = false)
+    public function putIf(string $key, string $value, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         return $this->getClientFromKey($key)->putIf($key, $value, $compareValue, $returnNewValueOnFail);
     }
@@ -136,14 +133,13 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function deleteIf(string $key, $compareValue, bool $returnNewValueOnFail = false)
+    public function deleteIf(string $key, string|false $compareValue, bool $returnNewValueOnFail = false): bool|string|null
     {
         return $this->getClientFromKey($key)->deleteIf($key, $compareValue, $returnNewValueOnFail);
     }
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function txnRequest(array $requestOperations, ?array $failureOperations, array $compare): TxnResponse
     {
@@ -189,7 +185,7 @@ class ShardedClient implements ClientInterface
     /**
      * @inheritDoc
      */
-    public function getLeaseID(int $ttl)
+    public function getLeaseID(int $ttl): int
     {
         return $this->getRandomClient()->getLeaseID($ttl);
     }
@@ -197,15 +193,15 @@ class ShardedClient implements ClientInterface
     /**
      * @inheritDoc
      */
-    public function revokeLeaseID(int $leaseID)
+    public function revokeLeaseID(int $leaseID): void
     {
-        return $this->getRandomClient()->revokeLeaseID($leaseID);
+        $this->getRandomClient()->revokeLeaseID($leaseID);
     }
 
     /**
      * @inheritDoc
      */
-    public function refreshLease(int $leaseID)
+    public function refreshLease(int $leaseID): int
     {
         return $this->getRandomClient()->refreshLease($leaseID);
     }

@@ -15,63 +15,30 @@ class ResponseStatusCodeExceptionFactory
      *
      * This is based on https://github.com/grpc/grpc-go/blob/master/codes/codes.go
      *
-     * @param $code
-     * @param bool $message
+     * @param int $code
+     * @param string $message
      * @return InvalidResponseStatusCodeException
      */
-    public static function getExceptionByCode($code, $message = false)
+    public static function getExceptionByCode(int $code, string $message = ""): InvalidResponseStatusCodeException
     {
-        switch ($code) {
-            case 1:
-                return new CanceledException($message, $code);
-                break;
-            case 2:
-                return new UnknownException($message, $code);
-                break;
-            case 3:
-                return new InvalidArgumentException($message, $code);
-                break;
-            case 4:
-                return new DeadlineExceededException($message, $code);
-                break;
-            case 5:
-                return new NotFoundException($message, $code);
-                break;
-            case 6:
-                return new AlreadyExistsException($message, $code);
-                break;
-            case 7:
-                return new PermissionDeniedException($message, $code);
-                break;
-            case 8:
-                return new ResourceExhaustedException($message, $code);
-                break;
-            case 9:
-                return new FailedPreconditionException($message, $code);
-                break;
-            case 10:
-                return new AbortedException($message, $code);
-                break;
-            case 11:
-                return new OutOfRangeException($message, $code);
-                break;
-            case 12:
-                return new UnimplementedException($message, $code);
-                break;
-            case 13:
-                return new InternalException($message, $code);
-                break;
-            case 14:
-                return new UnavailableException($message, $code);
-                break;
-            case 15:
-                return new DataLossException($message, $code);
-                break;
-            case 16:
-                return new UnauthenticatedException($message, $code);
-                break;
-            default:
-                return new InvalidResponseStatusCodeException($message, $code);
-        }
+        return match ($code) {
+            1 => new CanceledException($message, $code),
+            2 => new UnknownException($message, $code),
+            3 => new InvalidArgumentException($message, $code),
+            4 => new DeadlineExceededException($message, $code),
+            5 => new NotFoundException($message, $code),
+            6 => new AlreadyExistsException($message, $code),
+            7 => new PermissionDeniedException($message, $code),
+            8 => new ResourceExhaustedException($message, $code),
+            9 => new FailedPreconditionException($message, $code),
+            10 => new AbortedException($message, $code),
+            11 => new OutOfRangeException($message, $code),
+            12 => new UnimplementedException($message, $code),
+            13 => new InternalException($message, $code),
+            14 => new UnavailableException($message, $code),
+            15 => new DataLossException($message, $code),
+            16 => new UnauthenticatedException($message, $code),
+            default => new InvalidResponseStatusCodeException($message, $code),
+        };
     }
 }

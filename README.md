@@ -8,6 +8,8 @@ class for basic functionality. There are currently only a few basic functions im
 Client class, so feel free to add more functions when you implement them with the gRPC classes and
 create a pull request.
 
+See [GENERATING.md](GENERATING.md) for how to regenerate the gRPC classes.
+
 ### Installation
 The gRPC PHP extension has to be installed to use this library.
 See [this](https://github.com/grpc/grpc/tree/master/src/php) for a full explanation.
@@ -48,7 +50,7 @@ $leaseId = $client->getLeaseID(10);
 $putOp = $client->getPutOperation('key', 'someValueToPutOnSuccess', $leaseId);
 $getOp = $client->getGetOperation('key');
 // following compare checks for key existence
-$compare = $client->getCompare('key', '0', \Etcdserverpb\Compare\CompareResult::EQUAL, \Etcdserverpb\Compare\CompareTarget::MOD);
+$compare = $client->getCompare('key', '0', \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareResult::EQUAL, \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareTarget::MOD);
 // execute Put operation and return the key we stored, just return the key value if it already exists
 $txnResponse = $client->txnRequest([$putOp, $getOp], [$getOp], [$compare]);
 $result = $client->getResponses($txnResponse, 'response_range', true);
