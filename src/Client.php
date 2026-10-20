@@ -212,7 +212,7 @@ class Client implements ClientInterface
         $leaseRequest->setTTL($ttl);
 
         /** @var LeaseGrantResponse $response */
-        list($response, $status) = $lease->LeaseGrant($leaseRequest, $this->getMetaData())->wait();
+        list($response, $status) = $lease->LeaseGrant($leaseRequest, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
 
         return (int)$response->getID();
@@ -230,7 +230,7 @@ class Client implements ClientInterface
         $leaseRequest = new LeaseRevokeRequest();
         $leaseRequest->setID($leaseID);
 
-        list(, $status) = $lease->LeaseRevoke($leaseRequest, $this->getMetaData())->wait();
+        list(, $status) = $lease->LeaseRevoke($leaseRequest, $this->getMetaData(), $this->getOptions())->wait();
         $this->validateStatus($status);
     }
 
@@ -244,7 +244,7 @@ class Client implements ClientInterface
     public function refreshLease(int $leaseID): int
     {
         $lease = $this->getLeaseClient();
-        $leaseBidi = $lease->LeaseKeepAlive($this->getMetaData());
+        $leaseBidi = $lease->LeaseKeepAlive($this->getMetaData(), $this->getOptions());
         $leaseKeepAlive = new LeaseKeepAliveRequest();
         $leaseKeepAlive->setID($leaseID);
         /** @noinspection PhpParamsInspection */
