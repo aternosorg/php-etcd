@@ -8,6 +8,8 @@ class for basic functionality. There are currently only a few basic functions im
 Client class, so feel free to add more functions when you implement them with the gRPC classes and
 create a pull request.
 
+See [GENERATING.md](GENERATING.md) for how to regenerate the gRPC classes.
+
 ### Installation
 The gRPC PHP extension has to be installed to use this library.
 See [this](https://github.com/grpc/grpc/tree/master/src/php) for a full explanation.

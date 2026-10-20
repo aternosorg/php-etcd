@@ -21,5 +21,15 @@
       "": "grpc/",
       "Aternos\\Etcd\\": "src/"
     }
+  },
+  "scripts": {
+    "generate-grpc": [
+      "rm -rf grpc",
+      "mkdir grpc",
+      "protoc --proto_path=proto --php_out=grpc --grpc_out=grpc --plugin=protoc-gen-grpc=\"$(command -v grpc_php_plugin)\" proto/*.proto"
+    ]
+  },
+  "scripts-descriptions": {
+    "generate-grpc": "Regenerate the PHP classes in grpc/ from the .proto files in proto/ (requires protoc and grpc_php_plugin)"
   }
 }
