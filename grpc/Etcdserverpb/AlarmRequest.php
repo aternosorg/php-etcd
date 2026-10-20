@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -55,7 +55,7 @@ class AlarmRequest extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -65,7 +65,7 @@ class AlarmRequest extends \Google\Protobuf\Internal\Message
      * raised alarm.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmRequest.AlarmAction action = 1;</code>
-     * @return int one of the values in {@see \Etcdserverpb\AlarmRequest\AlarmAction}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest\AlarmAction}
      */
     public function getAction()
     {
@@ -78,12 +78,12 @@ class AlarmRequest extends \Google\Protobuf\Internal\Message
      * raised alarm.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmRequest.AlarmAction action = 1;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\AlarmRequest\AlarmAction}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest\AlarmAction}
      * @return $this
      */
     public function setAction(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\AlarmRequest\AlarmAction::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest\AlarmAction::class);
         $this->action = $var;
 
         return $this;
@@ -121,7 +121,7 @@ class AlarmRequest extends \Google\Protobuf\Internal\Message
      * alarm is the type of alarm to consider for this request.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmType alarm = 3;</code>
-     * @return int one of the values in {@see \Etcdserverpb\AlarmType}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmType}
      */
     public function getAlarm()
     {
@@ -132,12 +132,12 @@ class AlarmRequest extends \Google\Protobuf\Internal\Message
      * alarm is the type of alarm to consider for this request.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmType alarm = 3;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\AlarmType}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmType}
      * @return $this
      */
     public function setAlarm(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\AlarmType::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\AlarmType::class);
         $this->alarm = $var;
 
         return $this;

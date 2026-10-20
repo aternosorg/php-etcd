@@ -1,7 +1,10 @@
 // source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
-// modified: removed unnecessary imports and google.api.http options from all requests
+// modified: removed unnecessary imports and google.api.http options from all requests, added php namespace options
 syntax = "proto3";
 package etcdserverpb;
+
+option php_namespace = "Aternos\\Etcd\\Proto\\Etcdserverpb";
+option php_metadata_namespace = "Aternos\\Etcd\\Proto\\GPBMetadata";
 
 import "kv.proto";
 import "auth.proto";

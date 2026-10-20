@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -41,7 +41,7 @@ class AlarmMember extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -75,7 +75,7 @@ class AlarmMember extends \Google\Protobuf\Internal\Message
      * alarm is the type of alarm which has been raised.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmType alarm = 2;</code>
-     * @return int one of the values in {@see \Etcdserverpb\AlarmType}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmType}
      */
     public function getAlarm()
     {
@@ -86,12 +86,12 @@ class AlarmMember extends \Google\Protobuf\Internal\Message
      * alarm is the type of alarm which has been raised.
      *
      * Generated from protobuf field <code>.etcdserverpb.AlarmType alarm = 2;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\AlarmType}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\AlarmType}
      * @return $this
      */
     public function setAlarm(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\AlarmType::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\AlarmType::class);
         $this->alarm = $var;
 
         return $this;

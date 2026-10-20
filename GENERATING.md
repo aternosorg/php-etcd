@@ -23,13 +23,18 @@ On other systems, see the [protobuf installation docs](https://protobuf.dev/inst
 composer generate-grpc
 ```
 
-This deletes `grpc/` and regenerates all classes. It runs the following commands, which you can also run yourself:
+This regenerates all classes and replaces `grpc/` with them. It runs the following commands, which you can also run
+yourself:
 
 ```bash
-rm -rf grpc
-mkdir grpc
-protoc --proto_path=proto --php_out=grpc --grpc_out=grpc --plugin=protoc-gen-grpc="$(command -v grpc_php_plugin)" proto/*.proto
+rm -rf .grpc-tmp && mkdir .grpc-tmp
+protoc --proto_path=proto --php_out=.grpc-tmp --grpc_out=.grpc-tmp --plugin=protoc-gen-grpc="$(command -v grpc_php_plugin)" proto/*.proto
+rm -rf grpc && mv .grpc-tmp/Aternos/Etcd/Proto grpc && rm -rf .grpc-tmp
 ```
+
+`protoc` writes the files into directories matching their namespace (`Aternos/Etcd/Proto/...`), so they are generated
+into a temporary directory first and only the `Proto` directory is moved to `grpc/`, which is autoloaded as
+`Aternos\Etcd\Proto\`. If `protoc` fails, `grpc/` is left untouched.
 
 Afterward, check the result with `git status`/`git diff`. Files that are no longer generated are deleted. That is
 intended, but it means the generated classes' public API changed.
@@ -57,8 +62,15 @@ the top of each file). They were modified so they compile without etcd's Go buil
 - In `rpc.proto`, the imports of `kv.proto` and `auth.proto` were changed to local paths, and the `google/api/annotations.proto`
   import and all `option (google.api.http)` blocks were removed (grpc-gateway only).
 
+Additionally, each file sets the PHP namespaces of its generated classes, so they don't end up in the global namespace:
+
+```protobuf
+option php_namespace = "Aternos\\Etcd\\Proto\\Etcdserverpb"; // Mvccpb in kv.proto, Authpb in auth.proto
+option php_metadata_namespace = "Aternos\\Etcd\\Proto\\GPBMetadata";
+```
+
 Newer etcd versions keep these files under `api/` (e.g. `api/etcdserverpb/rpc.proto`). They no longer use `gogoproto`,
 but `rpc.proto` additionally has `versionpb` annotations (`import "etcd/api/versionpb/version.proto"` and
 `option (versionpb.etcd_version_*)`) and an OpenAPI option (`import "protoc-gen-openapiv2/options/annotations.proto"`
 and the `option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger)` block), which have to be removed the same
-way when updating.
+way when updating. Remember to add the `php_namespace` and `php_metadata_namespace` options again.

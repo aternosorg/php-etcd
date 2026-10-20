@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -22,20 +22,20 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\WatchCreateRequest $create_request
-     *     @type \Etcdserverpb\WatchCancelRequest $cancel_request
-     *     @type \Etcdserverpb\WatchProgressRequest $progress_request
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest $create_request
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\WatchCancelRequest $cancel_request
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\WatchProgressRequest $progress_request
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchCreateRequest create_request = 1;</code>
-     * @return \Etcdserverpb\WatchCreateRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest|null
      */
     public function getCreateRequest()
     {
@@ -49,10 +49,10 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchCreateRequest create_request = 1;</code>
-     * @param \Etcdserverpb\WatchCreateRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest $var
      * @return $this
      */
-    public function setCreateRequest(\Etcdserverpb\WatchCreateRequest|null $var)
+    public function setCreateRequest(\Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest|null $var)
     {
         $this->writeOneof(1, $var);
 
@@ -61,7 +61,7 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchCancelRequest cancel_request = 2;</code>
-     * @return \Etcdserverpb\WatchCancelRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\WatchCancelRequest|null
      */
     public function getCancelRequest()
     {
@@ -75,10 +75,10 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchCancelRequest cancel_request = 2;</code>
-     * @param \Etcdserverpb\WatchCancelRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\WatchCancelRequest $var
      * @return $this
      */
-    public function setCancelRequest(\Etcdserverpb\WatchCancelRequest|null $var)
+    public function setCancelRequest(\Aternos\Etcd\Proto\Etcdserverpb\WatchCancelRequest|null $var)
     {
         $this->writeOneof(2, $var);
 
@@ -87,7 +87,7 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchProgressRequest progress_request = 3;</code>
-     * @return \Etcdserverpb\WatchProgressRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\WatchProgressRequest|null
      */
     public function getProgressRequest()
     {
@@ -101,10 +101,10 @@ class WatchRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.WatchProgressRequest progress_request = 3;</code>
-     * @param \Etcdserverpb\WatchProgressRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\WatchProgressRequest $var
      * @return $this
      */
-    public function setProgressRequest(\Etcdserverpb\WatchProgressRequest|null $var)
+    public function setProgressRequest(\Aternos\Etcd\Proto\Etcdserverpb\WatchProgressRequest|null $var)
     {
         $this->writeOneof(3, $var);
 

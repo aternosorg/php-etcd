@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb\RangeRequest;
+namespace Aternos\Etcd\Proto\Etcdserverpb\RangeRequest;
 
 use UnexpectedValueException;
 

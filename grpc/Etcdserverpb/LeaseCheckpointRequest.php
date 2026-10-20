@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -25,18 +25,18 @@ class LeaseCheckpointRequest extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\LeaseCheckpoint[] $checkpoints
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\LeaseCheckpoint[] $checkpoints
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>repeated .etcdserverpb.LeaseCheckpoint checkpoints = 1;</code>
-     * @return RepeatedField<\Etcdserverpb\LeaseCheckpoint>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Etcdserverpb\LeaseCheckpoint>
      */
     public function getCheckpoints()
     {
@@ -45,12 +45,12 @@ class LeaseCheckpointRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .etcdserverpb.LeaseCheckpoint checkpoints = 1;</code>
-     * @param \Etcdserverpb\LeaseCheckpoint[] $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\LeaseCheckpoint[] $var
      * @return $this
      */
     public function setCheckpoints(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Etcdserverpb\LeaseCheckpoint::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Etcdserverpb\LeaseCheckpoint::class);
         $this->checkpoints = $arr;
 
         return $this;

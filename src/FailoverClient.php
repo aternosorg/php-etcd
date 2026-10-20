@@ -7,9 +7,9 @@ use Aternos\Etcd\Exception\NoClientAvailableException;
 use Aternos\Etcd\Exception\NoResponseException;
 use Aternos\Etcd\Exception\Status\DeadlineExceededException;
 use Aternos\Etcd\Exception\Status\UnavailableException;
-use Etcdserverpb\Compare;
-use Etcdserverpb\RequestOp;
-use Etcdserverpb\TxnResponse;
+use Aternos\Etcd\Proto\Etcdserverpb\Compare;
+use Aternos\Etcd\Proto\Etcdserverpb\RequestOp;
+use Aternos\Etcd\Proto\Etcdserverpb\TxnResponse;
 
 /**
  * Class FailoverClient

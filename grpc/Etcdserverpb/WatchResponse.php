@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -74,7 +74,7 @@ class WatchResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
      *     @type int|string $watch_id
      *           watch_id is the ID of the watcher that corresponds to the response.
      *     @type bool $created
@@ -96,18 +96,18 @@ class WatchResponse extends \Google\Protobuf\Internal\Message
      *           cancel_reason indicates the reason for canceling the watcher.
      *     @type bool $fragment
      *           framgment is true if large watch response was split over multiple responses.
-     *     @type \Mvccpb\Event[] $events
+     *     @type \Aternos\Etcd\Proto\Mvccpb\Event[] $events
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -126,10 +126,10 @@ class WatchResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -309,7 +309,7 @@ class WatchResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .mvccpb.Event events = 11;</code>
-     * @return RepeatedField<\Mvccpb\Event>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Mvccpb\Event>
      */
     public function getEvents()
     {
@@ -318,12 +318,12 @@ class WatchResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .mvccpb.Event events = 11;</code>
-     * @param \Mvccpb\Event[] $var
+     * @param \Aternos\Etcd\Proto\Mvccpb\Event[] $var
      * @return $this
      */
     public function setEvents(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Mvccpb\Event::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Mvccpb\Event::class);
         $this->events = $arr;
 
         return $this;

@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -113,7 +113,7 @@ class WatchCreateRequest extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -238,7 +238,7 @@ class WatchCreateRequest extends \Google\Protobuf\Internal\Message
      * filters filter the events at server side before it sends back to the watcher.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.WatchCreateRequest.FilterType filters = 5;</code>
-     * @return RepeatedField<int> one of the values in {@see \Etcdserverpb\WatchCreateRequest\FilterType}
+     * @return RepeatedField<int> one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest\FilterType}
      */
     public function getFilters()
     {
@@ -249,12 +249,12 @@ class WatchCreateRequest extends \Google\Protobuf\Internal\Message
      * filters filter the events at server side before it sends back to the watcher.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.WatchCreateRequest.FilterType filters = 5;</code>
-     * @param int[] $var one of the values in {@see \Etcdserverpb\WatchCreateRequest\FilterType}
+     * @param int[] $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest\FilterType}
      * @return $this
      */
     public function setFilters(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::ENUM, \Etcdserverpb\WatchCreateRequest\FilterType::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::ENUM, \Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest\FilterType::class);
         $this->filters = $arr;
 
         return $this;

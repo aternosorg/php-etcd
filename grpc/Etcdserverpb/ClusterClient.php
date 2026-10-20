@@ -3,8 +3,8 @@
 
 // Original file comments:
 // source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
-// modified: removed unnecessary imports and google.api.http options from all requests
-namespace Etcdserverpb;
+// modified: removed unnecessary imports and google.api.http options from all requests, added php namespace options
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 /**
  */
@@ -21,61 +21,61 @@ class ClusterClient extends \Grpc\BaseStub {
 
     /**
      * MemberAdd adds a member into the cluster.
-     * @param \Etcdserverpb\MemberAddRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\MemberAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberAddResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\MemberAddResponse>
      */
-    public function MemberAdd(\Etcdserverpb\MemberAddRequest $argument,
+    public function MemberAdd(\Aternos\Etcd\Proto\Etcdserverpb\MemberAddRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Cluster/MemberAdd',
         $argument,
-        ['\Etcdserverpb\MemberAddResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\MemberAddResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * MemberRemove removes an existing member from the cluster.
-     * @param \Etcdserverpb\MemberRemoveRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\MemberRemoveRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberRemoveResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\MemberRemoveResponse>
      */
-    public function MemberRemove(\Etcdserverpb\MemberRemoveRequest $argument,
+    public function MemberRemove(\Aternos\Etcd\Proto\Etcdserverpb\MemberRemoveRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Cluster/MemberRemove',
         $argument,
-        ['\Etcdserverpb\MemberRemoveResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\MemberRemoveResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * MemberUpdate updates the member configuration.
-     * @param \Etcdserverpb\MemberUpdateRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\MemberUpdateRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberUpdateResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\MemberUpdateResponse>
      */
-    public function MemberUpdate(\Etcdserverpb\MemberUpdateRequest $argument,
+    public function MemberUpdate(\Aternos\Etcd\Proto\Etcdserverpb\MemberUpdateRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Cluster/MemberUpdate',
         $argument,
-        ['\Etcdserverpb\MemberUpdateResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\MemberUpdateResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * MemberList lists all the members in the cluster.
-     * @param \Etcdserverpb\MemberListRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\MemberListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberListResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\MemberListResponse>
      */
-    public function MemberList(\Etcdserverpb\MemberListRequest $argument,
+    public function MemberList(\Aternos\Etcd\Proto\Etcdserverpb\MemberListRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Cluster/MemberList',
         $argument,
-        ['\Etcdserverpb\MemberListResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\MemberListResponse', 'decode'],
         $metadata, $options);
     }
 

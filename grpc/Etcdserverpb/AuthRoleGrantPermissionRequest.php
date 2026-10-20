@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -35,13 +35,13 @@ class AuthRoleGrantPermissionRequest extends \Google\Protobuf\Internal\Message
      *
      *     @type string $name
      *           name is the name of the role which will be granted the permission.
-     *     @type \Authpb\Permission $perm
+     *     @type \Aternos\Etcd\Proto\Authpb\Permission $perm
      *           perm is the permission to grant to the role.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -75,7 +75,7 @@ class AuthRoleGrantPermissionRequest extends \Google\Protobuf\Internal\Message
      * perm is the permission to grant to the role.
      *
      * Generated from protobuf field <code>.authpb.Permission perm = 2;</code>
-     * @return \Authpb\Permission|null
+     * @return \Aternos\Etcd\Proto\Authpb\Permission|null
      */
     public function getPerm()
     {
@@ -96,10 +96,10 @@ class AuthRoleGrantPermissionRequest extends \Google\Protobuf\Internal\Message
      * perm is the permission to grant to the role.
      *
      * Generated from protobuf field <code>.authpb.Permission perm = 2;</code>
-     * @param \Authpb\Permission $var
+     * @param \Aternos\Etcd\Proto\Authpb\Permission $var
      * @return $this
      */
-    public function setPerm(\Authpb\Permission|null $var)
+    public function setPerm(\Aternos\Etcd\Proto\Authpb\Permission|null $var)
     {
         $this->perm = $var;
 

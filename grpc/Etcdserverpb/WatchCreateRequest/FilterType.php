@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb\WatchCreateRequest;
+namespace Aternos\Etcd\Proto\Etcdserverpb\WatchCreateRequest;
 
 use UnexpectedValueException;
 

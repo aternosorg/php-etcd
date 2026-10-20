@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -38,23 +38,23 @@ class TxnResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
      *     @type bool $succeeded
      *           succeeded is set to true if the compare evaluated to true or false otherwise.
-     *     @type \Etcdserverpb\ResponseOp[] $responses
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseOp[] $responses
      *           responses is a list of responses corresponding to the results from applying
      *           success if succeeded is true or failure if succeeded is false.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -73,10 +73,10 @@ class TxnResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -113,7 +113,7 @@ class TxnResponse extends \Google\Protobuf\Internal\Message
      * success if succeeded is true or failure if succeeded is false.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.ResponseOp responses = 3;</code>
-     * @return RepeatedField<\Etcdserverpb\ResponseOp>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Etcdserverpb\ResponseOp>
      */
     public function getResponses()
     {
@@ -125,12 +125,12 @@ class TxnResponse extends \Google\Protobuf\Internal\Message
      * success if succeeded is true or failure if succeeded is false.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.ResponseOp responses = 3;</code>
-     * @param \Etcdserverpb\ResponseOp[] $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseOp[] $var
      * @return $this
      */
     public function setResponses(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Etcdserverpb\ResponseOp::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Etcdserverpb\ResponseOp::class);
         $this->responses = $arr;
 
         return $this;

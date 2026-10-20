@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -31,20 +31,20 @@ class AlarmResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
-     *     @type \Etcdserverpb\AlarmMember[] $alarms
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\AlarmMember[] $alarms
      *           alarms is a list of alarms associated with the alarm request.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -63,10 +63,10 @@ class AlarmResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -77,7 +77,7 @@ class AlarmResponse extends \Google\Protobuf\Internal\Message
      * alarms is a list of alarms associated with the alarm request.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.AlarmMember alarms = 2;</code>
-     * @return RepeatedField<\Etcdserverpb\AlarmMember>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Etcdserverpb\AlarmMember>
      */
     public function getAlarms()
     {
@@ -88,12 +88,12 @@ class AlarmResponse extends \Google\Protobuf\Internal\Message
      * alarms is a list of alarms associated with the alarm request.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.AlarmMember alarms = 2;</code>
-     * @param \Etcdserverpb\AlarmMember[] $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AlarmMember[] $var
      * @return $this
      */
     public function setAlarms(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Etcdserverpb\AlarmMember::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Etcdserverpb\AlarmMember::class);
         $this->alarms = $arr;
 
         return $this;

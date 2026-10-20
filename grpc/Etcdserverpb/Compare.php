@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -70,7 +70,7 @@ class Compare extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -78,7 +78,7 @@ class Compare extends \Google\Protobuf\Internal\Message
      * result is logical comparison operation for this comparison.
      *
      * Generated from protobuf field <code>.etcdserverpb.Compare.CompareResult result = 1;</code>
-     * @return int one of the values in {@see \Etcdserverpb\Compare\CompareResult}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareResult}
      */
     public function getResult()
     {
@@ -89,12 +89,12 @@ class Compare extends \Google\Protobuf\Internal\Message
      * result is logical comparison operation for this comparison.
      *
      * Generated from protobuf field <code>.etcdserverpb.Compare.CompareResult result = 1;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\Compare\CompareResult}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareResult}
      * @return $this
      */
     public function setResult(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\Compare\CompareResult::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareResult::class);
         $this->result = $var;
 
         return $this;
@@ -104,7 +104,7 @@ class Compare extends \Google\Protobuf\Internal\Message
      * target is the key-value field to inspect for the comparison.
      *
      * Generated from protobuf field <code>.etcdserverpb.Compare.CompareTarget target = 2;</code>
-     * @return int one of the values in {@see \Etcdserverpb\Compare\CompareTarget}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareTarget}
      */
     public function getTarget()
     {
@@ -115,12 +115,12 @@ class Compare extends \Google\Protobuf\Internal\Message
      * target is the key-value field to inspect for the comparison.
      *
      * Generated from protobuf field <code>.etcdserverpb.Compare.CompareTarget target = 2;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\Compare\CompareTarget}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareTarget}
      * @return $this
      */
     public function setTarget(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\Compare\CompareTarget::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\Compare\CompareTarget::class);
         $this->target = $var;
 
         return $this;

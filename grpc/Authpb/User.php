@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: auth.proto
 
-namespace Authpb;
+namespace Aternos\Etcd\Proto\Authpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -42,7 +42,7 @@ class User extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Auth::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Auth::initOnce();
         parent::__construct($data);
     }
 

@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: kv.proto
 
-namespace Mvccpb;
+namespace Aternos\Etcd\Proto\Mvccpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -81,7 +81,7 @@ class KeyValue extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Kv::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Kv::initOnce();
         parent::__construct($data);
     }
 

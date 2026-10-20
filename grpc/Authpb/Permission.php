@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: auth.proto
 
-namespace Authpb;
+namespace Aternos\Etcd\Proto\Authpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -42,13 +42,13 @@ class Permission extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Auth::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Auth::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.authpb.Permission.Type permType = 1;</code>
-     * @return int one of the values in {@see \Authpb\Permission\Type}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Authpb\Permission\Type}
      */
     public function getPermType()
     {
@@ -57,12 +57,12 @@ class Permission extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.authpb.Permission.Type permType = 1;</code>
-     * @param int $var one of the values in {@see \Authpb\Permission\Type}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Authpb\Permission\Type}
      * @return $this
      */
     public function setPermType(int $var)
     {
-        GPBUtil::checkEnum($var, \Authpb\Permission\Type::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Authpb\Permission\Type::class);
         $this->permType = $var;
 
         return $this;

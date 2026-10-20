@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -37,22 +37,22 @@ class DeleteRangeResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
      *     @type int|string $deleted
      *           deleted is the number of keys deleted by the delete range request.
-     *     @type \Mvccpb\KeyValue[] $prev_kvs
+     *     @type \Aternos\Etcd\Proto\Mvccpb\KeyValue[] $prev_kvs
      *           if prev_kv is set in the request, the previous key-value pairs will be returned.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -71,10 +71,10 @@ class DeleteRangeResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -111,7 +111,7 @@ class DeleteRangeResponse extends \Google\Protobuf\Internal\Message
      * if prev_kv is set in the request, the previous key-value pairs will be returned.
      *
      * Generated from protobuf field <code>repeated .mvccpb.KeyValue prev_kvs = 3;</code>
-     * @return RepeatedField<\Mvccpb\KeyValue>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Mvccpb\KeyValue>
      */
     public function getPrevKvs()
     {
@@ -122,12 +122,12 @@ class DeleteRangeResponse extends \Google\Protobuf\Internal\Message
      * if prev_kv is set in the request, the previous key-value pairs will be returned.
      *
      * Generated from protobuf field <code>repeated .mvccpb.KeyValue prev_kvs = 3;</code>
-     * @param \Mvccpb\KeyValue[] $var
+     * @param \Aternos\Etcd\Proto\Mvccpb\KeyValue[] $var
      * @return $this
      */
     public function setPrevKvs(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Mvccpb\KeyValue::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Mvccpb\KeyValue::class);
         $this->prev_kvs = $arr;
 
         return $this;

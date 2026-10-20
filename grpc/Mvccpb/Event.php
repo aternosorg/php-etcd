@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: kv.proto
 
-namespace Mvccpb;
+namespace Aternos\Etcd\Proto\Mvccpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -49,19 +49,19 @@ class Event extends \Google\Protobuf\Internal\Message
      *           type is the kind of event. If type is a PUT, it indicates
      *           new data has been stored to the key. If type is a DELETE,
      *           it indicates the key was deleted.
-     *     @type \Mvccpb\KeyValue $kv
+     *     @type \Aternos\Etcd\Proto\Mvccpb\KeyValue $kv
      *           kv holds the KeyValue for the event.
      *           A PUT event contains current kv pair.
      *           A PUT event with kv.Version=1 indicates the creation of a key.
      *           A DELETE/EXPIRE event contains the deleted key with
      *           its modification revision set to the revision of deletion.
-     *     @type \Mvccpb\KeyValue $prev_kv
+     *     @type \Aternos\Etcd\Proto\Mvccpb\KeyValue $prev_kv
      *           prev_kv holds the key-value pair before the event happens.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Kv::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Kv::initOnce();
         parent::__construct($data);
     }
 
@@ -71,7 +71,7 @@ class Event extends \Google\Protobuf\Internal\Message
      * it indicates the key was deleted.
      *
      * Generated from protobuf field <code>.mvccpb.Event.EventType type = 1;</code>
-     * @return int one of the values in {@see \Mvccpb\Event\EventType}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Mvccpb\Event\EventType}
      */
     public function getType()
     {
@@ -84,12 +84,12 @@ class Event extends \Google\Protobuf\Internal\Message
      * it indicates the key was deleted.
      *
      * Generated from protobuf field <code>.mvccpb.Event.EventType type = 1;</code>
-     * @param int $var one of the values in {@see \Mvccpb\Event\EventType}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Mvccpb\Event\EventType}
      * @return $this
      */
     public function setType(int $var)
     {
-        GPBUtil::checkEnum($var, \Mvccpb\Event\EventType::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Mvccpb\Event\EventType::class);
         $this->type = $var;
 
         return $this;
@@ -103,7 +103,7 @@ class Event extends \Google\Protobuf\Internal\Message
      * its modification revision set to the revision of deletion.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue kv = 2;</code>
-     * @return \Mvccpb\KeyValue|null
+     * @return \Aternos\Etcd\Proto\Mvccpb\KeyValue|null
      */
     public function getKv()
     {
@@ -128,10 +128,10 @@ class Event extends \Google\Protobuf\Internal\Message
      * its modification revision set to the revision of deletion.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue kv = 2;</code>
-     * @param \Mvccpb\KeyValue $var
+     * @param \Aternos\Etcd\Proto\Mvccpb\KeyValue $var
      * @return $this
      */
-    public function setKv(\Mvccpb\KeyValue|null $var)
+    public function setKv(\Aternos\Etcd\Proto\Mvccpb\KeyValue|null $var)
     {
         $this->kv = $var;
 
@@ -142,7 +142,7 @@ class Event extends \Google\Protobuf\Internal\Message
      * prev_kv holds the key-value pair before the event happens.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue prev_kv = 3;</code>
-     * @return \Mvccpb\KeyValue|null
+     * @return \Aternos\Etcd\Proto\Mvccpb\KeyValue|null
      */
     public function getPrevKv()
     {
@@ -163,10 +163,10 @@ class Event extends \Google\Protobuf\Internal\Message
      * prev_kv holds the key-value pair before the event happens.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue prev_kv = 3;</code>
-     * @param \Mvccpb\KeyValue $var
+     * @param \Aternos\Etcd\Proto\Mvccpb\KeyValue $var
      * @return $this
      */
-    public function setPrevKv(\Mvccpb\KeyValue|null $var)
+    public function setPrevKv(\Aternos\Etcd\Proto\Mvccpb\KeyValue|null $var)
     {
         $this->prev_kv = $var;
 

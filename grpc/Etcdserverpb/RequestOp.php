@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -22,21 +22,21 @@ class RequestOp extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\RangeRequest $request_range
-     *     @type \Etcdserverpb\PutRequest $request_put
-     *     @type \Etcdserverpb\DeleteRangeRequest $request_delete_range
-     *     @type \Etcdserverpb\TxnRequest $request_txn
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest $request_range
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\PutRequest $request_put
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeRequest $request_delete_range
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\TxnRequest $request_txn
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest request_range = 1;</code>
-     * @return \Etcdserverpb\RangeRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest|null
      */
     public function getRequestRange()
     {
@@ -50,10 +50,10 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest request_range = 1;</code>
-     * @param \Etcdserverpb\RangeRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest $var
      * @return $this
      */
-    public function setRequestRange(\Etcdserverpb\RangeRequest|null $var)
+    public function setRequestRange(\Aternos\Etcd\Proto\Etcdserverpb\RangeRequest|null $var)
     {
         $this->writeOneof(1, $var);
 
@@ -62,7 +62,7 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.PutRequest request_put = 2;</code>
-     * @return \Etcdserverpb\PutRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\PutRequest|null
      */
     public function getRequestPut()
     {
@@ -76,10 +76,10 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.PutRequest request_put = 2;</code>
-     * @param \Etcdserverpb\PutRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\PutRequest $var
      * @return $this
      */
-    public function setRequestPut(\Etcdserverpb\PutRequest|null $var)
+    public function setRequestPut(\Aternos\Etcd\Proto\Etcdserverpb\PutRequest|null $var)
     {
         $this->writeOneof(2, $var);
 
@@ -88,7 +88,7 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.DeleteRangeRequest request_delete_range = 3;</code>
-     * @return \Etcdserverpb\DeleteRangeRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeRequest|null
      */
     public function getRequestDeleteRange()
     {
@@ -102,10 +102,10 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.DeleteRangeRequest request_delete_range = 3;</code>
-     * @param \Etcdserverpb\DeleteRangeRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeRequest $var
      * @return $this
      */
-    public function setRequestDeleteRange(\Etcdserverpb\DeleteRangeRequest|null $var)
+    public function setRequestDeleteRange(\Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeRequest|null $var)
     {
         $this->writeOneof(3, $var);
 
@@ -114,7 +114,7 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.TxnRequest request_txn = 4;</code>
-     * @return \Etcdserverpb\TxnRequest|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\TxnRequest|null
      */
     public function getRequestTxn()
     {
@@ -128,10 +128,10 @@ class RequestOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.TxnRequest request_txn = 4;</code>
-     * @param \Etcdserverpb\TxnRequest $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\TxnRequest $var
      * @return $this
      */
-    public function setRequestTxn(\Etcdserverpb\TxnRequest|null $var)
+    public function setRequestTxn(\Aternos\Etcd\Proto\Etcdserverpb\TxnRequest|null $var)
     {
         $this->writeOneof(4, $var);
 

@@ -3,8 +3,8 @@
 
 // Original file comments:
 // source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
-// modified: removed unnecessary imports and google.api.http options from all requests
-namespace Etcdserverpb;
+// modified: removed unnecessary imports and google.api.http options from all requests, added php namespace options
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 /**
  */
@@ -21,46 +21,46 @@ class MaintenanceClient extends \Grpc\BaseStub {
 
     /**
      * Alarm activates, deactivates, and queries alarms regarding cluster health.
-     * @param \Etcdserverpb\AlarmRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\AlarmResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\AlarmResponse>
      */
-    public function Alarm(\Etcdserverpb\AlarmRequest $argument,
+    public function Alarm(\Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/Alarm',
         $argument,
-        ['\Etcdserverpb\AlarmResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\AlarmResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * Status gets the status of the member.
-     * @param \Etcdserverpb\StatusRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\StatusRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\StatusResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\StatusResponse>
      */
-    public function Status(\Etcdserverpb\StatusRequest $argument,
+    public function Status(\Aternos\Etcd\Proto\Etcdserverpb\StatusRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/Status',
         $argument,
-        ['\Etcdserverpb\StatusResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\StatusResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * Defragment defragments a member's backend database to recover storage space.
-     * @param \Etcdserverpb\DefragmentRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\DefragmentRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\DefragmentResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\DefragmentResponse>
      */
-    public function Defragment(\Etcdserverpb\DefragmentRequest $argument,
+    public function Defragment(\Aternos\Etcd\Proto\Etcdserverpb\DefragmentRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/Defragment',
         $argument,
-        ['\Etcdserverpb\DefragmentResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\DefragmentResponse', 'decode'],
         $metadata, $options);
     }
 
@@ -71,62 +71,62 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * Do not rely on this in production with ongoing transactions,
      * since Hash operation does not hold MVCC locks.
      * Use "HashKV" API instead for "key" bucket consistency checks.
-     * @param \Etcdserverpb\HashRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\HashRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\HashResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\HashResponse>
      */
-    public function Hash(\Etcdserverpb\HashRequest $argument,
+    public function Hash(\Aternos\Etcd\Proto\Etcdserverpb\HashRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/Hash',
         $argument,
-        ['\Etcdserverpb\HashResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\HashResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * HashKV computes the hash of all MVCC keys up to a given revision.
      * It only iterates "key" bucket in backend storage.
-     * @param \Etcdserverpb\HashKVRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\HashKVRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\HashKVResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\HashKVResponse>
      */
-    public function HashKV(\Etcdserverpb\HashKVRequest $argument,
+    public function HashKV(\Aternos\Etcd\Proto\Etcdserverpb\HashKVRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/HashKV',
         $argument,
-        ['\Etcdserverpb\HashKVResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\HashKVResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * Snapshot sends a snapshot of the entire backend from a member over a stream to a client.
-     * @param \Etcdserverpb\SnapshotRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\SnapshotRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
      * @return \Grpc\ServerStreamingCall
      */
-    public function Snapshot(\Etcdserverpb\SnapshotRequest $argument,
+    public function Snapshot(\Aternos\Etcd\Proto\Etcdserverpb\SnapshotRequest $argument,
       $metadata = [], $options = []) {
         return $this->_serverStreamRequest('/etcdserverpb.Maintenance/Snapshot',
         $argument,
-        ['\Etcdserverpb\SnapshotResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\SnapshotResponse', 'decode'],
         $metadata, $options);
     }
 
     /**
      * MoveLeader requests current leader node to transfer its leadership to transferee.
-     * @param \Etcdserverpb\MoveLeaderRequest $argument input argument
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\MoveLeaderRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
-     * @return \Grpc\UnaryCall<\Etcdserverpb\MoveLeaderResponse>
+     * @return \Grpc\UnaryCall<\Aternos\Etcd\Proto\Etcdserverpb\MoveLeaderResponse>
      */
-    public function MoveLeader(\Etcdserverpb\MoveLeaderRequest $argument,
+    public function MoveLeader(\Aternos\Etcd\Proto\Etcdserverpb\MoveLeaderRequest $argument,
       $metadata = [], $options = []) {
         return $this->_simpleRequest('/etcdserverpb.Maintenance/MoveLeader',
         $argument,
-        ['\Etcdserverpb\MoveLeaderResponse', 'decode'],
+        ['\Aternos\Etcd\Proto\Etcdserverpb\MoveLeaderResponse', 'decode'],
         $metadata, $options);
     }
 

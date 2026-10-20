@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -29,19 +29,19 @@ class AuthRoleGetResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
-     *     @type \Authpb\Permission[] $perm
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Authpb\Permission[] $perm
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -60,10 +60,10 @@ class AuthRoleGetResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -72,7 +72,7 @@ class AuthRoleGetResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .authpb.Permission perm = 2;</code>
-     * @return RepeatedField<\Authpb\Permission>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Authpb\Permission>
      */
     public function getPerm()
     {
@@ -81,12 +81,12 @@ class AuthRoleGetResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .authpb.Permission perm = 2;</code>
-     * @param \Authpb\Permission[] $var
+     * @param \Aternos\Etcd\Proto\Authpb\Permission[] $var
      * @return $this
      */
     public function setPerm(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Authpb\Permission::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Authpb\Permission::class);
         $this->perm = $arr;
 
         return $this;

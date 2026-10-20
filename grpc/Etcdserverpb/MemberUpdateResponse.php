@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -31,20 +31,20 @@ class MemberUpdateResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
-     *     @type \Etcdserverpb\Member[] $members
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\Member[] $members
      *           members is a list of all members after updating the member.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -63,10 +63,10 @@ class MemberUpdateResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -77,7 +77,7 @@ class MemberUpdateResponse extends \Google\Protobuf\Internal\Message
      * members is a list of all members after updating the member.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.Member members = 2;</code>
-     * @return RepeatedField<\Etcdserverpb\Member>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Etcdserverpb\Member>
      */
     public function getMembers()
     {
@@ -88,12 +88,12 @@ class MemberUpdateResponse extends \Google\Protobuf\Internal\Message
      * members is a list of all members after updating the member.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.Member members = 2;</code>
-     * @param \Etcdserverpb\Member[] $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\Member[] $var
      * @return $this
      */
     public function setMembers(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Etcdserverpb\Member::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Etcdserverpb\Member::class);
         $this->members = $arr;
 
         return $this;

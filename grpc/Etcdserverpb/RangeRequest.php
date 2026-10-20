@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -161,7 +161,7 @@ class RangeRequest extends \Google\Protobuf\Internal\Message
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
@@ -287,7 +287,7 @@ class RangeRequest extends \Google\Protobuf\Internal\Message
      * sort_order is the order for returned sorted results.
      *
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest.SortOrder sort_order = 5;</code>
-     * @return int one of the values in {@see \Etcdserverpb\RangeRequest\SortOrder}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortOrder}
      */
     public function getSortOrder()
     {
@@ -298,12 +298,12 @@ class RangeRequest extends \Google\Protobuf\Internal\Message
      * sort_order is the order for returned sorted results.
      *
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest.SortOrder sort_order = 5;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\RangeRequest\SortOrder}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortOrder}
      * @return $this
      */
     public function setSortOrder(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\RangeRequest\SortOrder::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortOrder::class);
         $this->sort_order = $var;
 
         return $this;
@@ -313,7 +313,7 @@ class RangeRequest extends \Google\Protobuf\Internal\Message
      * sort_target is the key-value field to use for sorting.
      *
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest.SortTarget sort_target = 6;</code>
-     * @return int one of the values in {@see \Etcdserverpb\RangeRequest\SortTarget}
+     * @return int one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortTarget}
      */
     public function getSortTarget()
     {
@@ -324,12 +324,12 @@ class RangeRequest extends \Google\Protobuf\Internal\Message
      * sort_target is the key-value field to use for sorting.
      *
      * Generated from protobuf field <code>.etcdserverpb.RangeRequest.SortTarget sort_target = 6;</code>
-     * @param int $var one of the values in {@see \Etcdserverpb\RangeRequest\SortTarget}
+     * @param int $var one of the values in {@see \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortTarget}
      * @return $this
      */
     public function setSortTarget(int $var)
     {
-        GPBUtil::checkEnum($var, \Etcdserverpb\RangeRequest\SortTarget::class);
+        GPBUtil::checkEnum($var, \Aternos\Etcd\Proto\Etcdserverpb\RangeRequest\SortTarget::class);
         $this->sort_target = $var;
 
         return $this;

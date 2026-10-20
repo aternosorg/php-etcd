@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -31,20 +31,20 @@ class PutResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
-     *     @type \Mvccpb\KeyValue $prev_kv
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Mvccpb\KeyValue $prev_kv
      *           if prev_kv is set in the request, the previous key-value pair will be returned.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -63,10 +63,10 @@ class PutResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -77,7 +77,7 @@ class PutResponse extends \Google\Protobuf\Internal\Message
      * if prev_kv is set in the request, the previous key-value pair will be returned.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue prev_kv = 2;</code>
-     * @return \Mvccpb\KeyValue|null
+     * @return \Aternos\Etcd\Proto\Mvccpb\KeyValue|null
      */
     public function getPrevKv()
     {
@@ -98,10 +98,10 @@ class PutResponse extends \Google\Protobuf\Internal\Message
      * if prev_kv is set in the request, the previous key-value pair will be returned.
      *
      * Generated from protobuf field <code>.mvccpb.KeyValue prev_kv = 2;</code>
-     * @param \Mvccpb\KeyValue $var
+     * @param \Aternos\Etcd\Proto\Mvccpb\KeyValue $var
      * @return $this
      */
-    public function setPrevKv(\Mvccpb\KeyValue|null $var)
+    public function setPrevKv(\Aternos\Etcd\Proto\Mvccpb\KeyValue|null $var)
     {
         $this->prev_kv = $var;
 

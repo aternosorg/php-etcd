@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -22,21 +22,21 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\RangeResponse $response_range
-     *     @type \Etcdserverpb\PutResponse $response_put
-     *     @type \Etcdserverpb\DeleteRangeResponse $response_delete_range
-     *     @type \Etcdserverpb\TxnResponse $response_txn
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\RangeResponse $response_range
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\PutResponse $response_put
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeResponse $response_delete_range
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\TxnResponse $response_txn
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.RangeResponse response_range = 1;</code>
-     * @return \Etcdserverpb\RangeResponse|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\RangeResponse|null
      */
     public function getResponseRange()
     {
@@ -50,10 +50,10 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.RangeResponse response_range = 1;</code>
-     * @param \Etcdserverpb\RangeResponse $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\RangeResponse $var
      * @return $this
      */
-    public function setResponseRange(\Etcdserverpb\RangeResponse|null $var)
+    public function setResponseRange(\Aternos\Etcd\Proto\Etcdserverpb\RangeResponse|null $var)
     {
         $this->writeOneof(1, $var);
 
@@ -62,7 +62,7 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.PutResponse response_put = 2;</code>
-     * @return \Etcdserverpb\PutResponse|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\PutResponse|null
      */
     public function getResponsePut()
     {
@@ -76,10 +76,10 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.PutResponse response_put = 2;</code>
-     * @param \Etcdserverpb\PutResponse $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\PutResponse $var
      * @return $this
      */
-    public function setResponsePut(\Etcdserverpb\PutResponse|null $var)
+    public function setResponsePut(\Aternos\Etcd\Proto\Etcdserverpb\PutResponse|null $var)
     {
         $this->writeOneof(2, $var);
 
@@ -88,7 +88,7 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.DeleteRangeResponse response_delete_range = 3;</code>
-     * @return \Etcdserverpb\DeleteRangeResponse|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeResponse|null
      */
     public function getResponseDeleteRange()
     {
@@ -102,10 +102,10 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.DeleteRangeResponse response_delete_range = 3;</code>
-     * @param \Etcdserverpb\DeleteRangeResponse $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeResponse $var
      * @return $this
      */
-    public function setResponseDeleteRange(\Etcdserverpb\DeleteRangeResponse|null $var)
+    public function setResponseDeleteRange(\Aternos\Etcd\Proto\Etcdserverpb\DeleteRangeResponse|null $var)
     {
         $this->writeOneof(3, $var);
 
@@ -114,7 +114,7 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.TxnResponse response_txn = 4;</code>
-     * @return \Etcdserverpb\TxnResponse|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\TxnResponse|null
      */
     public function getResponseTxn()
     {
@@ -128,10 +128,10 @@ class ResponseOp extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.TxnResponse response_txn = 4;</code>
-     * @param \Etcdserverpb\TxnResponse $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\TxnResponse $var
      * @return $this
      */
-    public function setResponseTxn(\Etcdserverpb\TxnResponse|null $var)
+    public function setResponseTxn(\Aternos\Etcd\Proto\Etcdserverpb\TxnResponse|null $var)
     {
         $this->writeOneof(4, $var);
 

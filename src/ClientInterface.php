@@ -3,9 +3,9 @@
 namespace Aternos\Etcd;
 
 use Aternos\Etcd\Exception\Status\InvalidResponseStatusCodeException;
-use Etcdserverpb\Compare;
-use Etcdserverpb\RequestOp;
-use Etcdserverpb\TxnResponse;
+use Aternos\Etcd\Proto\Etcdserverpb\Compare;
+use Aternos\Etcd\Proto\Etcdserverpb\RequestOp;
+use Aternos\Etcd\Proto\Etcdserverpb\TxnResponse;
 use Exception;
 
 /**

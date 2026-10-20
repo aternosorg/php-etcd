@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb\AlarmRequest;
+namespace Aternos\Etcd\Proto\Etcdserverpb\AlarmRequest;
 
 use UnexpectedValueException;
 

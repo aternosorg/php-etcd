@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: auth.proto
 
-namespace Authpb\Permission;
+namespace Aternos\Etcd\Proto\Authpb\Permission;
 
 use UnexpectedValueException;
 

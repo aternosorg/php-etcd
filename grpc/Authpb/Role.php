@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: auth.proto
 
-namespace Authpb;
+namespace Aternos\Etcd\Proto\Authpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -32,12 +32,12 @@ class Role extends \Google\Protobuf\Internal\Message
      *     Optional. Data for populating the Message object.
      *
      *     @type string $name
-     *     @type \Authpb\Permission[] $keyPermission
+     *     @type \Aternos\Etcd\Proto\Authpb\Permission[] $keyPermission
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Auth::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Auth::initOnce();
         parent::__construct($data);
     }
 
@@ -65,7 +65,7 @@ class Role extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .authpb.Permission keyPermission = 2;</code>
-     * @return RepeatedField<\Authpb\Permission>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Authpb\Permission>
      */
     public function getKeyPermission()
     {
@@ -74,12 +74,12 @@ class Role extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .authpb.Permission keyPermission = 2;</code>
-     * @param \Authpb\Permission[] $var
+     * @param \Aternos\Etcd\Proto\Authpb\Permission[] $var
      * @return $this
      */
     public function setKeyPermission(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Authpb\Permission::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Authpb\Permission::class);
         $this->keyPermission = $arr;
 
         return $this;

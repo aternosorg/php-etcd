@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: kv.proto
 
-namespace Mvccpb\Event;
+namespace Aternos\Etcd\Proto\Mvccpb\Event;
 
 use UnexpectedValueException;
 

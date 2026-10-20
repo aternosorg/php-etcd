@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb;
+namespace Aternos\Etcd\Proto\Etcdserverpb;
 
 use Google\Protobuf\Internal\GPBType;
 use Google\Protobuf\Internal\GPBUtil;
@@ -37,22 +37,22 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type \Etcdserverpb\ResponseHeader $header
-     *     @type \Etcdserverpb\Member $member
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $header
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\Member $member
      *           member is the member information for the added member.
-     *     @type \Etcdserverpb\Member[] $members
+     *     @type \Aternos\Etcd\Proto\Etcdserverpb\Member[] $members
      *           members is a list of all members after adding the new member.
      * }
      */
     public function __construct($data = null)
     {
-        \GPBMetadata\Rpc::initOnce();
+        \Aternos\Etcd\Proto\GPBMetadata\Rpc::initOnce();
         parent::__construct($data);
     }
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @return \Etcdserverpb\ResponseHeader|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null
      */
     public function getHeader()
     {
@@ -71,10 +71,10 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>.etcdserverpb.ResponseHeader header = 1;</code>
-     * @param \Etcdserverpb\ResponseHeader $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader $var
      * @return $this
      */
-    public function setHeader(\Etcdserverpb\ResponseHeader|null $var)
+    public function setHeader(\Aternos\Etcd\Proto\Etcdserverpb\ResponseHeader|null $var)
     {
         $this->header = $var;
 
@@ -85,7 +85,7 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
      * member is the member information for the added member.
      *
      * Generated from protobuf field <code>.etcdserverpb.Member member = 2;</code>
-     * @return \Etcdserverpb\Member|null
+     * @return \Aternos\Etcd\Proto\Etcdserverpb\Member|null
      */
     public function getMember()
     {
@@ -106,10 +106,10 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
      * member is the member information for the added member.
      *
      * Generated from protobuf field <code>.etcdserverpb.Member member = 2;</code>
-     * @param \Etcdserverpb\Member $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\Member $var
      * @return $this
      */
-    public function setMember(\Etcdserverpb\Member|null $var)
+    public function setMember(\Aternos\Etcd\Proto\Etcdserverpb\Member|null $var)
     {
         $this->member = $var;
 
@@ -120,7 +120,7 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
      * members is a list of all members after adding the new member.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.Member members = 3;</code>
-     * @return RepeatedField<\Etcdserverpb\Member>
+     * @return RepeatedField<\Aternos\Etcd\Proto\Etcdserverpb\Member>
      */
     public function getMembers()
     {
@@ -131,12 +131,12 @@ class MemberAddResponse extends \Google\Protobuf\Internal\Message
      * members is a list of all members after adding the new member.
      *
      * Generated from protobuf field <code>repeated .etcdserverpb.Member members = 3;</code>
-     * @param \Etcdserverpb\Member[] $var
+     * @param \Aternos\Etcd\Proto\Etcdserverpb\Member[] $var
      * @return $this
      */
     public function setMembers(array|RepeatedField $var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Etcdserverpb\Member::class);
+        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Aternos\Etcd\Proto\Etcdserverpb\Member::class);
         $this->members = $arr;
 
         return $this;

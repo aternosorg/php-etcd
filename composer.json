@@ -18,15 +18,18 @@
   ],
   "autoload": {
     "psr-4": {
-      "": "grpc/",
+      "Aternos\\Etcd\\Proto\\": "grpc/",
       "Aternos\\Etcd\\": "src/"
     }
   },
   "scripts": {
     "generate-grpc": [
+      "rm -rf .grpc-tmp",
+      "mkdir .grpc-tmp",
+      "protoc --proto_path=proto --php_out=.grpc-tmp --grpc_out=.grpc-tmp --plugin=protoc-gen-grpc=\"$(command -v grpc_php_plugin)\" proto/*.proto",
       "rm -rf grpc",
-      "mkdir grpc",
-      "protoc --proto_path=proto --php_out=grpc --grpc_out=grpc --plugin=protoc-gen-grpc=\"$(command -v grpc_php_plugin)\" proto/*.proto"
+      "mv .grpc-tmp/Aternos/Etcd/Proto grpc",
+      "rm -rf .grpc-tmp"
     ]
   },
   "scripts-descriptions": {

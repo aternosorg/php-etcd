@@ -3,7 +3,7 @@
 # NO CHECKED-IN PROTOBUF GENCODE
 # source: rpc.proto
 
-namespace Etcdserverpb\Compare;
+namespace Aternos\Etcd\Proto\Etcdserverpb\Compare;
 
 use UnexpectedValueException;
 
