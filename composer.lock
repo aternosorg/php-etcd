@@ -4,34 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94c5d6ae904c50f64ee20c6840885bd1",
+    "content-hash": "7d411f240640febe7e1bfd37433e849a",
     "packages": [
         {
             "name": "flexihash/flexihash",
-            "version": "v2.0.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pda/flexihash.git",
-                "reference": "497ba5782606d998f8ab0b4e5942e3a799bec018"
+                "reference": "a8f9a3bf8fa9d5577369e472ba06cf538995236d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pda/flexihash/zipball/497ba5782606d998f8ab0b4e5942e3a799bec018",
-                "reference": "497ba5782606d998f8ab0b4e5942e3a799bec018",
+                "url": "https://api.github.com/repos/pda/flexihash/zipball/a8f9a3bf8fa9d5577369e472ba06cf538995236d",
+                "reference": "a8f9a3bf8fa9d5577369e472ba06cf538995236d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "satooshi/php-coveralls": "~1.0",
-                "squizlabs/php_codesniffer": "^2.3",
-                "symfony/config": "^2.0.0",
-                "symfony/console": "^2.0.0",
-                "symfony/filesystem": "^2.0.0",
-                "symfony/stopwatch": "^2.0.0",
-                "symfony/yaml": "^2.0.0"
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "3.*",
+                "symfony/config": "^5.1.3",
+                "symfony/console": "^5.1.3",
+                "symfony/filesystem": "^5.1.3",
+                "symfony/stopwatch": "^5.1.3",
+                "symfony/yaml": "^5.1.3"
             },
             "type": "library",
             "autoload": {
@@ -59,9 +59,9 @@
             "homepage": "https://github.com/pda/flexihash",
             "support": {
                 "issues": "https://github.com/pda/flexihash/issues",
-                "source": "https://github.com/pda/flexihash/tree/v2.0.2"
+                "source": "https://github.com/pda/flexihash/tree/v3.0.0"
             },
-            "time": "2016-04-22T21:03:23+00:00"
+            "time": "2020-08-07T00:58:50+00:00"
         },
         {
             "name": "google/protobuf",
