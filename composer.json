@@ -5,7 +5,7 @@
   "require": {
     "php": "^8.4",
     "google/protobuf": "^5.36",
-    "grpc/grpc": "^1.42.0",
+    "grpc/grpc": "^1.82",
     "ext-grpc": "*",
     "flexihash/flexihash": "^3.0"
   },
