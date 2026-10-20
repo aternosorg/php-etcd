@@ -25,7 +25,7 @@ interface ClientInterface
      * Put a value into the key store
      *
      * @param string $key
-     * @param mixed $value
+     * @param string $value
      * @param bool $prevKv Get the previous key value in the response
      * @param int $leaseID
      * @param bool $ignoreLease Ignore the current lease
@@ -33,7 +33,7 @@ interface ClientInterface
      * @return string|null Returns previous value if $prevKv is set to true
      * @throws InvalidResponseStatusCodeException
      */
-    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false);
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false);
 
     /**
      * Get a key value

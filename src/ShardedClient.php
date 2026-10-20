@@ -100,7 +100,7 @@ class ShardedClient implements ClientInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function put(string $key, $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, string $value, bool $prevKv = false, int $lease = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
         return $this->getClientFromKey($key)->put($key, $value, $prevKv, $lease, $ignoreLease, $ignoreValue);
     }

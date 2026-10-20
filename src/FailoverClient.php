@@ -90,7 +90,7 @@ class FailoverClient implements ClientInterface
      * @inheritDoc
      * @throws NoClientAvailableException
      */
-    public function put(string $key, $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
+    public function put(string $key, string $value, bool $prevKv = false, int $leaseID = 0, bool $ignoreLease = false, bool $ignoreValue = false)
     {
         return $this->callClientMethod(__FUNCTION__, false, $key, $value, $prevKv, $leaseID, $ignoreLease, $ignoreValue);
     }
