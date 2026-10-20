@@ -1,6 +1,9 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests
 namespace Etcdserverpb;
 
 /**
@@ -23,6 +26,7 @@ class LeaseClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\LeaseGrantRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\LeaseGrantResponse>
      */
     public function LeaseGrant(\Etcdserverpb\LeaseGrantRequest $argument,
       $metadata = [], $options = []) {
@@ -37,6 +41,7 @@ class LeaseClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\LeaseRevokeRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\LeaseRevokeResponse>
      */
     public function LeaseRevoke(\Etcdserverpb\LeaseRevokeRequest $argument,
       $metadata = [], $options = []) {
@@ -51,6 +56,7 @@ class LeaseClient extends \Grpc\BaseStub {
      * to the server and streaming keep alive responses from the server to the client.
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\BidiStreamingCall
      */
     public function LeaseKeepAlive($metadata = [], $options = []) {
         return $this->_bidiRequest('/etcdserverpb.Lease/LeaseKeepAlive',
@@ -63,6 +69,7 @@ class LeaseClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\LeaseTimeToLiveRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\LeaseTimeToLiveResponse>
      */
     public function LeaseTimeToLive(\Etcdserverpb\LeaseTimeToLiveRequest $argument,
       $metadata = [], $options = []) {
@@ -77,6 +84,7 @@ class LeaseClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\LeaseLeasesRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\LeaseLeasesResponse>
      */
     public function LeaseLeases(\Etcdserverpb\LeaseLeasesRequest $argument,
       $metadata = [], $options = []) {

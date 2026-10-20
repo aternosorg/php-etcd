@@ -1,6 +1,9 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests
 namespace Etcdserverpb;
 
 /**
@@ -21,6 +24,7 @@ class ClusterClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\MemberAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberAddResponse>
      */
     public function MemberAdd(\Etcdserverpb\MemberAddRequest $argument,
       $metadata = [], $options = []) {
@@ -35,6 +39,7 @@ class ClusterClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\MemberRemoveRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberRemoveResponse>
      */
     public function MemberRemove(\Etcdserverpb\MemberRemoveRequest $argument,
       $metadata = [], $options = []) {
@@ -49,6 +54,7 @@ class ClusterClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\MemberUpdateRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberUpdateResponse>
      */
     public function MemberUpdate(\Etcdserverpb\MemberUpdateRequest $argument,
       $metadata = [], $options = []) {
@@ -63,6 +69,7 @@ class ClusterClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\MemberListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\MemberListResponse>
      */
     public function MemberList(\Etcdserverpb\MemberListRequest $argument,
       $metadata = [], $options = []) {

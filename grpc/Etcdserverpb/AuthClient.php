@@ -1,6 +1,9 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests
 namespace Etcdserverpb;
 
 /**
@@ -21,6 +24,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthEnableRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthEnableResponse>
      */
     public function AuthEnable(\Etcdserverpb\AuthEnableRequest $argument,
       $metadata = [], $options = []) {
@@ -35,6 +39,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthDisableRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthDisableResponse>
      */
     public function AuthDisable(\Etcdserverpb\AuthDisableRequest $argument,
       $metadata = [], $options = []) {
@@ -49,6 +54,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthenticateRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthenticateResponse>
      */
     public function Authenticate(\Etcdserverpb\AuthenticateRequest $argument,
       $metadata = [], $options = []) {
@@ -63,6 +69,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserAddResponse>
      */
     public function UserAdd(\Etcdserverpb\AuthUserAddRequest $argument,
       $metadata = [], $options = []) {
@@ -77,6 +84,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserGetRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserGetResponse>
      */
     public function UserGet(\Etcdserverpb\AuthUserGetRequest $argument,
       $metadata = [], $options = []) {
@@ -91,6 +99,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserListResponse>
      */
     public function UserList(\Etcdserverpb\AuthUserListRequest $argument,
       $metadata = [], $options = []) {
@@ -105,6 +114,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserDeleteRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserDeleteResponse>
      */
     public function UserDelete(\Etcdserverpb\AuthUserDeleteRequest $argument,
       $metadata = [], $options = []) {
@@ -119,6 +129,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserChangePasswordRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserChangePasswordResponse>
      */
     public function UserChangePassword(\Etcdserverpb\AuthUserChangePasswordRequest $argument,
       $metadata = [], $options = []) {
@@ -133,6 +144,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserGrantRoleRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserGrantRoleResponse>
      */
     public function UserGrantRole(\Etcdserverpb\AuthUserGrantRoleRequest $argument,
       $metadata = [], $options = []) {
@@ -147,6 +159,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthUserRevokeRoleRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthUserRevokeRoleResponse>
      */
     public function UserRevokeRole(\Etcdserverpb\AuthUserRevokeRoleRequest $argument,
       $metadata = [], $options = []) {
@@ -161,6 +174,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleAddRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleAddResponse>
      */
     public function RoleAdd(\Etcdserverpb\AuthRoleAddRequest $argument,
       $metadata = [], $options = []) {
@@ -175,6 +189,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleGetRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleGetResponse>
      */
     public function RoleGet(\Etcdserverpb\AuthRoleGetRequest $argument,
       $metadata = [], $options = []) {
@@ -189,6 +204,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleListRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleListResponse>
      */
     public function RoleList(\Etcdserverpb\AuthRoleListRequest $argument,
       $metadata = [], $options = []) {
@@ -203,6 +219,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleDeleteRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleDeleteResponse>
      */
     public function RoleDelete(\Etcdserverpb\AuthRoleDeleteRequest $argument,
       $metadata = [], $options = []) {
@@ -217,6 +234,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleGrantPermissionRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleGrantPermissionResponse>
      */
     public function RoleGrantPermission(\Etcdserverpb\AuthRoleGrantPermissionRequest $argument,
       $metadata = [], $options = []) {
@@ -231,6 +249,7 @@ class AuthClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AuthRoleRevokePermissionRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AuthRoleRevokePermissionResponse>
      */
     public function RoleRevokePermission(\Etcdserverpb\AuthRoleRevokePermissionRequest $argument,
       $metadata = [], $options = []) {

@@ -1,6 +1,9 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests
 namespace Etcdserverpb;
 
 /**
@@ -21,6 +24,7 @@ class KVClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\RangeRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\RangeResponse>
      */
     public function Range(\Etcdserverpb\RangeRequest $argument,
       $metadata = [], $options = []) {
@@ -37,6 +41,7 @@ class KVClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\PutRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\PutResponse>
      */
     public function Put(\Etcdserverpb\PutRequest $argument,
       $metadata = [], $options = []) {
@@ -53,6 +58,7 @@ class KVClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\DeleteRangeRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\DeleteRangeResponse>
      */
     public function DeleteRange(\Etcdserverpb\DeleteRangeRequest $argument,
       $metadata = [], $options = []) {
@@ -70,6 +76,7 @@ class KVClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\TxnRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\TxnResponse>
      */
     public function Txn(\Etcdserverpb\TxnRequest $argument,
       $metadata = [], $options = []) {
@@ -86,6 +93,7 @@ class KVClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\CompactionRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\CompactionResponse>
      */
     public function Compact(\Etcdserverpb\CompactionRequest $argument,
       $metadata = [], $options = []) {

@@ -1,6 +1,9 @@
 <?php
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+// source: https://github.com/etcd-io/etcd/blob/61354ff8ede7dde7839e0df987f37cda931fd740/etcdserver/etcdserverpb/rpc.proto
+// modified: removed unnecessary imports and google.api.http options from all requests
 namespace Etcdserverpb;
 
 /**
@@ -21,6 +24,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\AlarmRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\AlarmResponse>
      */
     public function Alarm(\Etcdserverpb\AlarmRequest $argument,
       $metadata = [], $options = []) {
@@ -35,6 +39,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\StatusRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\StatusResponse>
      */
     public function Status(\Etcdserverpb\StatusRequest $argument,
       $metadata = [], $options = []) {
@@ -49,6 +54,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\DefragmentRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\DefragmentResponse>
      */
     public function Defragment(\Etcdserverpb\DefragmentRequest $argument,
       $metadata = [], $options = []) {
@@ -68,6 +74,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\HashRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\HashResponse>
      */
     public function Hash(\Etcdserverpb\HashRequest $argument,
       $metadata = [], $options = []) {
@@ -83,6 +90,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\HashKVRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\HashKVResponse>
      */
     public function HashKV(\Etcdserverpb\HashKVRequest $argument,
       $metadata = [], $options = []) {
@@ -97,6 +105,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\SnapshotRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\ServerStreamingCall
      */
     public function Snapshot(\Etcdserverpb\SnapshotRequest $argument,
       $metadata = [], $options = []) {
@@ -111,6 +120,7 @@ class MaintenanceClient extends \Grpc\BaseStub {
      * @param \Etcdserverpb\MoveLeaderRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
+     * @return \Grpc\UnaryCall<\Etcdserverpb\MoveLeaderResponse>
      */
     public function MoveLeader(\Etcdserverpb\MoveLeaderRequest $argument,
       $metadata = [], $options = []) {
